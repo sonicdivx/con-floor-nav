@@ -41,3 +41,13 @@ docs/                  # architecture + plan
 ## Laptop sync
 
 Clone from GitHub, check out the active branch, `npm install`, open the folder in Cursor. Committed rules under `.cursor/rules/` load automatically. Local IndexedDB data does **not** sync via git — use Settings → Backup export/import for event data.
+
+## Cursor Cloud specific instructions
+
+Standard scripts live in `package.json` / `README.md`. Non-obvious notes for cloud agents:
+
+- Core UI/dev loop: `npm run dev` → `http://localhost:5173/` (Vite binds `0.0.0.0:5173`, `strictPort`). Lint: `npm run lint` (oxlint). Build: `npm run build`. Preview: `npm run preview` (port 4173). Production/static + Live party: `npm start` / `npm run party-server` (serves `dist/` + `/party` WS).
+- PWA service worker is disabled in Vite dev (`devOptions.enabled: false`), so hot reload is fine — no stale SW cache gotcha while on `npm run dev`.
+- Camera / GPS need a secure context. On plain `http://<LAN-IP>` they are often blocked; use `npm run dev:https` for those. Map/import/tags/library photos/manual pin work over `http://localhost:5173`.
+- Live party UI only appears when `isPartyLiveEnabled()` is true (prod same-origin, or set `VITE_PARTY_WS_URL`). Local party testing: run `npm run build` then `npm start`, or point the Vite app at a local party server via `VITE_PARTY_WS_URL`.
+- App state is IndexedDB, not git. Reset by clearing site data for `localhost:5173`. Cross-machine event data: Settings → Backup export/import (or Otakon sample).
