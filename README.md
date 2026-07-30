@@ -64,3 +64,5 @@ At the con, after you’ve installed the PWA and cached assets, the app is offli
 npm run build
 npm run preview
 ```
+
+**Render (static site):** build command `npm run build`, publish directory `dist`.
