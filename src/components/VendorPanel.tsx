@@ -8,11 +8,20 @@ import { STATUS_COLORS, STATUS_LABELS, VISIT_STATUSES } from '../lib/statusColor
 interface Props {
   vendor: VendorRecord
   boothLabel: string
+  pinned?: boolean
+  onTogglePinned?: () => void
   onClose: () => void
   onNavigate: () => void
 }
 
-export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) {
+export function VendorPanel({
+  vendor,
+  boothLabel,
+  pinned = false,
+  onTogglePinned,
+  onClose,
+  onNavigate,
+}: Props) {
   const [note, setNote] = useState('')
   const photos = useLiveQuery(
     () =>
@@ -52,15 +61,39 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
   }
 
   return (
-    <aside className="side-panel vendor-panel">
+    <aside className={`side-panel vendor-panel${pinned ? ' is-pinned' : ''}`}>
       <header className="panel-header">
         <div>
           <p className="eyebrow">Booth {boothLabel}</p>
           <h2>{vendor.name}</h2>
         </div>
-        <button type="button" className="btn ghost sm" onClick={onClose} aria-label="Close">
-          ✕
-        </button>
+        <div className="panel-header-actions">
+          {onTogglePinned && (
+            <button
+              type="button"
+              className={`btn ghost sm pin-keep-open${pinned ? ' active' : ''}`}
+              onClick={onTogglePinned}
+              aria-pressed={pinned}
+              aria-label={pinned ? 'Unpin details panel' : 'Keep details panel open'}
+              title={pinned ? 'Unpin' : 'Keep open'}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill={pinned ? 'currentColor' : 'none'}
+                stroke="currentColor"
+                strokeWidth="2"
+                aria-hidden="true"
+              >
+                <path d="M12 17v5M9 2h6l-1 7h3l-5 6-5-6h3L9 2z" />
+              </svg>
+            </button>
+          )}
+          <button type="button" className="btn ghost sm" onClick={onClose} aria-label="Close">
+            ✕
+          </button>
+        </div>
       </header>
 
       <section className="panel-section">

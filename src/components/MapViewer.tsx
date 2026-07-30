@@ -47,6 +47,8 @@ interface Props {
   onNavigateBooth?: (boothId: number) => void
   onViewBoothDetails?: (boothId: number) => void
   onSelectPeer?: (peer: PartyPeer) => void
+  /** Empty-map tap (e.g. close unpinned details). */
+  onMapBackgroundTap?: () => void
 }
 
 export function MapViewer({
@@ -70,6 +72,7 @@ export function MapViewer({
   onNavigateBooth,
   onViewBoothDetails,
   onSelectPeer,
+  onMapBackgroundTap,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
@@ -674,6 +677,7 @@ export function MapViewer({
     }
 
     dismissPopover()
+    onMapBackgroundTap?.()
   }
 
   const startBoothDrag = (

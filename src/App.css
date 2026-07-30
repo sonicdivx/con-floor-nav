@@ -483,6 +483,33 @@ img {
   z-index: 3;
 }
 
+.vendor-panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.35);
+  z-index: 25;
+}
+
+.vendor-panel.is-pinned {
+  outline: 1px solid color-mix(in srgb, var(--otakon-label, #e30774) 55%, transparent);
+}
+
+.panel-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pin-keep-open {
+  color: var(--text-muted);
+}
+
+.pin-keep-open.active {
+  color: var(--otakon-label, #e30774);
+}
+
 @media (max-width: 720px) {
   .map-body {
     flex-direction: column;
@@ -493,6 +520,18 @@ img {
     max-height: 45%;
     border-left: none;
     border-top: 1px solid var(--border);
+  }
+
+  .vendor-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    max-height: min(52vh, 420px);
+    width: 100%;
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.4);
   }
 
   .map-menu-toggle {

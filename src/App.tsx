@@ -30,6 +30,10 @@ function App() {
   const [mapMode, setMapMode] = useState<MapMode>('navigate')
   const [tagFilter, setTagFilter] = useState<string | null>(null)
   const [selectedBoothId, setSelectedBoothId] = useState<number | null>(null)
+  /** Keep details panel open while tapping the map. */
+  const [detailsPinned, setDetailsPinned] = useState(false)
+  /** Immediate pin for nav (avoids live-query lag after getOrCreate). */
+  const [localPin, setLocalPin] = useState<{ x: number; y: number } | null>(null)
   const [navTargetBoothId, setNavTargetBoothId] = useState<number | null>(null)
   const [navTargetPoint, setNavTargetPoint] = useState<{
     x: number
@@ -97,6 +101,12 @@ function App() {
     void getOrCreateUserLocation(eventId)
   }, [eventId])
 
+  useEffect(() => {
+    if (userLoc) setLocalPin({ x: userLoc.x, y: userLoc.y })
+  }, [userLoc?.id, userLoc?.x, userLoc?.y])
+
+  const mapPin = localPin ?? (userLoc ? { x: userLoc.x, y: userLoc.y } : null)
+
   const vendorsByBoothId = useMemo(() => {
     const m = new Map<number, VendorRecord>()
     for (const v of vendors ?? []) m.set(v.boothId, v)
@@ -131,6 +141,7 @@ function App() {
   }
 
   const setPin = async (x: number, y: number) => {
+    setLocalPin({ x, y })
     if (eventId == null) return
     const loc = await getOrCreateUserLocation(eventId)
     if (loc.id != null) {
@@ -156,6 +167,15 @@ function App() {
     }
   }
 
+  const ensurePin = async () => {
+    if (eventId == null) return mapPin
+    if (mapPin) return mapPin
+    const loc = await getOrCreateUserLocation(eventId)
+    const p = { x: loc.x, y: loc.y }
+    setLocalPin(p)
+    return p
+  }
+
   const applySharedPin = useCallback(async (p: { x: number; y: number }) => {
     setNavTargetBoothId(null)
     setNavTargetPoint(p)
@@ -178,34 +198,44 @@ function App() {
     setMapMode('navigate')
   }
 
-  const navigateToVendor = (vendor: VendorRecord) => {
-    void (async () => {
-      if (eventId != null) await getOrCreateUserLocation(eventId)
-      setNavTargetPoint(null)
-      setNavTargetBoothId(vendor.boothId)
-      setSelectedBoothId(vendor.boothId)
-      setTab('map')
-      setMapMode('navigate')
-    })()
+  const navigateToBooth = (boothId: number) => {
+    // Set target + pin immediately so the dashed line can render (no live-query lag).
+    if (!mapPin) setLocalPin({ x: 0.5, y: 0.5 })
+    setNavTargetPoint(null)
+    setNavTargetBoothId(boothId)
+    setTab('map')
+    setMapMode('navigate')
+    void ensurePin()
   }
 
-  const navigateToBooth = (boothId: number) => {
-    void (async () => {
-      if (eventId != null) await getOrCreateUserLocation(eventId)
-      setNavTargetPoint(null)
-      setNavTargetBoothId(boothId)
-      setTab('map')
-      setMapMode('navigate')
-    })()
+  const navigateToVendor = (vendor: VendorRecord) => {
+    const booth =
+      (booths ?? []).find((b) => b.id === vendor.boothId) ??
+      (booths ?? []).find((b) => b.id != null && vendorsByBoothId.get(b.id)?.id === vendor.id)
+    if (booth?.id != null) {
+      setSelectedBoothId(booth.id)
+      navigateToBooth(booth.id)
+    } else {
+      navigateToBooth(vendor.boothId)
+      setSelectedBoothId(vendor.boothId)
+    }
   }
 
   const openBoothDetails = (boothId: number) => {
-    void (async () => {
-      if (eventId == null) return
-      await ensureVendorForBooth(eventId, boothId)
-      setSelectedBoothId(boothId)
-      setTab('map')
-    })()
+    // Open panel immediately — don't wait on IndexedDB.
+    setSelectedBoothId(boothId)
+    setDetailsPinned(false)
+    setTab('map')
+    if (eventId != null) {
+      void ensureVendorForBooth(eventId, boothId).catch((err) => {
+        console.warn('ensureVendorForBooth failed', err)
+      })
+    }
+  }
+
+  const closeBoothDetails = () => {
+    setSelectedBoothId(null)
+    setDetailsPinned(false)
   }
 
   const useGps = () => {
@@ -442,7 +472,7 @@ function App() {
               navTargetPoint={navTargetPoint}
               focusRequest={focusRequest}
               peerPins={peerPins}
-              pin={userLoc ? { x: userLoc.x, y: userLoc.y } : null}
+              pin={mapPin}
               mode={mapMode}
               onSelectBooth={setSelectedBoothId}
               onUpdateBoothRect={(id, rect) => void updateBoothRect(id, rect)}
@@ -450,6 +480,9 @@ function App() {
               onNavigateBooth={navigateToBooth}
               onViewBoothDetails={openBoothDetails}
               onSelectPeer={navigateToPeer}
+              onMapBackgroundTap={() => {
+                if (!detailsPinned) closeBoothDetails()
+              }}
             />
             {mapFullscreen && (
               <div className="map-fullscreen-bar">
@@ -471,7 +504,7 @@ function App() {
                 </button>
               </div>
             )}
-            {selectedBooth && (
+            {selectedBooth && eventId != null && (
               <VendorPanel
                 vendor={
                   selectedVendor ?? {
@@ -485,10 +518,12 @@ function App() {
                   }
                 }
                 boothLabel={selectedBooth.label}
-                onClose={() => setSelectedBoothId(null)}
+                pinned={detailsPinned}
+                onTogglePinned={() => setDetailsPinned((p) => !p)}
+                onClose={closeBoothDetails}
                 onNavigate={() => {
                   if (selectedVendor) navigateToVendor(selectedVendor)
-                  else navigateToBooth(selectedBooth.id!)
+                  else if (selectedBooth.id != null) navigateToBooth(selectedBooth.id)
                 }}
               />
             )}
@@ -503,7 +538,7 @@ function App() {
             Quick pick from favorites and look-again. Routes an aisle path from your pin around booths and pillars.
           </p>
           <SharePartyPanel
-            pin={userLoc ? { x: userLoc.x, y: userLoc.y } : null}
+            pin={mapPin}
             onApplySharedPin={(p) => void applySharedPin(p)}
             onPeersChange={onPeersChange}
             partyClientRef={partyClientRef}
