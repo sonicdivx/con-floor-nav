@@ -27,6 +27,10 @@ export class ConFloorDB extends Dexie {
       itemPhotos: '++id, eventId, vendorId, createdAt',
       userLocations: '++id, eventId',
     })
+    this.version(2).stores({
+      booths: '++id, eventId, boothKey, [eventId+boothKey]',
+      vendors: '++id, eventId, boothId, visitStatus, name, [eventId+boothId]',
+    })
   }
 }
 

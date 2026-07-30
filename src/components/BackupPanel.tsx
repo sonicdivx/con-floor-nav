@@ -22,7 +22,7 @@ export function BackupPanel({ eventId, onRestored }: Props) {
     setMessage(null)
     try {
       const backup = await buildEventBackup(eventId)
-      downloadBackupJson(backup)
+      await downloadBackupJson(backup)
       setMessage(
         `Exported ${backup.booths.length} booths, ${backup.vendors.length} vendors, ${backup.photos.length} photos.`,
       )
@@ -34,7 +34,6 @@ export function BackupPanel({ eventId, onRestored }: Props) {
   }
 
   const importBackup = async (file: File) => {
-    setBusy(true)
     setError(null)
     setMessage(null)
     try {
@@ -43,10 +42,8 @@ export function BackupPanel({ eventId, onRestored }: Props) {
       const ok = window.confirm(
         `Replace all booths, vendors, photos, map, and pin for this event with “${backup.event.name}” from the backup? This cannot be undone.`,
       )
-      if (!ok) {
-        setBusy(false)
-        return
-      }
+      if (!ok) return
+      setBusy(true)
       const result = await restoreEventBackup(eventId, backup)
       setMessage(
         `Restored ${result.booths} booths, ${result.vendors} vendors, ${result.photos} photos.`,

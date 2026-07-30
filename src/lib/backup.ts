@@ -1,5 +1,7 @@
+import { Capacitor } from '@capacitor/core'
 import { db } from '../db/schema'
 import type { Rect, VisitStatus } from '../db/types'
+import { VISIT_STATUSES } from './statusColors'
 
 export const BACKUP_FORMAT = 'cfn-backup' as const
 export const BACKUP_VERSION = 1 as const
@@ -55,6 +57,21 @@ export interface EventBackupV1 {
     accuracy?: number
     updatedAt: number
   }
+}
+
+function isRect(r: unknown): r is Rect {
+  if (!r || typeof r !== 'object') return false
+  const o = r as Record<string, unknown>
+  return (
+    typeof o.x === 'number' &&
+    typeof o.y === 'number' &&
+    typeof o.w === 'number' &&
+    typeof o.h === 'number'
+  )
+}
+
+function isVisitStatus(v: unknown): v is VisitStatus {
+  return typeof v === 'string' && (VISIT_STATUSES as string[]).includes(v)
 }
 
 async function blobToBase64(blob: Blob): Promise<{ mime: string; base64: string }> {
@@ -182,11 +199,131 @@ export function parseEventBackup(raw: unknown): EventBackupV1 {
   if (obj.version !== BACKUP_VERSION) {
     throw new Error(`Unsupported backup version (expected ${BACKUP_VERSION})`)
   }
-  if (!obj.event || typeof obj.event !== 'object') throw new Error('Backup missing event')
+
+  const eventRaw = obj.event
+  if (!eventRaw || typeof eventRaw !== 'object') throw new Error('Backup missing event')
+  const eventObj = eventRaw as Record<string, unknown>
+  if (typeof eventObj.name !== 'string' || !eventObj.name.trim()) {
+    throw new Error('Backup event.name is required')
+  }
+  const event = {
+    name: eventObj.name.trim(),
+    venueNotes: typeof eventObj.venueNotes === 'string' ? eventObj.venueNotes : '',
+    createdAt: typeof eventObj.createdAt === 'number' ? eventObj.createdAt : Date.now(),
+    updatedAt: typeof eventObj.updatedAt === 'number' ? eventObj.updatedAt : Date.now(),
+  }
+
   if (!Array.isArray(obj.booths)) throw new Error('Backup missing booths array')
   if (!Array.isArray(obj.vendors)) throw new Error('Backup missing vendors array')
   if (!Array.isArray(obj.photos)) throw new Error('Backup missing photos array')
-  return obj as unknown as EventBackupV1
+
+  const booths: EventBackupV1['booths'] = obj.booths.map((b, i) => {
+    if (!b || typeof b !== 'object') throw new Error(`Booth ${i} is invalid`)
+    const row = b as Record<string, unknown>
+    if (typeof row.boothKey !== 'string' || !row.boothKey) {
+      throw new Error(`Booth ${i} missing boothKey`)
+    }
+    if (!isRect(row.rect)) throw new Error(`Booth ${row.boothKey} has invalid rect`)
+    return {
+      boothKey: row.boothKey,
+      label: typeof row.label === 'string' ? row.label : row.boothKey,
+      nameOverride: typeof row.nameOverride === 'string' ? row.nameOverride : undefined,
+      rect: row.rect,
+    }
+  })
+
+  const vendors: EventBackupV1['vendors'] = obj.vendors.map((v, i) => {
+    if (!v || typeof v !== 'object') throw new Error(`Vendor ${i} is invalid`)
+    const row = v as Record<string, unknown>
+    if (typeof row.boothKey !== 'string' || !row.boothKey) {
+      throw new Error(`Vendor ${i} missing boothKey`)
+    }
+    if (typeof row.name !== 'string' || !row.name.trim()) {
+      throw new Error(`Vendor ${i} missing name`)
+    }
+    const visitStatus = isVisitStatus(row.visitStatus) ? row.visitStatus : 'none'
+    return {
+      boothKey: row.boothKey,
+      name: row.name.trim(),
+      tags: Array.isArray(row.tags) ? row.tags.map(String) : [],
+      visitStatus,
+      notes: typeof row.notes === 'string' ? row.notes : undefined,
+    }
+  })
+
+  const photos: EventBackupV1['photos'] = obj.photos.map((p, i) => {
+    if (!p || typeof p !== 'object') throw new Error(`Photo ${i} is invalid`)
+    const row = p as Record<string, unknown>
+    if (typeof row.boothKey !== 'string' || !row.boothKey) {
+      throw new Error(`Photo ${i} missing boothKey`)
+    }
+    if (typeof row.imageBase64 !== 'string' || !row.imageBase64) {
+      throw new Error(`Photo ${i} missing imageBase64`)
+    }
+    return {
+      boothKey: row.boothKey,
+      note: typeof row.note === 'string' ? row.note : undefined,
+      createdAt: typeof row.createdAt === 'number' ? row.createdAt : Date.now(),
+      imageMime: typeof row.imageMime === 'string' ? row.imageMime : 'image/jpeg',
+      imageBase64: row.imageBase64,
+    }
+  })
+
+  let floorMap: EventBackupV1['floorMap'] = null
+  if (obj.floorMap != null) {
+    if (typeof obj.floorMap !== 'object') throw new Error('Backup floorMap is invalid')
+    const fm = obj.floorMap as Record<string, unknown>
+    if (typeof fm.width !== 'number' || typeof fm.height !== 'number') {
+      throw new Error('Backup floorMap missing width/height')
+    }
+    if (typeof fm.imageBase64 !== 'string' || !fm.imageBase64) {
+      throw new Error('Backup floorMap missing imageBase64')
+    }
+    const obstacles = Array.isArray(fm.obstacles)
+      ? fm.obstacles.filter(isRect)
+      : undefined
+    floorMap = {
+      width: fm.width,
+      height: fm.height,
+      obstacles,
+      calibration:
+        fm.calibration && typeof fm.calibration === 'object'
+          ? (fm.calibration as NonNullable<EventBackupV1['floorMap']>['calibration'])
+          : undefined,
+      imageMime: typeof fm.imageMime === 'string' ? fm.imageMime : 'image/png',
+      imageBase64: fm.imageBase64,
+      createdAt: typeof fm.createdAt === 'number' ? fm.createdAt : Date.now(),
+    }
+  }
+
+  let userLocation: EventBackupV1['userLocation'] = null
+  if (obj.userLocation != null) {
+    if (typeof obj.userLocation !== 'object') throw new Error('Backup userLocation is invalid')
+    const loc = obj.userLocation as Record<string, unknown>
+    if (typeof loc.x !== 'number' || typeof loc.y !== 'number') {
+      throw new Error('Backup userLocation missing x/y')
+    }
+    const source = loc.source === 'gps' ? 'gps' : 'manual'
+    userLocation = {
+      x: loc.x,
+      y: loc.y,
+      source,
+      accuracy: typeof loc.accuracy === 'number' ? loc.accuracy : undefined,
+      updatedAt: typeof loc.updatedAt === 'number' ? loc.updatedAt : Date.now(),
+    }
+  }
+
+  return {
+    format: BACKUP_FORMAT,
+    version: BACKUP_VERSION,
+    exportedAt: typeof obj.exportedAt === 'number' ? obj.exportedAt : Date.now(),
+    event,
+    floorMap,
+    booths,
+    vendors,
+    photos,
+    userLocation,
+  }
 }
 
 export async function restoreEventBackup(
@@ -195,6 +332,10 @@ export async function restoreEventBackup(
 ): Promise<{ booths: number; vendors: number; photos: number }> {
   const event = await db.events.get(eventId)
   if (!event?.id) throw new Error('Event not found')
+
+  let boothCount = 0
+  let vendorCount = 0
+  let photoCount = 0
 
   await db.transaction(
     'rw',
@@ -241,6 +382,7 @@ export async function restoreEventBackup(
           rect: b.rect,
         })) as number
         boothKeyToId.set(b.boothKey, id)
+        boothCount++
       }
 
       const boothKeyToVendorId = new Map<string, number>()
@@ -256,6 +398,7 @@ export async function restoreEventBackup(
           notes: v.notes,
         })) as number
         boothKeyToVendorId.set(v.boothKey, id)
+        vendorCount++
       }
 
       for (const p of backup.photos) {
@@ -268,6 +411,7 @@ export async function restoreEventBackup(
           note: p.note,
           createdAt: p.createdAt || Date.now(),
         })
+        photoCount++
       }
 
       if (backup.userLocation) {
@@ -284,22 +428,53 @@ export async function restoreEventBackup(
   )
 
   return {
-    booths: backup.booths.length,
-    vendors: backup.vendors.length,
-    photos: backup.photos.length,
+    booths: boothCount,
+    vendors: vendorCount,
+    photos: photoCount,
   }
 }
 
-export function downloadBackupJson(backup: EventBackupV1, filename?: string) {
+export async function downloadBackupJson(
+  backup: EventBackupV1,
+  filename?: string,
+): Promise<void> {
+  const stamp = new Date(backup.exportedAt).toISOString().slice(0, 10)
+  const name = filename ?? `cfn-backup-${stamp}.json`
   const text = JSON.stringify(backup)
   const blob = new Blob([text], { type: 'application/json' })
+  const file = new File([blob], name, { type: 'application/json' })
+
+  // Prefer share sheet when available (mobile / Cap WebView).
+  const nav = navigator as Navigator & {
+    canShare?: (data: ShareData) => boolean
+  }
+  if (typeof nav.share === 'function') {
+    try {
+      const data: ShareData = { files: [file], title: 'Con Floor Nav backup' }
+      if (!nav.canShare || nav.canShare(data)) {
+        await nav.share(data)
+        return
+      }
+    } catch (err) {
+      // User cancel → stop; other errors fall through to <a download>.
+      if (err instanceof DOMException && err.name === 'AbortError') return
+    }
+  }
+
+  if (Capacitor.isNativePlatform()) {
+    // Last-resort native path without Filesystem plugin: open data URL.
+    const dataUrl = `data:application/json;charset=utf-8,${encodeURIComponent(text)}`
+    window.open(dataUrl, '_blank')
+    return
+  }
+
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
-  const stamp = new Date(backup.exportedAt).toISOString().slice(0, 10)
   a.href = url
-  a.download = filename ?? `cfn-backup-${stamp}.json`
+  a.download = name
   document.body.appendChild(a)
   a.click()
   a.remove()
-  URL.revokeObjectURL(url)
+  // Delay revoke so Safari/WebKit can finish the download.
+  window.setTimeout(() => URL.revokeObjectURL(url), 2000)
 }
