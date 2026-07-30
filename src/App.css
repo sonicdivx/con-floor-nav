@@ -354,7 +354,7 @@ img {
 
 .row-hundred-label:focus-visible .row-hundred-hit {
   stroke: var(--otakon-sun);
-  stroke-width: 2px;
+  stroke-width: 2;
 }
 
 .row-hundred-hit {

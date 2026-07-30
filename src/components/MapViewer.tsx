@@ -850,14 +850,19 @@ export function MapViewer({
     zoomToRow(hundred)
   }
 
-  // Screen-stable size: SVG sits inside a CSS-scaled stage, so map-units = screenPx / scale.
-  // (Using min(scale, …) inverted the zoom — labels grew when zooming in.)
-  const rowLabelFont = 16 / Math.max(scale, 0.08)
+  // Screen-stable section chrome: CSS scale on .map-stage multiplies SVG units,
+  // so draw in a local inverse-scale group with fixed font/band sizes.
+  const invScale = 1 / Math.max(scale, 0.08)
+  const sectionFontPx = 15
+  const sectionBandH = 26
   const abbreviateRowLabels = shouldAbbreviateRowHundreds(
     rowLabels,
     scale,
-    16, // screen-px for gap heuristic, not map-units
+    sectionFontPx,
   )
+  const sectionBandCenterY = rowBand
+    ? rowBand.y + rowBand.height / 2
+    : null
 
   return (
     <div
@@ -912,15 +917,15 @@ export function MapViewer({
                 pointerEvents="none"
               />
             ))}
-            {rowBand && (
+            {rowBand && sectionBandCenterY != null && (
               <rect
                 className="row-hundred-band"
                 x={rowBand.x}
-                y={rowBand.y}
+                y={sectionBandCenterY - (sectionBandH * invScale) / 2}
                 width={rowBand.width}
-                height={rowBand.height}
-                rx={Math.min(4, rowBand.height * 0.2) / Math.max(scale, 0.35)}
-                strokeWidth={1.25 / Math.max(scale, 0.35)}
+                height={sectionBandH * invScale}
+                rx={4 * invScale}
+                strokeWidth={1.25 * invScale}
                 pointerEvents="none"
               />
             )}
@@ -928,12 +933,11 @@ export function MapViewer({
               const labelText = abbreviateRowLabels
                 ? formatRowHundredAbbrev(row.hundred)
                 : row.text
-              const hitW =
-                Math.max(
-                  16 * (abbreviateRowLabels ? 1.5 : 2.6),
-                  abbreviateRowLabels ? 20 : 32,
-                ) / Math.max(scale, 0.08)
-              const hitH = Math.max(16 * 1.4, 20) / Math.max(scale, 0.08)
+              const hitW = Math.max(
+                sectionFontPx * (abbreviateRowLabels ? 1.6 : 2.8),
+                abbreviateRowLabels ? 22 : 36,
+              )
+              const hitH = Math.max(sectionFontPx * 1.5, 22)
               return (
                 <g
                   key={`row-${row.hundred}`}
@@ -942,6 +946,7 @@ export function MapViewer({
                   tabIndex={0}
                   data-hundred={row.hundred}
                   aria-label={`Zoom to section ${row.hundred}`}
+                  transform={`translate(${row.x}, ${row.y}) scale(${invScale})`}
                   onPointerDown={(e) => onRowLabelPointerDown(row.hundred, e)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -951,22 +956,22 @@ export function MapViewer({
                 >
                   <rect
                     className="row-hundred-hit"
-                    x={row.x - hitW / 2}
-                    y={row.y - hitH / 2}
+                    x={-hitW / 2}
+                    y={-hitH / 2}
                     width={hitW}
                     height={hitH}
-                    rx={2 / scale}
+                    rx={3}
                   />
                   <text
                     className="row-hundred-text"
-                    x={row.x}
-                    y={row.y}
+                    x={0}
+                    y={0}
                     textAnchor="middle"
                     dominantBaseline="central"
-                    fontSize={rowLabelFont}
+                    fontSize={sectionFontPx}
                     fontWeight={800}
-                    letterSpacing={abbreviateRowLabels ? 0 : 0.4}
-                    strokeWidth={Math.max(1.5, 2.5 / Math.max(scale, 0.35))}
+                    letterSpacing={abbreviateRowLabels ? 0 : 0.35}
+                    strokeWidth={1.35}
                   >
                     {labelText}
                   </text>
