@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/schema'
 import type { VisitStatus } from '../db/types'
+import { useObjectUrl } from '../hooks/useObjectUrl'
 
 interface Props {
   eventId: number
@@ -146,6 +147,7 @@ export function GalleryPanel({ eventId, onOpenVendor }: Props) {
 }
 
 function GalleryThumb({ blob }: { blob: Blob }) {
-  const url = URL.createObjectURL(blob)
-  return <img src={url} alt="" onLoad={() => URL.revokeObjectURL(url)} />
+  const url = useObjectUrl(blob)
+  if (!url) return null
+  return <img src={url} alt="" />
 }

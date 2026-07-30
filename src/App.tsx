@@ -12,6 +12,7 @@ import { MapViewer, type MapMode } from './components/MapViewer'
 import { VendorPanel } from './components/VendorPanel'
 import { ImportPanel } from './components/ImportPanel'
 import { AiExtractPanel } from './components/AiExtractPanel'
+import { BackupPanel } from './components/BackupPanel'
 import { GalleryPanel } from './components/GalleryPanel'
 import {
   SharePartyPanel,
@@ -714,6 +715,18 @@ function App() {
                 Edit booth layout
               </button>
             </div>
+          </section>
+
+          <section className="panel-section settings-section">
+            <BackupPanel
+              eventId={eventId}
+              onRestored={() => {
+                setLocalPin(null)
+                setSelectedBoothId(null)
+                setNavTargetBoothId(null)
+                setNavTargetPoint(null)
+              }}
+            />
           </section>
 
           <section className="panel-section settings-section">

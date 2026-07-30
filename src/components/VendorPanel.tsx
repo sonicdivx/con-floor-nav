@@ -4,6 +4,7 @@ import { PiPushPinFill, PiPushPinLight } from 'react-icons/pi'
 import { db } from '../db/schema'
 import type { VendorRecord, VisitStatus } from '../db/types'
 import { DEFAULT_TAGS } from '../db/types'
+import { useObjectUrl } from '../hooks/useObjectUrl'
 import { STATUS_COLORS, STATUS_LABELS, VISIT_STATUSES } from '../lib/statusColors'
 
 interface Props {
@@ -204,12 +205,7 @@ export function VendorPanel({
 }
 
 function PhotoThumb({ blob }: { blob: Blob }) {
-  const url = URL.createObjectURL(blob)
-  return (
-    <img
-      src={url}
-      alt=""
-      onLoad={() => URL.revokeObjectURL(url)}
-    />
-  )
+  const url = useObjectUrl(blob)
+  if (!url) return null
+  return <img src={url} alt="" />
 }
