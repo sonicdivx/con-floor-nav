@@ -13,6 +13,7 @@ import { ImportPanel } from './components/ImportPanel'
 import { AiExtractPanel } from './components/AiExtractPanel'
 import { GalleryPanel } from './components/GalleryPanel'
 import { STATUS_COLORS, STATUS_LABELS } from './lib/statusColors'
+import { maybeAutoSeedOtakonSample } from './lib/sampleData'
 import './App.css'
 
 type Tab = 'map' | 'setup' | 'ai' | 'gallery' | 'nav'
@@ -31,6 +32,13 @@ function App() {
   useEffect(() => {
     void getActiveEventId().then(setEventId)
   }, [])
+
+  useEffect(() => {
+    if (eventId == null) return
+    void maybeAutoSeedOtakonSample(eventId).catch((err) => {
+      console.warn('Auto-seed Otakon sample skipped:', err)
+    })
+  }, [eventId])
 
   const event = useLiveQuery(
     () => (eventId != null ? db.events.get(eventId) : undefined),
@@ -160,6 +168,12 @@ function App() {
   const navigateToVendor = (vendor: VendorRecord) => {
     setNavTargetBoothId(vendor.boothId)
     setSelectedBoothId(vendor.boothId)
+    setTab('map')
+    setMapMode('navigate')
+  }
+
+  const navigateToBooth = (boothId: number) => {
+    setNavTargetBoothId(boothId)
     setTab('map')
     setMapMode('navigate')
   }
@@ -304,7 +318,7 @@ function App() {
         <div className="stack-panel page">
           <h2>Navigate</h2>
           <p className="muted">
-            Quick pick from favorites and look-again. Sets a straight-line path from your pin.
+            Quick pick from favorites and look-again. Routes an aisle path from your pin around booths and pillars.
           </p>
           {!quickPick.length && (
             <p className="muted">Mark vendors as Favorite or Look again first.</p>

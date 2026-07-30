@@ -42,9 +42,23 @@ export function parseBoothImportJson(text: string): BoothImportJson {
         : undefined,
     }
   })
+  let obstacles: Rect[] | undefined
+  if (obj.obstacles != null) {
+    if (!Array.isArray(obj.obstacles)) {
+      throw new Error('Import "obstacles" must be an array of {x,y,w,h}')
+    }
+    obstacles = obj.obstacles.map((o, i) => {
+      if (!isRect(o)) {
+        throw new Error(`Obstacle at index ${i} missing valid rect {x,y,w,h}`)
+      }
+      return { x: o.x, y: o.y, w: o.w, h: o.h }
+    })
+  }
+
   return {
     event: obj.event != null ? String(obj.event) : undefined,
     mapImage: obj.mapImage != null ? String(obj.mapImage) : undefined,
+    obstacles,
     booths,
   }
 }
@@ -149,7 +163,7 @@ export async function applyBoothImport(
   let boothCount = 0
   let vendorCount = 0
 
-  await db.transaction('rw', db.booths, db.vendors, async () => {
+  await db.transaction('rw', db.booths, db.vendors, db.floorMaps, async () => {
     for (const b of data.booths) {
       const existing = await db.booths
         .where({ eventId, boothKey: b.id })
@@ -194,6 +208,14 @@ export async function applyBoothImport(
           visitStatus: 'none',
         })
         vendorCount++
+      }
+    }
+
+    // Persist pillars/walls onto the floor map when the import includes them.
+    if (data.obstacles !== undefined) {
+      const floorMap = await db.floorMaps.where('eventId').equals(eventId).first()
+      if (floorMap?.id != null) {
+        await db.floorMaps.update(floorMap.id, { obstacles: data.obstacles })
       }
     }
   })
