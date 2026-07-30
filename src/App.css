@@ -232,6 +232,14 @@ img {
     radial-gradient(ellipse at 30% 20%, #1e2838 0%, transparent 50%),
     var(--bg);
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.map-viewer * {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .map-empty {
@@ -374,6 +382,81 @@ img {
   gap: 0.4rem;
 }
 
+.map-pin-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-muted);
+}
+
+.map-pin-mode-btn.active {
+  color: var(--otakon-label, #e30774);
+  border-color: color-mix(in srgb, var(--otakon-label, #e30774) 55%, var(--border));
+}
+
+.booth-edit-bar {
+  position: absolute;
+  left: 0.65rem;
+  right: 0.65rem;
+  bottom: 0.65rem;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-panel) 94%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.booth-edit-bar-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.booth-edit-bar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+.settings-page .settings-section {
+  margin-top: 1.25rem;
+}
+
+.settings-card {
+  margin-top: 0.55rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-panel);
+}
+
+.settings-card h4 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.settings-card .btn {
+  margin-top: 0.65rem;
+}
+
+@media (max-width: 720px) {
+  .booth-edit-bar {
+    left: 0.45rem;
+    right: 0.45rem;
+    bottom: 0.45rem;
+    padding: 0.5rem 0.6rem;
+  }
+}
+
 .map-fit-btn,
 .map-fab-row .btn.secondary {
   background: var(--bg-panel);
@@ -436,7 +519,7 @@ img {
 
 .booth-popover {
   position: absolute;
-  z-index: 4;
+  z-index: 30;
   transform: translate(-50%, -100%);
   min-width: 11.5rem;
   max-width: min(16rem, 70vw);
@@ -446,6 +529,7 @@ img {
   border: 1px solid var(--border);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
   pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .booth-popover-booth {
@@ -504,6 +588,9 @@ img {
 
 .pin-keep-open {
   color: var(--text-muted);
+  display: inline-grid;
+  place-items: center;
+  padding: 0.35rem;
 }
 
 .pin-keep-open.active {
@@ -522,16 +609,56 @@ img {
     border-top: 1px solid var(--border);
   }
 
-  .vendor-panel {
+  .side-panel.vendor-panel {
     position: absolute;
     left: 0;
     right: 0;
     top: auto;
     bottom: 0;
-    max-height: min(52vh, 420px);
+    max-height: min(30vh, 240px);
     width: 100%;
     border-radius: 14px 14px 0 0;
     box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.4);
+    padding: 0.45rem 0.7rem 0.55rem;
+  }
+
+  .vendor-panel .panel-header {
+    margin-bottom: 0.3rem;
+    gap: 0.35rem;
+  }
+
+  .vendor-panel .panel-header .eyebrow {
+    margin-bottom: 0.1rem;
+    font-size: 0.68rem;
+  }
+
+  .vendor-panel .panel-header h2 {
+    font-size: 0.95rem;
+    line-height: 1.15;
+  }
+
+  .vendor-panel .panel-section {
+    margin-bottom: 0.4rem;
+  }
+
+  .vendor-panel .panel-section h3 {
+    margin-bottom: 0.2rem;
+    font-size: 0.72rem;
+  }
+
+  .vendor-panel .chip {
+    padding: 0.22rem 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  .vendor-panel .photo-grid {
+    max-height: 3.75rem;
+    overflow: hidden;
+  }
+
+  .vendor-panel .btn.sm {
+    padding: 0.28rem 0.55rem;
+    font-size: 0.75rem;
   }
 
   .map-menu-toggle {

@@ -6,8 +6,8 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
   type SyntheticEvent,
-  type WheelEvent as ReactWheelEvent,
 } from 'react'
+import { PiPushPinFill, PiPushPinLight } from 'react-icons/pi'
 import type { BoothRecord, Rect, VendorRecord, VisitStatus } from '../db/types'
 import {
   boothHundred,
@@ -44,6 +44,7 @@ interface Props {
   onSelectBooth: (_boothId: number | null) => void
   onUpdateBoothRect: (boothId: number, rect: BoothRecord['rect']) => void
   onPinChange: (x: number, y: number) => void
+  onModeChange?: (mode: MapMode) => void
   onNavigateBooth?: (boothId: number) => void
   onViewBoothDetails?: (boothId: number) => void
   onSelectPeer?: (peer: PartyPeer) => void
@@ -66,9 +67,10 @@ export function MapViewer({
   mode,
   peerPins = [],
   focusRequest = null,
-  onSelectBooth: _onSelectBooth,
+  onSelectBooth,
   onUpdateBoothRect,
   onPinChange,
+  onModeChange,
   onNavigateBooth,
   onViewBoothDetails,
   onSelectPeer,
@@ -81,6 +83,9 @@ export function MapViewer({
   /** Hover preview (pointer fine); tap sets pinned until dismissed. */
   const [hoverBoothId, setHoverBoothId] = useState<number | null>(null)
   const [pinnedBoothId, setPinnedBoothId] = useState<number | null>(null)
+  /** Live pin position while dragging — commit to parent only on drop. */
+  const [dragPin, setDragPin] = useState<{ x: number; y: number } | null>(null)
+  const dragPinRef = useRef<{ x: number; y: number } | null>(null)
   const dragRef = useRef<{
     kind: 'pan' | 'booth' | 'pin' | 'resize'
     startX: number
@@ -113,23 +118,30 @@ export function MapViewer({
     x: number
     y: number
   } | null>(null)
-  /** Long-press on pin in Browse to drag without entering Pin mode. */
-  const pinLongPressRef = useRef<{
+  /** Press-and-hold on the pin icon (My pin mode) to start dragging. */
+  const pinHoldRef = useRef<{
     pointerId: number
     x: number
     y: number
     timer: ReturnType<typeof setTimeout>
   } | null>(null)
+  /** Skip tap-to-place when the gesture started on the pin icon. */
+  const suppressPinPlaceRef = useRef(false)
   const suppressClickRef = useRef(false)
-  /** After a pin press that became a pan, skip booth hit-test on that release. */
+  /** After pin drag, skip booth hit-test on that release. */
   const suppressBoothTapRef = useRef(false)
+  /**
+   * Popover/UI actions: ignore the following map pointerup so it doesn't
+   * treat the release as a background tap (which was closing View details).
+   */
+  const suppressNextMapTapRef = useRef(false)
   const hoverClearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   transformRef.current = { scale, tx, ty }
 
   const TAP_SLOP = 14
-  const LONG_PRESS_MS = 420
-  const LONG_PRESS_MOVE_SLOP = 10
+  const PIN_HOLD_MS = 380
+  const PIN_HOLD_MOVE_SLOP = 10
 
   const clearHoverClearTimer = () => {
     if (hoverClearTimerRef.current != null) {
@@ -138,11 +150,11 @@ export function MapViewer({
     }
   }
 
-  const clearPinLongPress = () => {
-    const pending = pinLongPressRef.current
+  const clearPinHold = () => {
+    const pending = pinHoldRef.current
     if (!pending) return
     clearTimeout(pending.timer)
-    pinLongPressRef.current = null
+    pinHoldRef.current = null
   }
 
   const scheduleHoverClear = (boothId: number) => {
@@ -182,15 +194,16 @@ export function MapViewer({
     if (mode !== 'navigate') {
       setHoverBoothId(null)
       setPinnedBoothId(null)
-      clearPinLongPress()
+    }
+    if (mode !== 'pin') {
+      clearPinHold()
+      suppressPinPlaceRef.current = false
     }
   }, [mode])
 
   useEffect(
     () => () => {
-      const pending = pinLongPressRef.current
-      if (pending) clearTimeout(pending.timer)
-      pinLongPressRef.current = null
+      clearPinHold()
     },
     [],
   )
@@ -243,7 +256,8 @@ export function MapViewer({
           y: booth.rect.y + booth.rect.h / 2,
         }
       }
-    } else if (navTargetPoint) {
+    }
+    if (!goal && navTargetPoint) {
       goal = navTargetPoint
     }
     if (!goal) return null
@@ -311,15 +325,6 @@ export function MapViewer({
 
   /** Screen-stable pin hit radius in map pixels (matches transparent halo). */
   const pinHitRadiusMap = () => 22 / Math.max(transformRef.current.scale, 0.05)
-
-  const hitTestPin = (clientX: number, clientY: number): boolean => {
-    if (!pin || mapWidth <= 0 || mapHeight <= 0) return false
-    const n = clientToNorm(clientX, clientY)
-    const dx = (n.x - pin.x) * mapWidth
-    const dy = (n.y - pin.y) * mapHeight
-    const r = pinHitRadiusMap()
-    return dx * dx + dy * dy <= r * r
-  }
 
   const dismissPopover = () => {
     clearHoverClearTimer()
@@ -418,32 +423,60 @@ export function MapViewer({
     dragRef.current = null
     pendingRowZoomRef.current = null
     pendingBoothTapRef.current = null
-    clearPinLongPress()
+    clearPinHold()
     suppressClickRef.current = true
     suppressBoothTapRef.current = false
   }
 
-  const onWheel = (e: ReactWheelEvent) => {
-    e.preventDefault()
+  // Non-passive wheel so preventDefault actually works (React 17+ passive wheel).
+  useEffect(() => {
     const el = containerRef.current
     if (!el) return
-    const rect = el.getBoundingClientRect()
-    const mx = e.clientX - rect.left
-    const my = e.clientY - rect.top
-    const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12
-    const next = Math.min(8, Math.max(0.2, scale * factor))
-    const wx = (mx - tx) / scale
-    const wy = (my - ty) / scale
-    setScale(next)
-    setTx(mx - wx * next)
-    setTy(my - wy * next)
+    const onWheelNative = (e: WheelEvent) => {
+      e.preventDefault()
+      const rect = el.getBoundingClientRect()
+      const mx = e.clientX - rect.left
+      const my = e.clientY - rect.top
+      const { scale: s, tx: txx, ty: tyy } = transformRef.current
+      const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12
+      const next = Math.min(8, Math.max(0.2, s * factor))
+      const wx = (mx - txx) / s
+      const wy = (my - tyy) / s
+      setScale(next)
+      setTx(mx - wx * next)
+      setTy(my - wy * next)
+    }
+    el.addEventListener('wheel', onWheelNative, { passive: false })
+    return () => el.removeEventListener('wheel', onWheelNative)
+  }, [])
+
+  const displayPin = dragPin ?? pin
+
+  const updateDragPin = (x: number, y: number) => {
+    const next = { x, y }
+    dragPinRef.current = next
+    setDragPin(next)
+  }
+
+  const commitDragPin = () => {
+    const final = dragPinRef.current
+    dragPinRef.current = null
+    setDragPin(null)
+    if (final) onPinChange(final.x, final.y)
   }
 
   /** Capture-phase: track all fingers (including those that land on booths/labels). */
   const onPointerDownCapture = (e: ReactPointerEvent) => {
     if (e.button !== 0) return
     const target = e.target as Element | null
-    if (target?.closest?.('.map-fab-row, .booth-popover')) return
+    // Don't capture UI chrome — popover/panel buttons must own their gesture.
+    if (
+      target?.closest?.(
+        '.map-fab-row, .booth-popover, .vendor-panel, button, select, input, textarea, a',
+      )
+    ) {
+      return
+    }
     pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
     try {
       e.currentTarget.setPointerCapture(e.pointerId)
@@ -455,35 +488,35 @@ export function MapViewer({
     }
   }
 
+  const placePinAtClient = (clientX: number, clientY: number) => {
+    const n = clientToNorm(clientX, clientY)
+    dragPinRef.current = null
+    setDragPin(null)
+    onPinChange(n.x, n.y)
+  }
+
+  const isMapChrome = (target: EventTarget | null) => {
+    const el = target as Element | null
+    return Boolean(
+      el?.closest?.(
+        '.map-fab-row, .booth-popover, .vendor-panel, .booth-edit-bar, .map-fullscreen-bar',
+      ),
+    )
+  }
+
   const onPointerDown = (e: ReactPointerEvent) => {
     if (e.button !== 0) return
     // Multitouch pinch owns the gesture.
     if (pointersRef.current.size >= 2 || pinchRef.current) return
-
-    if (mode === 'pin') {
-      const n = clientToNorm(e.clientX, e.clientY)
-      onPinChange(n.x, n.y)
-      dragRef.current = {
-        kind: 'pin',
-        startX: e.clientX,
-        startY: e.clientY,
-        origTx: tx,
-        origTy: ty,
-        moved: false,
-      }
+    // FAB / panels: don't start pan or treat as tap-to-place (My pin toggle lives here).
+    if (isMapChrome(e.target)) {
+      suppressPinPlaceRef.current = true
+      dragRef.current = null
       return
     }
 
-    // Zoom-safe pin hit when SVG pointer events miss under CSS scale.
-    if (
-      mode === 'navigate' &&
-      hitTestPin(e.clientX, e.clientY) &&
-      !pinLongPressRef.current
-    ) {
-      onPinPointerDown(e)
-      return
-    }
-
+    // My pin mode: pan/zoom normally; a tap places the pin (see pointerup).
+    // Dragging the pin requires press-and-hold on the pin icon.
     dragRef.current = {
       kind: 'pan',
       startX: e.clientX,
@@ -517,27 +550,23 @@ export function MapViewer({
       return
     }
 
-    // Cancel pin long-press if the finger moves before it fires.
-    const pendingPin = pinLongPressRef.current
-    if (pendingPin && pendingPin.pointerId === e.pointerId) {
-      const moved = Math.hypot(e.clientX - pendingPin.x, e.clientY - pendingPin.y)
-      if (moved > LONG_PRESS_MOVE_SLOP) {
-        clearPinLongPress()
-        // Convert to pan so Browse still scrolls if the press wasn't a hold.
+    // Cancel press-and-hold on the pin if the finger moves before it engages.
+    const pendingHold = pinHoldRef.current
+    if (pendingHold && pendingHold.pointerId === e.pointerId) {
+      const moved = Math.hypot(e.clientX - pendingHold.x, e.clientY - pendingHold.y)
+      if (moved > PIN_HOLD_MOVE_SLOP) {
+        clearPinHold()
         if (!dragRef.current) {
           const { tx: txx, ty: tyy } = transformRef.current
           dragRef.current = {
             kind: 'pan',
-            startX: pendingPin.x,
-            startY: pendingPin.y,
+            startX: pendingHold.x,
+            startY: pendingHold.y,
             origTx: txx,
             origTy: tyy,
             moved: true,
           }
         }
-        // Avoid treating an aborted pin-hold as a booth tap on release.
-        pendingBoothTapRef.current = null
-        suppressBoothTapRef.current = true
       }
     }
 
@@ -550,7 +579,7 @@ export function MapViewer({
       setTy(d.origTy + (e.clientY - d.startY))
     } else if (d.kind === 'pin') {
       const n = clientToNorm(e.clientX, e.clientY)
-      onPinChange(n.x, n.y)
+      updateDragPin(n.x, n.y)
     } else if (d.kind === 'booth' && d.boothId != null && d.origRect) {
       const dx = (e.clientX - d.startX) / scale / mapWidth
       const dy = (e.clientY - d.startY) / scale / mapHeight
@@ -578,11 +607,21 @@ export function MapViewer({
       /* ignore */
     }
 
-    // Capture before clearing — short pin press should not hit-test a booth underneath.
-    const pinPressAbandoned =
-      pinLongPressRef.current?.pointerId === e.pointerId
-    if (pinPressAbandoned) {
-      clearPinLongPress()
+    // Popover Navigate / View details: ignore this release on the map.
+    if (suppressNextMapTapRef.current) {
+      suppressNextMapTapRef.current = false
+      dragRef.current = null
+      pendingBoothTapRef.current = null
+      pendingRowZoomRef.current = null
+      clearPinHold()
+      pinchRef.current = null
+      return
+    }
+
+    const pinHoldAbandoned =
+      pinHoldRef.current?.pointerId === e.pointerId
+    if (pinHoldAbandoned) {
+      clearPinHold()
     }
 
     if (pointersRef.current.size >= 2) {
@@ -595,7 +634,7 @@ export function MapViewer({
       pinchRef.current = null
       pendingRowZoomRef.current = null
       pendingBoothTapRef.current = null
-      clearPinLongPress()
+      clearPinHold()
       const remaining = [...pointersRef.current.values()][0]!
       const { tx: txx, ty: tyy } = transformRef.current
       dragRef.current = {
@@ -633,13 +672,22 @@ export function MapViewer({
     const d = dragRef.current
     dragRef.current = null
 
+    if (d?.kind === 'pin') {
+      commitDragPin()
+      suppressBoothTapRef.current = true
+      suppressPinPlaceRef.current = false
+      return
+    }
+
     if (suppressClickRef.current) {
       suppressClickRef.current = false
+      suppressPinPlaceRef.current = false
       return
     }
 
     // Pin drag / edit booth drag — don't treat as booth tap.
     if (d && d.kind !== 'pan') {
+      suppressPinPlaceRef.current = false
       return
     }
 
@@ -648,17 +696,30 @@ export function MapViewer({
       : 0
     const wasTap = !d || tapDist <= TAP_SLOP
 
-    // Short press on pin, or pin-hold that became a pan: don't open a booth.
-    if (pinPressAbandoned || suppressBoothTapRef.current) {
+    if (suppressBoothTapRef.current || pinHoldAbandoned) {
       suppressBoothTapRef.current = false
+      suppressPinPlaceRef.current = false
       if (!wasTap) dismissPopover()
       return
     }
 
     if (!wasTap) {
+      suppressPinPlaceRef.current = false
       dismissPopover()
       return
     }
+
+    // My pin: tap anywhere (when zoomed away from the pin) to drop it there.
+    if (mode === 'pin') {
+      if (!suppressPinPlaceRef.current && !isMapChrome(e.target)) {
+        const x = d?.startX ?? e.clientX
+        const y = d?.startY ?? e.clientY
+        placePinAtClient(x, y)
+      }
+      suppressPinPlaceRef.current = false
+      return
+    }
+    suppressPinPlaceRef.current = false
 
     // Browse: resolve booth by pending target or map-space hit-test (zoom-safe).
     if (mode === 'navigate') {
@@ -689,8 +750,8 @@ export function MapViewer({
     if (pointersRef.current.size >= 2 || pinchRef.current) return
     e.stopPropagation()
     e.preventDefault()
-    clearPinLongPress()
     pendingBoothTapRef.current = null
+    onSelectBooth(booth.id)
     dragRef.current = {
       kind,
       startX: e.clientX,
@@ -714,7 +775,6 @@ export function MapViewer({
     if (pointersRef.current.size >= 2 || pinchRef.current) return
     if (mode === 'edit') return
     if (mode !== 'navigate') return
-    clearPinLongPress()
     pendingBoothTapRef.current = {
       boothId,
       x: e.clientX,
@@ -724,14 +784,15 @@ export function MapViewer({
     // pointerup uses wasTap + hit-test / pendingBooth for the popover.
   }
 
-  const startPinDrag = (e: ReactPointerEvent) => {
-    clearPinLongPress()
+  const startPinDrag = (clientX: number, clientY: number) => {
     pendingBoothTapRef.current = null
     pendingRowZoomRef.current = null
+    const base = dragPinRef.current ?? pin
+    if (base) updateDragPin(base.x, base.y)
     dragRef.current = {
       kind: 'pin',
-      startX: e.clientX,
-      startY: e.clientY,
+      startX: clientX,
+      startY: clientY,
       origTx: transformRef.current.tx,
       origTy: transformRef.current.ty,
       moved: false,
@@ -740,44 +801,31 @@ export function MapViewer({
 
   const onPinPointerDown = (e: ReactPointerEvent) => {
     if (e.button !== 0) return
+    if (mode !== 'pin') return
     // Never steal multitouch / pinch.
     if (pointersRef.current.size >= 2 || pinchRef.current) return
     e.stopPropagation()
     e.preventDefault()
     pendingBoothTapRef.current = null
-
-    if (mode === 'pin') {
-      startPinDrag(e)
-      return
-    }
-
-    if (mode !== 'navigate') return
-
-    // Browse: press-and-hold to move the pin (short tap does nothing).
-    clearPinLongPress()
+    // Don't treat release on the icon as "tap map to place".
+    suppressPinPlaceRef.current = true
+    clearPinHold()
     const pointerId = e.pointerId
     const x = e.clientX
     const y = e.clientY
-    pinLongPressRef.current = {
+    pinHoldRef.current = {
       pointerId,
       x,
       y,
       timer: setTimeout(() => {
-        if (pinLongPressRef.current?.pointerId !== pointerId) return
+        if (pinHoldRef.current?.pointerId !== pointerId) return
         if (pointersRef.current.size !== 1 || pinchRef.current) {
-          clearPinLongPress()
+          clearPinHold()
           return
         }
-        pinLongPressRef.current = null
-        dragRef.current = {
-          kind: 'pin',
-          startX: x,
-          startY: y,
-          origTx: transformRef.current.tx,
-          origTy: transformRef.current.ty,
-          moved: false,
-        }
-      }, LONG_PRESS_MS),
+        pinHoldRef.current = null
+        startPinDrag(x, y)
+      }, PIN_HOLD_MS),
     }
   }
 
@@ -788,7 +836,6 @@ export function MapViewer({
       pendingRowZoomRef.current = null
       return
     }
-    clearPinLongPress()
     pendingBoothTapRef.current = null
     pendingRowZoomRef.current = {
       hundred,
@@ -816,7 +863,6 @@ export function MapViewer({
     <div
       ref={containerRef}
       className="map-viewer"
-      onWheel={onWheel}
       onPointerDownCapture={onPointerDownCapture}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
@@ -826,7 +872,7 @@ export function MapViewer({
       {!mapUrl ? (
         <div className="map-empty">
           <p>No floor map yet</p>
-          <p className="muted">Import a map image in Setup to get started.</p>
+          <p className="muted">Import a map image in Settings to get started.</p>
         </div>
       ) : (
         <div
@@ -1061,14 +1107,14 @@ export function MapViewer({
                 </g>
               )
             })}
-            {pin && (
+            {displayPin && (
               <g
-                transform={`translate(${pin.x * mapWidth}, ${pin.y * mapHeight})`}
+                transform={`translate(${displayPin.x * mapWidth}, ${displayPin.y * mapHeight})`}
                 style={{
-                  cursor:
-                    mode === 'pin' || mode === 'navigate' ? 'grab' : 'default',
+                  cursor: mode === 'pin' ? 'grab' : 'default',
+                  pointerEvents: mode === 'pin' ? 'auto' : 'none',
                 }}
-                onPointerDown={onPinPointerDown}
+                onPointerDown={mode === 'pin' ? onPinPointerDown : undefined}
               >
                 {/* Larger touch target; visuals stay screen-stable via /scale. */}
                 <circle r={pinHitRadiusMap()} fill="transparent" pointerEvents="all" />
@@ -1100,7 +1146,14 @@ export function MapViewer({
           }}
           role="dialog"
           aria-label={`Booth ${popoverBooth.label}`}
-          onPointerDown={(e) => e.stopPropagation()}
+          onPointerDown={(e) => {
+            e.stopPropagation()
+            suppressNextMapTapRef.current = true
+          }}
+          onPointerUp={(e) => {
+            e.stopPropagation()
+            suppressNextMapTapRef.current = true
+          }}
           onPointerEnter={() => {
             clearHoverClearTimer()
             if (popoverBooth.id != null) setHoverBoothId(popoverBooth.id)
@@ -1121,10 +1174,15 @@ export function MapViewer({
             <button
               type="button"
               className="btn primary sm"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
+              onPointerDown={(e) => {
                 e.stopPropagation()
-                const id = popoverBooth.id!
+                suppressNextMapTapRef.current = true
+              }}
+              onPointerUp={(e) => {
+                e.stopPropagation()
+                suppressNextMapTapRef.current = true
+                const id = popoverBooth.id
+                if (id == null) return
                 onNavigateBooth?.(id)
                 dismissPopover()
               }}
@@ -1134,10 +1192,15 @@ export function MapViewer({
             <button
               type="button"
               className="btn secondary sm"
-              onPointerDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
+              onPointerDown={(e) => {
                 e.stopPropagation()
-                const id = popoverBooth.id!
+                suppressNextMapTapRef.current = true
+              }}
+              onPointerUp={(e) => {
+                e.stopPropagation()
+                suppressNextMapTapRef.current = true
+                const id = popoverBooth.id
+                if (id == null) return
                 onViewBoothDetails?.(id)
                 dismissPopover()
               }}
@@ -1148,7 +1211,34 @@ export function MapViewer({
         </div>
       )}
 
-      <div className="map-fab-row">
+      <div
+        className="map-fab-row"
+        onPointerDown={(e) => {
+          e.stopPropagation()
+          suppressPinPlaceRef.current = true
+        }}
+        onPointerUp={(e) => {
+          e.stopPropagation()
+          suppressPinPlaceRef.current = true
+        }}
+      >
+        {mode !== 'edit' && onModeChange && (
+          <button
+            type="button"
+            className={`btn secondary sm map-pin-mode-btn${mode === 'pin' ? ' active' : ''}`}
+            aria-pressed={mode === 'pin'}
+            aria-label={mode === 'pin' ? 'Exit my pin mode' : 'Place or move my pin'}
+            title={mode === 'pin' ? 'Done moving pin' : 'My pin'}
+            onClick={() => onModeChange(mode === 'pin' ? 'navigate' : 'pin')}
+          >
+            {mode === 'pin' ? (
+              <PiPushPinFill size={18} aria-hidden />
+            ) : (
+              <PiPushPinLight size={18} aria-hidden />
+            )}
+            <span>My pin</span>
+          </button>
+        )}
         {rowLabels.length > 0 && (
           <select
             className="map-section-select"

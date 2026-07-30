@@ -1,5 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useState } from 'react'
+import { PiPushPinFill, PiPushPinLight } from 'react-icons/pi'
 import { db } from '../db/schema'
 import type { VendorRecord, VisitStatus } from '../db/types'
 import { DEFAULT_TAGS } from '../db/types'
@@ -77,17 +78,11 @@ export function VendorPanel({
               aria-label={pinned ? 'Unpin details panel' : 'Keep details panel open'}
               title={pinned ? 'Unpin' : 'Keep open'}
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill={pinned ? 'currentColor' : 'none'}
-                stroke="currentColor"
-                strokeWidth="2"
-                aria-hidden="true"
-              >
-                <path d="M12 17v5M9 2h6l-1 7h3l-5 6-5-6h3L9 2z" />
-              </svg>
+              {pinned ? (
+                <PiPushPinFill size={18} aria-hidden />
+              ) : (
+                <PiPushPinLight size={18} aria-hidden />
+              )}
             </button>
           )}
           <button type="button" className="btn ghost sm" onClick={onClose} aria-label="Close">

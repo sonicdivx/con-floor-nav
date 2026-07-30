@@ -6,7 +6,7 @@ import {
   getActiveEventId,
   getOrCreateUserLocation,
 } from './db/schema'
-import type { BoothRecord, VendorRecord } from './db/types'
+import type { Rect, VendorRecord } from './db/types'
 import { DEFAULT_TAGS } from './db/types'
 import { MapViewer, type MapMode } from './components/MapViewer'
 import { VendorPanel } from './components/VendorPanel'
@@ -22,7 +22,7 @@ import { maybeAutoSeedOtakonSample } from './lib/sampleData'
 import type { PartyPeer } from './lib/partySocket'
 import './App.css'
 
-type Tab = 'map' | 'setup' | 'ai' | 'gallery' | 'nav'
+type Tab = 'map' | 'settings' | 'ai' | 'gallery' | 'nav'
 
 function App() {
   const [eventId, setEventId] = useState<number | null>(null)
@@ -30,6 +30,9 @@ function App() {
   const [mapMode, setMapMode] = useState<MapMode>('navigate')
   const [tagFilter, setTagFilter] = useState<string | null>(null)
   const [selectedBoothId, setSelectedBoothId] = useState<number | null>(null)
+  /** Unsaved booth rect edits while in Settings → Customize → Map edit mode. */
+  const [boothDrafts, setBoothDrafts] = useState<Record<number, Rect>>({})
+  const [boothEditSaving, setBoothEditSaving] = useState(false)
   /** Keep details panel open while tapping the map. */
   const [detailsPinned, setDetailsPinned] = useState(false)
   /** Immediate pin for nav (avoids live-query lag after getOrCreate). */
@@ -123,6 +126,18 @@ function App() {
     return (booths ?? []).find((b) => b.id === selectedBoothId) ?? null
   }, [booths, selectedBoothId])
 
+  const mapBooths = useMemo(() => {
+    const list = booths ?? []
+    if (mapMode !== 'edit' || Object.keys(boothDrafts).length === 0) return list
+    return list.map((b) => {
+      if (b.id == null) return b
+      const draft = boothDrafts[b.id]
+      return draft ? { ...b, rect: draft } : b
+    })
+  }, [booths, boothDrafts, mapMode])
+
+  const boothEditsDirty = Object.keys(boothDrafts).length > 0
+
   const quickPick = useMemo(() => {
     const list = (vendors ?? []).filter(
       (v) => v.visitStatus === 'favorite' || v.visitStatus === 'look_again',
@@ -136,8 +151,46 @@ function App() {
     return list
   }, [vendors])
 
-  const updateBoothRect = async (boothId: number, rect: BoothRecord['rect']) => {
-    await db.booths.update(boothId, { rect })
+  const updateBoothRectDraft = (boothId: number, rect: Rect) => {
+    setBoothDrafts((prev) => ({ ...prev, [boothId]: rect }))
+  }
+
+  const startEditBooths = () => {
+    setBoothDrafts({})
+    setDetailsPinned(false)
+    setSelectedBoothId(null)
+    setMapMode('edit')
+    setTab('map')
+    setMapMenuOpen(false)
+    setMapFullscreen(false)
+  }
+
+  const saveBoothEdits = async () => {
+    const entries = Object.entries(boothDrafts)
+    if (entries.length === 0) return
+    setBoothEditSaving(true)
+    try {
+      await db.transaction('rw', db.booths, async () => {
+        for (const [id, rect] of entries) {
+          await db.booths.update(Number(id), { rect })
+        }
+      })
+      setBoothDrafts({})
+    } finally {
+      setBoothEditSaving(false)
+    }
+  }
+
+  const resetBoothEdits = () => {
+    setBoothDrafts({})
+  }
+
+  const exitEditBooths = () => {
+    if (boothEditsDirty && !window.confirm('Discard unsaved booth changes?')) {
+      return
+    }
+    setBoothDrafts({})
+    setMapMode('navigate')
   }
 
   const setPin = async (x: number, y: number) => {
@@ -201,8 +254,17 @@ function App() {
   const navigateToBooth = (boothId: number) => {
     // Set target + pin immediately so the dashed line can render (no live-query lag).
     if (!mapPin) setLocalPin({ x: 0.5, y: 0.5 })
-    setNavTargetPoint(null)
+    const booth = (booths ?? []).find((b) => b.id === boothId)
     setNavTargetBoothId(boothId)
+    // Point fallback if booth id lookup races / misses in the map layer.
+    if (booth) {
+      setNavTargetPoint({
+        x: booth.rect.x + booth.rect.w / 2,
+        y: booth.rect.y + booth.rect.h / 2,
+      })
+    } else {
+      setNavTargetPoint(null)
+    }
     setTab('map')
     setMapMode('navigate')
     void ensurePin()
@@ -224,6 +286,7 @@ function App() {
   const openBoothDetails = (boothId: number) => {
     // Open panel immediately — don't wait on IndexedDB.
     setSelectedBoothId(boothId)
+    // Unpinned = outline pin; user can pin (fill) to keep open while tapping the map.
     setDetailsPinned(false)
     setTab('map')
     if (eventId != null) {
@@ -289,6 +352,18 @@ function App() {
   }
 
   const setAppTab = (next: Tab) => {
+    if (
+      mapMode === 'edit' &&
+      next !== 'map' &&
+      boothEditsDirty &&
+      !window.confirm('Leave map editing? Unsaved booth changes will be discarded.')
+    ) {
+      return
+    }
+    if (mapMode === 'edit' && next !== 'map') {
+      setBoothDrafts({})
+      setMapMode('navigate')
+    }
     setTab(next)
     setMapMenuOpen(false)
     if (next !== 'map') setMapFullscreen(false)
@@ -349,7 +424,7 @@ function App() {
               ['map', 'Map'],
               ['nav', 'Go'],
               ['gallery', 'Photos'],
-              ['setup', 'Setup'],
+              ['settings', 'Settings'],
               ['ai', 'AI'],
             ] as const
           ).map(([id, label]) => (
@@ -392,31 +467,28 @@ function App() {
               </button>
             </div>
             <div className="chip-row wrap">
-              {(
-                [
-                  ['navigate', 'Browse'],
-                  ['edit', 'Edit booths'],
-                  ['pin', 'My pin'],
-                ] as const
-              ).map(([m, label]) => (
+              {mapMode === 'edit' ? (
+                <span className="muted sm">
+                  Editing booth layout — use Save / Reset below. Started from Settings →
+                  Customize → Map.
+                </span>
+              ) : (
                 <button
-                  key={m}
                   type="button"
-                  className={`chip ${mapMode === m ? 'active' : ''}`}
-                  onClick={() => setMapMode(m)}
+                  className="chip"
+                  disabled={gpsBusy}
+                  onClick={useGps}
                 >
-                  {label}
+                  {gpsBusy ? 'GPS…' : 'Optional GPS'}
                 </button>
-              ))}
-              <button
-                type="button"
-                className="chip"
-                disabled={gpsBusy}
-                onClick={useGps}
-              >
-                {gpsBusy ? 'GPS…' : 'Optional GPS'}
-              </button>
+              )}
             </div>
+            {gpsMsg && <p className="muted sm gps-msg">{gpsMsg}</p>}
+            {mapMode === 'pin' && (
+              <p className="muted sm gps-msg">
+                Tap the map to drop your pin. Press and hold the pin to drag it.
+              </p>
+            )}
             <div className="chip-row wrap">
               <button
                 type="button"
@@ -463,7 +535,7 @@ function App() {
               mapUrl={mapUrl}
               mapWidth={floorMap?.width ?? 1000}
               mapHeight={floorMap?.height ?? 700}
-              booths={booths ?? []}
+              booths={mapBooths}
               obstacles={floorMap?.obstacles ?? []}
               vendorsByBoothId={vendorsByBoothId}
               tagFilter={tagFilter}
@@ -475,8 +547,9 @@ function App() {
               pin={mapPin}
               mode={mapMode}
               onSelectBooth={setSelectedBoothId}
-              onUpdateBoothRect={(id, rect) => void updateBoothRect(id, rect)}
+              onUpdateBoothRect={updateBoothRectDraft}
               onPinChange={(x, y) => void setPin(x, y)}
+              onModeChange={setMapMode}
               onNavigateBooth={navigateToBooth}
               onViewBoothDetails={openBoothDetails}
               onSelectPeer={navigateToPeer}
@@ -484,6 +557,44 @@ function App() {
                 if (!detailsPinned) closeBoothDetails()
               }}
             />
+            {mapMode === 'edit' && (
+              <div className="booth-edit-bar" role="toolbar" aria-label="Booth layout editing">
+                <div className="booth-edit-bar-copy">
+                  <strong>Edit booths</strong>
+                  <span className="muted sm">
+                    {boothEditsDirty
+                      ? `${Object.keys(boothDrafts).length} unsaved`
+                      : 'Drag boxes · corner to resize'}
+                  </span>
+                </div>
+                <div className="booth-edit-bar-actions">
+                  <button
+                    type="button"
+                    className="btn ghost sm"
+                    disabled={!boothEditsDirty || boothEditSaving}
+                    onClick={resetBoothEdits}
+                  >
+                    Reset
+                  </button>
+                  <button
+                    type="button"
+                    className="btn secondary sm"
+                    disabled={!boothEditsDirty || boothEditSaving}
+                    onClick={() => void saveBoothEdits()}
+                  >
+                    {boothEditSaving ? 'Saving…' : 'Save'}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn primary sm"
+                    disabled={boothEditSaving}
+                    onClick={exitEditBooths}
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            )}
             {mapFullscreen && (
               <div className="map-fullscreen-bar">
                 <button
@@ -504,7 +615,7 @@ function App() {
                 </button>
               </div>
             )}
-            {selectedBooth && eventId != null && (
+            {selectedBooth && eventId != null && mapMode !== 'edit' && (
               <VendorPanel
                 vendor={
                   selectedVendor ?? {
@@ -586,9 +697,28 @@ function App() {
         </div>
       )}
 
-      {tab === 'setup' && (
-        <div className="page">
-          <ImportPanel eventId={eventId} onDone={() => setTab('map')} />
+      {tab === 'settings' && (
+        <div className="page settings-page">
+          <h2>Settings</h2>
+          <p className="muted">Import floor data and customize how the map behaves on this device.</p>
+
+          <section className="panel-section settings-section">
+            <h3>Customize</h3>
+            <div className="settings-card">
+              <h4>Map</h4>
+              <p className="muted sm">
+                Nudge booth boxes so they match the printed floor plan. Edits stay on this device
+                until you save. Kept out of the map menu so it isn’t tapped by accident on phones.
+              </p>
+              <button type="button" className="btn primary" onClick={startEditBooths}>
+                Edit booth layout
+              </button>
+            </div>
+          </section>
+
+          <section className="panel-section settings-section">
+            <ImportPanel eventId={eventId} onDone={() => setAppTab('map')} />
+          </section>
         </div>
       )}
 
