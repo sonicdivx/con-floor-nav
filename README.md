@@ -70,6 +70,8 @@ npm run preview
 
 ### Android APK (Capacitor sideload)
 
+Phase 3 is in the repo: `capacitor.config.ts`, the `android/` project, and **Settings → Native app (Android)** in the UI.
+
 PWA install is still the primary path. For a sideloadable APK (Android Studio required):
 
 ```bash
@@ -81,34 +83,29 @@ Or `npm run android` to sync and open in one step. Then **Build → Build Bundle
 
 App id: `app.confloornav.pwa`. iOS/TestFlight needs an Apple Developer account — not scaffolded yet.
 
-**Render (static site only):** build command `npm run build`, publish directory `dist`.
+### Deploy on Render (phase 4)
 
-### Party WebSocket + static on Render (recommended for live sharing)
+Preferred: one **Web Service** that serves the PWA (`dist/`) and the party WebSocket (`/party`).
 
-1. Build the PWA with the public WebSocket URL baked in:
+- Blueprint: `render.yaml` in the repo
+- Build: `npm install && npm run build`
+- Start: `npm start`
+- Health: `GET /api/health`
+- Live party uses **same-origin** `wss://<your-service>.onrender.com/party` in production (no env required). Optional override: `VITE_PARTY_WS_URL`.
 
-```bash
-# Example — use your Render service hostname
-VITE_PARTY_WS_URL=wss://YOUR-SERVICE.onrender.com npm run build
-```
+Free-tier services sleep when idle; the first request after sleep can take ~30s.
 
-Or set `VITE_PARTY_WS_URL` in the Render **build** environment (Vite inlines it at build time).
+**Live URL:** https://con-floor-nav.onrender.com  
+**Dashboard:** https://dashboard.render.com/web/srv-d9ln2edbedkc73buug00
 
-2. Start command: `npm start` (runs `tsx server/party-server.ts`), which:
-   - Serves `dist/` over HTTP
-   - Accepts WebSockets at `/party`
-   - Health check: `GET /api/health`
-
-3. Local party server (dev):
+Local party server (dev):
 
 ```bash
-# Terminal A — Vite app (optional: point at local party server)
+# Terminal A — Vite app pointed at local party server
 VITE_PARTY_WS_URL=ws://localhost:8787 npm run dev
 
 # Terminal B
 npm run party-server
 ```
 
-Without `VITE_PARTY_WS_URL`, the app still supports **Copy share link / paste** offline; the Live party UI stays hidden.
-
-Party codes are for friends only — don’t post them publicly. Stale members expire after ~3 minutes without pin updates.
+Share-link paste (`cfn1:…` / `#pin=`) still works offline without Render. Party codes are for friends only — don’t post them publicly. Stale members expire after ~3 minutes without pin updates.

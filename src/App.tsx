@@ -14,6 +14,7 @@ import { ImportPanel } from './components/ImportPanel'
 import { AiExtractPanel } from './components/AiExtractPanel'
 import { BackupPanel } from './components/BackupPanel'
 import { GalleryPanel } from './components/GalleryPanel'
+import { NativeAppPanel } from './components/NativeAppPanel'
 import {
   SharePartyPanel,
   type PartyClientHandle,
@@ -727,6 +728,10 @@ function App() {
                 setNavTargetPoint(null)
               }}
             />
+          </section>
+
+          <section className="panel-section settings-section">
+            <NativeAppPanel />
           </section>
 
           <section className="panel-section settings-section">

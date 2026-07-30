@@ -448,6 +448,40 @@ img {
   margin-top: 0.65rem;
 }
 
+.settings-kv {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.75rem 0;
+}
+
+.settings-kv > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.settings-kv dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.settings-kv dd {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.code-block {
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 80%, #000);
+  font-size: 0.78rem;
+  overflow-x: auto;
+  white-space: pre;
+}
+
 @media (max-width: 720px) {
   .booth-edit-bar {
     left: 0.45rem;
