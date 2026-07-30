@@ -1,5 +1,5 @@
 import type { BoothImportJson, Rect } from '../db/types'
-import { DEFAULT_TAGS } from '../db/types'
+import { normalizeTag, registerCustomTags } from './tags'
 import { db } from '../db/schema'
 
 function isRect(r: unknown): r is Rect {
@@ -140,7 +140,7 @@ function splitCsvLine(line: string): string[] {
 export async function applyBoothImport(
   eventId: number,
   data: BoothImportJson,
-  options: { replace?: boolean } = {},
+  options: { replace?: boolean; floorMapId?: number } = {},
 ): Promise<{ booths: number; vendors: number }> {
   if (data.event) {
     const ev = await db.events.get(eventId)
@@ -152,12 +152,38 @@ export async function applyBoothImport(
     }
   }
 
+  let floorMapId = options.floorMapId
+  if (floorMapId == null) {
+    const map = await db.floorMaps.where('eventId').equals(eventId).first()
+    floorMapId = map?.id
+  }
+
   if (options.replace) {
-    const oldVendors = await db.vendors.where('eventId').equals(eventId).toArray()
-    const vendorIds = oldVendors.map((v) => v.id!).filter(Boolean)
-    await db.itemPhotos.where('vendorId').anyOf(vendorIds).delete()
-    await db.vendors.where('eventId').equals(eventId).delete()
-    await db.booths.where('eventId').equals(eventId).delete()
+    if (floorMapId != null) {
+      const oldBooths = await db.booths
+        .where('floorMapId')
+        .equals(floorMapId)
+        .toArray()
+      const boothIds = oldBooths.map((b) => b.id!).filter(Boolean)
+      const oldVendors =
+        boothIds.length > 0
+          ? await db.vendors.where('boothId').anyOf(boothIds).toArray()
+          : []
+      const vendorIds = oldVendors.map((v) => v.id!).filter(Boolean)
+      if (vendorIds.length) {
+        await db.itemPhotos.where('vendorId').anyOf(vendorIds).delete()
+      }
+      if (boothIds.length) {
+        await db.vendors.where('boothId').anyOf(boothIds).delete()
+        await db.booths.bulkDelete(boothIds)
+      }
+    } else {
+      const oldVendors = await db.vendors.where('eventId').equals(eventId).toArray()
+      const vendorIds = oldVendors.map((v) => v.id!).filter(Boolean)
+      await db.itemPhotos.where('vendorId').anyOf(vendorIds).delete()
+      await db.vendors.where('eventId').equals(eventId).delete()
+      await db.booths.where('eventId').equals(eventId).delete()
+    }
   }
 
   let boothCount = 0
@@ -165,9 +191,13 @@ export async function applyBoothImport(
 
   await db.transaction('rw', db.booths, db.vendors, db.floorMaps, async () => {
     for (const b of data.booths) {
-      const existing = await db.booths
-        .where({ eventId, boothKey: b.id })
-        .first()
+      const existing =
+        floorMapId != null
+          ? await db.booths
+              .where('[eventId+floorMapId+boothKey]')
+              .equals([eventId, floorMapId, b.id])
+              .first()
+          : await db.booths.where({ eventId, boothKey: b.id }).first()
 
       let boothId: number
       if (existing?.id != null) {
@@ -175,11 +205,13 @@ export async function applyBoothImport(
           label: b.label ?? b.id,
           nameOverride: b.name,
           rect: b.rect,
+          ...(floorMapId != null ? { floorMapId } : {}),
         })
         boothId = existing.id
       } else {
         boothId = (await db.booths.add({
           eventId,
+          floorMapId,
           boothKey: b.id,
           label: b.label ?? b.id,
           nameOverride: b.name,
@@ -189,10 +221,8 @@ export async function applyBoothImport(
       }
 
       const vendor = await db.vendors.where({ eventId, boothId }).first()
-      const tags = (b.tags ?? []).map((t) => {
-        const lower = t.toLowerCase()
-        return (DEFAULT_TAGS as readonly string[]).includes(lower) ? lower : t
-      })
+      const tags = (b.tags ?? []).map((t) => normalizeTag(t)).filter(Boolean)
+      if (tags.length) registerCustomTags(tags)
 
       if (vendor?.id != null) {
         await db.vendors.update(vendor.id, {
@@ -211,12 +241,9 @@ export async function applyBoothImport(
       }
     }
 
-    // Persist pillars/walls onto the floor map when the import includes them.
-    if (data.obstacles !== undefined) {
-      const floorMap = await db.floorMaps.where('eventId').equals(eventId).first()
-      if (floorMap?.id != null) {
-        await db.floorMaps.update(floorMap.id, { obstacles: data.obstacles })
-      }
+    // Persist pillars/walls onto the active floor map when the import includes them.
+    if (data.obstacles !== undefined && floorMapId != null) {
+      await db.floorMaps.update(floorMapId, { obstacles: data.obstacles })
     }
   })
 

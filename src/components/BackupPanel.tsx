@@ -24,7 +24,7 @@ export function BackupPanel({ eventId, onRestored }: Props) {
       const backup = await buildEventBackup(eventId)
       await downloadBackupJson(backup)
       setMessage(
-        `Exported ${backup.booths.length} booths, ${backup.vendors.length} vendors, ${backup.photos.length} photos.`,
+        `Exported ${backup.floorMaps.length} map(s), ${backup.booths.length} booths, ${backup.vendors.length} vendors, ${backup.photos.length} photos.`,
       )
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
@@ -40,13 +40,13 @@ export function BackupPanel({ eventId, onRestored }: Props) {
       const text = await file.text()
       const backup = parseEventBackup(JSON.parse(text) as unknown)
       const ok = window.confirm(
-        `Replace all booths, vendors, photos, map, and pin for this event with “${backup.event.name}” from the backup? This cannot be undone.`,
+        `Replace all maps, booths, vendors, photos, and pin for this event with “${backup.event.name}” from the backup? This cannot be undone.`,
       )
       if (!ok) return
       setBusy(true)
       const result = await restoreEventBackup(eventId, backup)
       setMessage(
-        `Restored ${result.booths} booths, ${result.vendors} vendors, ${result.photos} photos.`,
+        `Restored ${result.maps} map(s), ${result.booths} booths, ${result.vendors} vendors, ${result.photos} photos.`,
       )
       onRestored?.()
     } catch (e) {
@@ -60,8 +60,8 @@ export function BackupPanel({ eventId, onRestored }: Props) {
     <div className="stack-panel">
       <h3>Backup</h3>
       <p className="muted">
-        Download a full copy of this event (map image, booths, visit status, tags, and item photos)
-        for laptop backup, or restore one onto this device.
+        Download a full copy of this event (all floor maps, booths, visit status, tags, and item
+        photos) for laptop backup, or restore one onto this device.
       </p>
       <div className="chip-row wrap">
         <button

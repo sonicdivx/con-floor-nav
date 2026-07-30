@@ -448,6 +448,52 @@ img {
   margin-top: 0.65rem;
 }
 
+.event-list {
+  list-style: none;
+  margin: 0.75rem 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.event-list-item {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-panel);
+}
+
+.event-list-item.active {
+  outline: 1px solid color-mix(in srgb, var(--otakon-label, #e30774) 50%, transparent);
+}
+
+.event-list-main {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.settings-subhead {
+  margin: 1rem 0 0.45rem;
+  font-size: 0.95rem;
+}
+
+.form-row {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+  font: inherit;
+}
+
 .settings-kv {
   display: grid;
   gap: 0.55rem;
@@ -629,6 +675,80 @@ img {
 
 .pin-keep-open.active {
   color: var(--otakon-label, #e30774);
+}
+
+.tag-select {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.tag-select-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  min-height: 0;
+}
+
+.tag-select-chip {
+  text-transform: none;
+}
+
+.tag-select-field {
+  position: relative;
+}
+
+.tag-select-input {
+  margin-top: 0;
+}
+
+.tag-select-menu {
+  position: absolute;
+  z-index: 40;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  max-height: 12rem;
+  overflow: auto;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-panel, #151b26);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+.tag-select-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tag-select-option:hover,
+.tag-select-option:focus-visible {
+  background: color-mix(in srgb, var(--accent, #6ea8fe) 22%, transparent);
+  outline: none;
+}
+
+.tag-select-add {
+  color: var(--otakon-label, #e30774);
+  font-weight: 600;
+}
+
+.tag-select-empty {
+  padding: 0.5rem 0.55rem;
+}
+
+.vendor-panel .tag-select-menu {
+  top: auto;
+  bottom: calc(100% + 4px);
 }
 
 @media (max-width: 720px) {

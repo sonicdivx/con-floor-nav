@@ -9,10 +9,11 @@ import { getCopyPromptPackage } from '../lib/aiPrompt'
 
 interface Props {
   eventId: number
+  floorMapId?: number | null
   onDone: () => void
 }
 
-export function ImportPanel({ eventId, onDone }: Props) {
+export function ImportPanel({ eventId, floorMapId, onDone }: Props) {
   const [jsonText, setJsonText] = useState('')
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -26,7 +27,10 @@ export function ImportPanel({ eventId, onDone }: Props) {
     try {
       const data =
         kind === 'json' ? parseBoothImportJson(text) : parseBoothCsv(text)
-      const result = await applyBoothImport(eventId, data, { replace })
+      const result = await applyBoothImport(eventId, data, {
+        replace,
+        floorMapId: floorMapId ?? undefined,
+      })
       setMessage(
         `Imported ${data.booths.length} booths (${result.booths} new, ${result.vendors} new vendors).`,
       )
@@ -46,7 +50,10 @@ export function ImportPanel({ eventId, onDone }: Props) {
   const onMapImage = async (file: File) => {
     setError(null)
     try {
-      const dims = await saveFloorMapBlob(eventId, file)
+      const dims = await saveFloorMapBlob(eventId, file, {
+        mode: 'replace-active',
+        name: file.name.replace(/\.[^.]+$/, '') || 'Floor map',
+      })
       setMessage(`Map saved (${dims.width}×${dims.height}).`)
       onDone()
     } catch (e) {
@@ -88,8 +95,9 @@ export function ImportPanel({ eventId, onDone }: Props) {
       <section className="panel-section">
         <h3>Sample data</h3>
         <p className="muted sm">
-          Loads the Otakon 2026 Dealers floor map, booths, and pillars into this device (cached in
-          IndexedDB for offline use). Re-run if you already loaded an older sample without pillars.
+          Loads the Otakon 2026 Dealers floor map, booths, and pillars into{' '}
+          <strong>this event</strong> (replaces maps/booths on this event). Use Settings → Events to
+          create a separate con first if you want to keep other data.
         </p>
         <button
           type="button"
@@ -105,6 +113,10 @@ export function ImportPanel({ eventId, onDone }: Props) {
 
       <section className="panel-section">
         <h3>1. Floor map image</h3>
+        <p className="muted sm">
+          Replaces the <strong>active</strong> map image. To add another hall without wiping this
+          one, use Settings → Floor maps → Add another map.
+        </p>
         <label className="file-btn">
           Choose image
           <input
@@ -139,7 +151,7 @@ export function ImportPanel({ eventId, onDone }: Props) {
             checked={replace}
             onChange={(e) => setReplace(e.target.checked)}
           />
-          Replace existing booths
+          Replace existing booths on the active map
         </label>
         <textarea
           className="textarea"

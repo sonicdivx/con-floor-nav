@@ -733,6 +733,8 @@ export function MapViewer({
       }
       if (boothId != null) {
         pinBoothPopover(boothId)
+        // Details already open (esp. when keep-open is filled): switch panel to this booth.
+        if (selectedBoothId != null) onSelectBooth(boothId)
         return
       }
     }

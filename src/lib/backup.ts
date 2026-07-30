@@ -1,14 +1,33 @@
 import { Capacitor } from '@capacitor/core'
-import { db } from '../db/schema'
+import { db, setActiveFloorMapId } from '../db/schema'
 import type { Rect, VisitStatus } from '../db/types'
 import { VISIT_STATUSES } from './statusColors'
+import { registerCustomTags } from './tags'
 
 export const BACKUP_FORMAT = 'cfn-backup' as const
-export const BACKUP_VERSION = 1 as const
+export const BACKUP_VERSION = 2 as const
 
-export interface EventBackupV1 {
+export interface FloorMapBackup {
+  /** Stable key linking booths to this map within the backup file. */
+  key: string
+  name?: string
+  width: number
+  height: number
+  obstacles?: Rect[]
+  calibration?: {
+    topLeft?: { lat: number; lng: number }
+    topRight?: { lat: number; lng: number }
+    bottomLeft?: { lat: number; lng: number }
+    bottomRight?: { lat: number; lng: number }
+  }
+  imageMime: string
+  imageBase64: string
+  createdAt: number
+}
+
+export interface EventBackup {
   format: typeof BACKUP_FORMAT
-  version: typeof BACKUP_VERSION
+  version: typeof BACKUP_VERSION | 1
   exportedAt: number
   event: {
     name: string
@@ -16,28 +35,24 @@ export interface EventBackupV1 {
     createdAt: number
     updatedAt: number
   }
-  floorMap: null | {
-    width: number
-    height: number
-    obstacles?: Rect[]
-    calibration?: {
-      topLeft?: { lat: number; lng: number }
-      topRight?: { lat: number; lng: number }
-      bottomLeft?: { lat: number; lng: number }
-      bottomRight?: { lat: number; lng: number }
-    }
-    imageMime: string
-    imageBase64: string
-    createdAt: number
-  }
+  /** v2+: all floor maps for the event. */
+  floorMaps: FloorMapBackup[]
+  /**
+   * v1 only (singular). Still accepted on import; converted to `floorMaps`.
+   * New exports leave this undefined.
+   */
+  floorMap?: FloorMapBackup | null
   booths: Array<{
     boothKey: string
+    /** Links to `floorMaps[].key`. Defaults to the first map when missing (v1). */
+    mapKey?: string
     label: string
     nameOverride?: string
     rect: Rect
   }>
   vendors: Array<{
     boothKey: string
+    mapKey?: string
     name: string
     tags: string[]
     visitStatus: VisitStatus
@@ -45,6 +60,7 @@ export interface EventBackupV1 {
   }>
   photos: Array<{
     boothKey: string
+    mapKey?: string
     note?: string
     createdAt: number
     imageMime: string
@@ -58,6 +74,9 @@ export interface EventBackupV1 {
     updatedAt: number
   }
 }
+
+/** @deprecated Use EventBackup */
+export type EventBackupV1 = EventBackup
 
 function isRect(r: unknown): r is Rect {
   if (!r || typeof r !== 'object') return false
@@ -78,14 +97,9 @@ async function blobToBase64(blob: Blob): Promise<{ mime: string; base64: string 
   const buf = await blob.arrayBuffer()
   const bytes = new Uint8Array(buf)
   let binary = ''
-  const chunk = 0x8000
-  for (let i = 0; i < bytes.length; i += chunk) {
-    binary += String.fromCharCode(...bytes.subarray(i, i + chunk))
-  }
-  return {
-    mime: blob.type || 'application/octet-stream',
-    base64: btoa(binary),
-  }
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]!)
+  const mime = blob.type || 'application/octet-stream'
+  return { mime, base64: btoa(binary) }
 }
 
 function base64ToBlob(base64: string, mime: string): Blob {
@@ -95,34 +109,57 @@ function base64ToBlob(base64: string, mime: string): Blob {
   return new Blob([bytes], { type: mime || 'application/octet-stream' })
 }
 
-export async function buildEventBackup(eventId: number): Promise<EventBackupV1> {
+function parseFloorMapPayload(fm: Record<string, unknown>, key: string): FloorMapBackup {
+  if (typeof fm.width !== 'number' || typeof fm.height !== 'number') {
+    throw new Error('Backup floorMap missing width/height')
+  }
+  if (typeof fm.imageBase64 !== 'string' || !fm.imageBase64) {
+    throw new Error('Backup floorMap missing imageBase64')
+  }
+  const obstacles = Array.isArray(fm.obstacles) ? fm.obstacles.filter(isRect) : undefined
+  return {
+    key,
+    name: typeof fm.name === 'string' ? fm.name : undefined,
+    width: fm.width,
+    height: fm.height,
+    obstacles,
+    calibration:
+      fm.calibration && typeof fm.calibration === 'object'
+        ? (fm.calibration as FloorMapBackup['calibration'])
+        : undefined,
+    imageMime: typeof fm.imageMime === 'string' ? fm.imageMime : 'image/png',
+    imageBase64: fm.imageBase64,
+    createdAt: typeof fm.createdAt === 'number' ? fm.createdAt : Date.now(),
+  }
+}
+
+function boothLinkKey(boothKey: string, mapKey: string | undefined): string {
+  return mapKey ? `${mapKey}::${boothKey}` : boothKey
+}
+
+export async function buildEventBackup(eventId: number): Promise<EventBackup> {
   const event = await db.events.get(eventId)
   if (!event) throw new Error('Event not found')
 
-  const [floorMap, booths, vendors, photos, userLocation] = await Promise.all([
-    db.floorMaps.where('eventId').equals(eventId).first(),
+  const [maps, booths, vendors, photos, userLocation] = await Promise.all([
+    db.floorMaps.where('eventId').equals(eventId).sortBy('createdAt'),
     db.booths.where('eventId').equals(eventId).toArray(),
     db.vendors.where('eventId').equals(eventId).toArray(),
     db.itemPhotos.where('eventId').equals(eventId).toArray(),
     db.userLocations.where('eventId').equals(eventId).first(),
   ])
 
-  const boothIdToKey = new Map<number, string>()
-  for (const b of booths) {
-    if (b.id != null) boothIdToKey.set(b.id, b.boothKey)
-  }
-
-  const vendorIdToBoothKey = new Map<number, string>()
-  for (const v of vendors) {
-    if (v.id == null) continue
-    const key = boothIdToKey.get(v.boothId)
-    if (key) vendorIdToBoothKey.set(v.id, key)
-  }
-
-  let floorPayload: EventBackupV1['floorMap'] = null
-  if (floorMap?.imageBlob) {
+  const mapIdToKey = new Map<number, string>()
+  const floorMaps: FloorMapBackup[] = []
+  for (let i = 0; i < maps.length; i++) {
+    const floorMap = maps[i]!
+    if (floorMap.id == null || !floorMap.imageBlob) continue
+    const key = `map-${floorMap.id}`
+    mapIdToKey.set(floorMap.id, key)
     const { mime, base64 } = await blobToBase64(floorMap.imageBlob)
-    floorPayload = {
+    floorMaps.push({
+      key,
+      name: floorMap.name,
       width: floorMap.width,
       height: floorMap.height,
       obstacles: floorMap.obstacles,
@@ -130,16 +167,33 @@ export async function buildEventBackup(eventId: number): Promise<EventBackupV1> 
       imageMime: mime,
       imageBase64: base64,
       createdAt: floorMap.createdAt,
-    }
+    })
+  }
+  const defaultMapKey = floorMaps[0]?.key
+
+  const boothIdToLink = new Map<number, { boothKey: string; mapKey?: string }>()
+  for (const b of booths) {
+    if (b.id == null) continue
+    const mapKey =
+      b.floorMapId != null ? mapIdToKey.get(b.floorMapId) : defaultMapKey
+    boothIdToLink.set(b.id, { boothKey: b.boothKey, mapKey })
   }
 
-  const photoPayload: EventBackupV1['photos'] = []
+  const vendorIdToLink = new Map<number, { boothKey: string; mapKey?: string }>()
+  for (const v of vendors) {
+    if (v.id == null) continue
+    const link = boothIdToLink.get(v.boothId)
+    if (link) vendorIdToLink.set(v.id, link)
+  }
+
+  const photoPayload: EventBackup['photos'] = []
   for (const p of photos) {
-    const boothKey = vendorIdToBoothKey.get(p.vendorId)
-    if (!boothKey) continue
+    const link = vendorIdToLink.get(p.vendorId)
+    if (!link) continue
     const { mime, base64 } = await blobToBase64(p.imageBlob)
     photoPayload.push({
-      boothKey,
+      boothKey: link.boothKey,
+      mapKey: link.mapKey,
       note: p.note,
       createdAt: p.createdAt,
       imageMime: mime,
@@ -157,19 +211,25 @@ export async function buildEventBackup(eventId: number): Promise<EventBackupV1> 
       createdAt: event.createdAt,
       updatedAt: event.updatedAt,
     },
-    floorMap: floorPayload,
-    booths: booths.map((b) => ({
-      boothKey: b.boothKey,
-      label: b.label,
-      nameOverride: b.nameOverride,
-      rect: b.rect,
-    })),
+    floorMaps,
+    booths: booths.map((b) => {
+      const mapKey =
+        b.floorMapId != null ? mapIdToKey.get(b.floorMapId) : defaultMapKey
+      return {
+        boothKey: b.boothKey,
+        mapKey,
+        label: b.label,
+        nameOverride: b.nameOverride,
+        rect: b.rect,
+      }
+    }),
     vendors: vendors
       .map((v) => {
-        const boothKey = boothIdToKey.get(v.boothId)
-        if (!boothKey) return null
+        const link = boothIdToLink.get(v.boothId)
+        if (!link) return null
         return {
-          boothKey,
+          boothKey: link.boothKey,
+          mapKey: link.mapKey,
           name: v.name,
           tags: v.tags,
           visitStatus: v.visitStatus,
@@ -190,14 +250,15 @@ export async function buildEventBackup(eventId: number): Promise<EventBackupV1> 
   }
 }
 
-export function parseEventBackup(raw: unknown): EventBackupV1 {
+export function parseEventBackup(raw: unknown): EventBackup {
   if (!raw || typeof raw !== 'object') throw new Error('Backup must be a JSON object')
   const obj = raw as Record<string, unknown>
   if (obj.format !== BACKUP_FORMAT) {
     throw new Error(`Unsupported backup format (expected ${BACKUP_FORMAT})`)
   }
-  if (obj.version !== BACKUP_VERSION) {
-    throw new Error(`Unsupported backup version (expected ${BACKUP_VERSION})`)
+  const version = obj.version
+  if (version !== 1 && version !== 2) {
+    throw new Error(`Unsupported backup version (expected 1 or 2)`)
   }
 
   const eventRaw = obj.event
@@ -217,22 +278,43 @@ export function parseEventBackup(raw: unknown): EventBackupV1 {
   if (!Array.isArray(obj.vendors)) throw new Error('Backup missing vendors array')
   if (!Array.isArray(obj.photos)) throw new Error('Backup missing photos array')
 
-  const booths: EventBackupV1['booths'] = obj.booths.map((b, i) => {
+  let floorMaps: FloorMapBackup[] = []
+  if (version === 2 && Array.isArray(obj.floorMaps)) {
+    floorMaps = obj.floorMaps.map((entry, i) => {
+      if (!entry || typeof entry !== 'object') throw new Error(`floorMaps[${i}] is invalid`)
+      const fm = entry as Record<string, unknown>
+      const key =
+        typeof fm.key === 'string' && fm.key.trim() ? fm.key.trim() : `map-${i}`
+      return parseFloorMapPayload(fm, key)
+    })
+  } else if (obj.floorMap != null) {
+    if (typeof obj.floorMap !== 'object') throw new Error('Backup floorMap is invalid')
+    floorMaps = [parseFloorMapPayload(obj.floorMap as Record<string, unknown>, 'default')]
+  }
+
+  const defaultMapKey = floorMaps[0]?.key
+
+  const booths: EventBackup['booths'] = obj.booths.map((b, i) => {
     if (!b || typeof b !== 'object') throw new Error(`Booth ${i} is invalid`)
     const row = b as Record<string, unknown>
     if (typeof row.boothKey !== 'string' || !row.boothKey) {
       throw new Error(`Booth ${i} missing boothKey`)
     }
     if (!isRect(row.rect)) throw new Error(`Booth ${row.boothKey} has invalid rect`)
+    const mapKey =
+      typeof row.mapKey === 'string' && row.mapKey.trim()
+        ? row.mapKey.trim()
+        : defaultMapKey
     return {
       boothKey: row.boothKey,
+      mapKey,
       label: typeof row.label === 'string' ? row.label : row.boothKey,
       nameOverride: typeof row.nameOverride === 'string' ? row.nameOverride : undefined,
       rect: row.rect,
     }
   })
 
-  const vendors: EventBackupV1['vendors'] = obj.vendors.map((v, i) => {
+  const vendors: EventBackup['vendors'] = obj.vendors.map((v, i) => {
     if (!v || typeof v !== 'object') throw new Error(`Vendor ${i} is invalid`)
     const row = v as Record<string, unknown>
     if (typeof row.boothKey !== 'string' || !row.boothKey) {
@@ -242,8 +324,13 @@ export function parseEventBackup(raw: unknown): EventBackupV1 {
       throw new Error(`Vendor ${i} missing name`)
     }
     const visitStatus = isVisitStatus(row.visitStatus) ? row.visitStatus : 'none'
+    const mapKey =
+      typeof row.mapKey === 'string' && row.mapKey.trim()
+        ? row.mapKey.trim()
+        : defaultMapKey
     return {
       boothKey: row.boothKey,
+      mapKey,
       name: row.name.trim(),
       tags: Array.isArray(row.tags) ? row.tags.map(String) : [],
       visitStatus,
@@ -251,7 +338,7 @@ export function parseEventBackup(raw: unknown): EventBackupV1 {
     }
   })
 
-  const photos: EventBackupV1['photos'] = obj.photos.map((p, i) => {
+  const photos: EventBackup['photos'] = obj.photos.map((p, i) => {
     if (!p || typeof p !== 'object') throw new Error(`Photo ${i} is invalid`)
     const row = p as Record<string, unknown>
     if (typeof row.boothKey !== 'string' || !row.boothKey) {
@@ -260,8 +347,13 @@ export function parseEventBackup(raw: unknown): EventBackupV1 {
     if (typeof row.imageBase64 !== 'string' || !row.imageBase64) {
       throw new Error(`Photo ${i} missing imageBase64`)
     }
+    const mapKey =
+      typeof row.mapKey === 'string' && row.mapKey.trim()
+        ? row.mapKey.trim()
+        : defaultMapKey
     return {
       boothKey: row.boothKey,
+      mapKey,
       note: typeof row.note === 'string' ? row.note : undefined,
       createdAt: typeof row.createdAt === 'number' ? row.createdAt : Date.now(),
       imageMime: typeof row.imageMime === 'string' ? row.imageMime : 'image/jpeg',
@@ -269,34 +361,7 @@ export function parseEventBackup(raw: unknown): EventBackupV1 {
     }
   })
 
-  let floorMap: EventBackupV1['floorMap'] = null
-  if (obj.floorMap != null) {
-    if (typeof obj.floorMap !== 'object') throw new Error('Backup floorMap is invalid')
-    const fm = obj.floorMap as Record<string, unknown>
-    if (typeof fm.width !== 'number' || typeof fm.height !== 'number') {
-      throw new Error('Backup floorMap missing width/height')
-    }
-    if (typeof fm.imageBase64 !== 'string' || !fm.imageBase64) {
-      throw new Error('Backup floorMap missing imageBase64')
-    }
-    const obstacles = Array.isArray(fm.obstacles)
-      ? fm.obstacles.filter(isRect)
-      : undefined
-    floorMap = {
-      width: fm.width,
-      height: fm.height,
-      obstacles,
-      calibration:
-        fm.calibration && typeof fm.calibration === 'object'
-          ? (fm.calibration as NonNullable<EventBackupV1['floorMap']>['calibration'])
-          : undefined,
-      imageMime: typeof fm.imageMime === 'string' ? fm.imageMime : 'image/png',
-      imageBase64: fm.imageBase64,
-      createdAt: typeof fm.createdAt === 'number' ? fm.createdAt : Date.now(),
-    }
-  }
-
-  let userLocation: EventBackupV1['userLocation'] = null
+  let userLocation: EventBackup['userLocation'] = null
   if (obj.userLocation != null) {
     if (typeof obj.userLocation !== 'object') throw new Error('Backup userLocation is invalid')
     const loc = obj.userLocation as Record<string, unknown>
@@ -315,10 +380,10 @@ export function parseEventBackup(raw: unknown): EventBackupV1 {
 
   return {
     format: BACKUP_FORMAT,
-    version: BACKUP_VERSION,
+    version: version === 1 ? 1 : BACKUP_VERSION,
     exportedAt: typeof obj.exportedAt === 'number' ? obj.exportedAt : Date.now(),
     event,
-    floorMap,
+    floorMaps,
     booths,
     vendors,
     photos,
@@ -328,14 +393,15 @@ export function parseEventBackup(raw: unknown): EventBackupV1 {
 
 export async function restoreEventBackup(
   eventId: number,
-  backup: EventBackupV1,
-): Promise<{ booths: number; vendors: number; photos: number }> {
+  backup: EventBackup,
+): Promise<{ booths: number; vendors: number; photos: number; maps: number }> {
   const event = await db.events.get(eventId)
   if (!event?.id) throw new Error('Event not found')
 
   let boothCount = 0
   let vendorCount = 0
   let photoCount = 0
+  let mapCount = 0
 
   await db.transaction(
     'rw',
@@ -360,34 +426,46 @@ export async function restoreEventBackup(
         updatedAt: Date.now(),
       })
 
-      if (backup.floorMap) {
-        await db.floorMaps.add({
+      const mapKeyToId = new Map<string, number>()
+      for (const fm of backup.floorMaps) {
+        const id = (await db.floorMaps.add({
           eventId,
-          imageBlob: base64ToBlob(backup.floorMap.imageBase64, backup.floorMap.imageMime),
-          width: backup.floorMap.width,
-          height: backup.floorMap.height,
-          obstacles: backup.floorMap.obstacles,
-          calibration: backup.floorMap.calibration,
-          createdAt: backup.floorMap.createdAt || Date.now(),
-        })
+          name: fm.name?.trim() || 'Floor map',
+          imageBlob: base64ToBlob(fm.imageBase64, fm.imageMime),
+          width: fm.width,
+          height: fm.height,
+          obstacles: fm.obstacles,
+          calibration: fm.calibration,
+          createdAt: fm.createdAt || Date.now(),
+        })) as number
+        mapKeyToId.set(fm.key, id)
+        mapCount++
       }
+      const firstMapId = backup.floorMaps[0]
+        ? mapKeyToId.get(backup.floorMaps[0].key)
+        : undefined
+      if (firstMapId != null) setActiveFloorMapId(eventId, firstMapId)
 
-      const boothKeyToId = new Map<string, number>()
+      const boothLinkToId = new Map<string, number>()
       for (const b of backup.booths) {
+        const mapKey = b.mapKey ?? backup.floorMaps[0]?.key
+        const floorMapId = mapKey != null ? mapKeyToId.get(mapKey) : firstMapId
         const id = (await db.booths.add({
           eventId,
+          floorMapId,
           boothKey: b.boothKey,
           label: b.label,
           nameOverride: b.nameOverride,
           rect: b.rect,
         })) as number
-        boothKeyToId.set(b.boothKey, id)
+        boothLinkToId.set(boothLinkKey(b.boothKey, mapKey), id)
         boothCount++
       }
 
-      const boothKeyToVendorId = new Map<string, number>()
+      const boothLinkToVendorId = new Map<string, number>()
       for (const v of backup.vendors) {
-        const boothId = boothKeyToId.get(v.boothKey)
+        const mapKey = v.mapKey ?? backup.floorMaps[0]?.key
+        const boothId = boothLinkToId.get(boothLinkKey(v.boothKey, mapKey))
         if (boothId == null) continue
         const id = (await db.vendors.add({
           eventId,
@@ -397,12 +475,13 @@ export async function restoreEventBackup(
           visitStatus: v.visitStatus ?? 'none',
           notes: v.notes,
         })) as number
-        boothKeyToVendorId.set(v.boothKey, id)
+        boothLinkToVendorId.set(boothLinkKey(v.boothKey, mapKey), id)
         vendorCount++
       }
 
       for (const p of backup.photos) {
-        const vendorId = boothKeyToVendorId.get(p.boothKey)
+        const mapKey = p.mapKey ?? backup.floorMaps[0]?.key
+        const vendorId = boothLinkToVendorId.get(boothLinkKey(p.boothKey, mapKey))
         if (vendorId == null) continue
         await db.itemPhotos.add({
           eventId,
@@ -427,15 +506,18 @@ export async function restoreEventBackup(
     },
   )
 
+  registerCustomTags(backup.vendors.flatMap((v) => v.tags))
+
   return {
     booths: boothCount,
     vendors: vendorCount,
     photos: photoCount,
+    maps: mapCount,
   }
 }
 
 export async function downloadBackupJson(
-  backup: EventBackupV1,
+  backup: EventBackup,
   filename?: string,
 ): Promise<void> {
   const stamp = new Date(backup.exportedAt).toISOString().slice(0, 10)
