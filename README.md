@@ -59,6 +59,7 @@ At the con, after you’ve installed the PWA and cached assets, the app is offli
 - **Share pin** link (`cfn1:x,y` / `#pin=…`) for SMS/Signal; paste to navigate
 - **Live party** (optional): party codes + WebSocket peer pins when Wi‑Fi works
 - Photo gallery by vendor; multi-select → set look again / favorite
+- **Event backup** (Settings): export/import map + booths + photos as portable JSON
 
 ## Build
 
@@ -66,6 +67,19 @@ At the con, after you’ve installed the PWA and cached assets, the app is offli
 npm run build
 npm run preview
 ```
+
+### Android APK (Capacitor sideload)
+
+PWA install is still the primary path. For a sideloadable APK (Android Studio required):
+
+```bash
+npm run cap:sync    # builds web assets + copies into android/
+npm run cap:open    # opens Android Studio
+```
+
+Or `npm run android` to sync and open in one step. Then **Build → Build Bundle(s) / APK(s)** in Android Studio and install on a device/emulator.
+
+App id: `app.confloornav.pwa`. iOS/TestFlight needs an Apple Developer account — not scaffolded yet.
 
 **Render (static site only):** build command `npm run build`, publish directory `dist`.
 
