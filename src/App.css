@@ -9,6 +9,11 @@
   --accent-hot: #ff6b4a;
   --ok: #3ecf8e;
   --err: #ff6b6b;
+  /* Otakon-bright section labels (no outline stroke) */
+  --otakon-label: #ff2d95;
+  --otakon-label-shadow: rgba(255, 255, 255, 0.85);
+  --otakon-band: rgba(120, 240, 255, 0.3);
+  --otakon-sun: #ffe566;
   --radius: 10px;
   --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
   --mono: ui-monospace, 'SF Mono', Menlo, monospace;
@@ -124,12 +129,59 @@ img {
   flex-shrink: 0;
 }
 
+.topbar-map-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+}
+
 .tabs {
   display: flex;
   gap: 0.25rem;
   margin-left: auto;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+.topbar-map-actions + .tabs {
+  margin-left: 0;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-panel);
+  color: var(--text);
+}
+
+.hamburger-icon {
+  display: block;
+  width: 1rem;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  box-shadow:
+    0 -5px 0 currentColor,
+    0 5px 0 currentColor;
+}
+
+.map-menu-toggle {
+  display: none;
+}
+
+.map-toolbar-header,
+.map-toolbar-footer {
+  display: none;
+}
+
+.map-menu-backdrop {
+  display: none;
 }
 
 .tab {
@@ -213,11 +265,173 @@ img {
   height: 100%;
 }
 
+.share-party-panel {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.share-party-panel h3 {
+  margin: 0.75rem 0 0.35rem;
+  font-size: 1rem;
+}
+
+.share-party-panel h3:first-child {
+  margin-top: 0;
+}
+
+.field-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.65rem 0;
+}
+
+.field-label.sm {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.inline-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.inline-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.party-code {
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+  color: var(--otakon-sun);
+}
+
+.party-join {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.peer-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+}
+
+.peer-pin text {
+  font-family: var(--font);
+}
+
+.row-hundred-band {
+  fill: rgb(255 229 162 / 70%);
+  stroke: rgb(156 156 155 / 70%);
+  pointer-events: none;
+}
+
+.row-hundred-label {
+  pointer-events: auto;
+  cursor: pointer;
+  outline: none;
+}
+
+.row-hundred-label:focus-visible .row-hundred-hit {
+  stroke: var(--otakon-sun);
+  stroke-width: 2px;
+}
+
+.row-hundred-hit {
+  fill: transparent;
+  pointer-events: auto;
+}
+
+.row-hundred-text {
+  fill: #e30774;
+  stroke: #e4559c5e;
+  paint-order: stroke fill;
+  filter: none;
+  pointer-events: none;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 800;
+}
+
 .map-fab-row {
   position: absolute;
   right: 0.75rem;
   bottom: 0.75rem;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.map-fit-btn,
+.map-fab-row .btn.secondary {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.map-fullscreen-bar {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  right: 0.65rem;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  pointer-events: none;
+}
+
+.map-fullscreen-bar .btn {
+  pointer-events: auto;
+  background: var(--bg-panel);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.app.map-fullscreen .topbar {
+  display: none;
+}
+
+.app.map-fullscreen .map-toolbar:not(.is-open) {
+  display: none;
+}
+
+.map-section-select {
+  appearance: none;
+  border: 1px solid var(--border);
+  background-color: var(--bg-panel);
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 12px) calc(50% - 2px),
+    calc(100% - 7px) calc(50% - 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.35rem 1.6rem 0.35rem 0.55rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.map-section-select:focus-visible {
+  outline: 2px solid var(--accent, #ff6b4a);
+  outline-offset: 2px;
 }
 
 .booth-popover {
@@ -279,6 +493,109 @@ img {
     max-height: 45%;
     border-left: none;
     border-top: 1px solid var(--border);
+  }
+
+  .map-menu-toggle {
+    display: inline-grid;
+  }
+
+  .map-expand-btn {
+    display: none;
+  }
+
+  .map-toolbar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .map-toolbar-footer {
+    display: flex;
+    padding-top: 0.25rem;
+  }
+
+  .map-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 24;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(8, 10, 14, 0.55);
+    cursor: pointer;
+  }
+
+  .map-toolbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(20rem, 88vw);
+    z-index: 25;
+    overflow-y: auto;
+    border-bottom: none;
+    border-left: 1px solid var(--border);
+    box-shadow: -12px 0 32px rgba(0, 0, 0, 0.4);
+    transform: translateX(100%);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      transform 0.2s ease,
+      visibility 0.2s;
+  }
+
+  .map-toolbar.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Fullscreen: drawer still overlays when opened from floating Menu */
+  .app.map-fullscreen .map-toolbar.is-open {
+    display: flex;
+  }
+}
+
+@media (min-width: 721px) {
+  .app.map-fullscreen .map-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 24;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(8, 10, 14, 0.55);
+    cursor: pointer;
+  }
+
+  .app.map-fullscreen .map-toolbar.is-open {
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(20rem, 88vw);
+    z-index: 25;
+    overflow-y: auto;
+    border-bottom: none;
+    border-left: 1px solid var(--border);
+    box-shadow: -12px 0 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .app.map-fullscreen .map-toolbar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .app.map-fullscreen .map-toolbar-footer {
+    display: none;
   }
 }
 
@@ -355,6 +672,24 @@ img {
   border-color: var(--accent);
   color: #0b1220;
   font-weight: 600;
+}
+
+.chip.navigate-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--accent);
+  border-color: var(--accent);
+  font-size: 0.8rem;
+  padding: 0.28rem 0.55rem;
+}
+
+.chip.navigate-chip:hover {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.navigate-chip-icon {
+  flex-shrink: 0;
 }
 
 .btn {

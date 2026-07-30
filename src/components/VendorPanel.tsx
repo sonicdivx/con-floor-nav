@@ -81,6 +81,22 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
               {STATUS_LABELS[s]}
             </button>
           ))}
+          <button type="button" className="chip navigate-chip" onClick={onNavigate}>
+            <svg
+              className="navigate-chip-icon"
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                fill="currentColor"
+                d="M12 2.5 4.2 19.3c-.25.55.32 1.12.88.88L12 17.2l6.92 2.98c.56.24 1.13-.33.88-.88L12 2.5Z"
+              />
+            </svg>
+            Navigate
+          </button>
         </div>
       </section>
 
@@ -98,12 +114,6 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="panel-section">
-        <button type="button" className="btn primary block" onClick={onNavigate}>
-          Navigate here
-        </button>
       </section>
 
       <section className="panel-section">

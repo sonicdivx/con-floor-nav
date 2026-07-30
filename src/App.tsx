@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import {
   db,
+  ensureVendorForBooth,
   getActiveEventId,
   getOrCreateUserLocation,
 } from './db/schema'
@@ -12,8 +13,13 @@ import { VendorPanel } from './components/VendorPanel'
 import { ImportPanel } from './components/ImportPanel'
 import { AiExtractPanel } from './components/AiExtractPanel'
 import { GalleryPanel } from './components/GalleryPanel'
+import {
+  SharePartyPanel,
+  type PartyClientHandle,
+} from './components/SharePartyPanel'
 import { STATUS_COLORS, STATUS_LABELS } from './lib/statusColors'
 import { maybeAutoSeedOtakonSample } from './lib/sampleData'
+import type { PartyPeer } from './lib/partySocket'
 import './App.css'
 
 type Tab = 'map' | 'setup' | 'ai' | 'gallery' | 'nav'
@@ -25,9 +31,24 @@ function App() {
   const [tagFilter, setTagFilter] = useState<string | null>(null)
   const [selectedBoothId, setSelectedBoothId] = useState<number | null>(null)
   const [navTargetBoothId, setNavTargetBoothId] = useState<number | null>(null)
+  const [navTargetPoint, setNavTargetPoint] = useState<{
+    x: number
+    y: number
+  } | null>(null)
+  const [focusRequest, setFocusRequest] = useState<{
+    x: number
+    y: number
+    nonce: number
+  } | null>(null)
+  const [peerPins, setPeerPins] = useState<PartyPeer[]>([])
   const [mapUrl, setMapUrl] = useState<string | null>(null)
   const [gpsBusy, setGpsBusy] = useState(false)
   const [gpsMsg, setGpsMsg] = useState<string | null>(null)
+  const [mapMenuOpen, setMapMenuOpen] = useState(false)
+  const [mapFullscreen, setMapFullscreen] = useState(false)
+  const partyClientRef = useRef<PartyClientHandle | null>(null)
+  const lastPinPublish = useRef(0)
+  const focusNonce = useRef(0)
 
   useEffect(() => {
     void getActiveEventId().then(setEventId)
@@ -120,6 +141,71 @@ function App() {
         updatedAt: Date.now(),
       })
     }
+    const now = Date.now()
+    if (now - lastPinPublish.current >= 1500) {
+      lastPinPublish.current = now
+      partyClientRef.current?.publishPin(x, y)
+    } else {
+      window.setTimeout(() => {
+        const t = Date.now()
+        if (t - lastPinPublish.current >= 1400) {
+          lastPinPublish.current = t
+          partyClientRef.current?.publishPin(x, y)
+        }
+      }, 1600)
+    }
+  }
+
+  const applySharedPin = useCallback(async (p: { x: number; y: number }) => {
+    setNavTargetBoothId(null)
+    setNavTargetPoint(p)
+    focusNonce.current += 1
+    setFocusRequest({ x: p.x, y: p.y, nonce: focusNonce.current })
+    setTab('map')
+    setMapMode('navigate')
+  }, [])
+
+  const onPeersChange = useCallback((peers: PartyPeer[], _selfId: string | null) => {
+    setPeerPins(peers)
+  }, [])
+
+  const navigateToPeer = (peer: PartyPeer) => {
+    setNavTargetBoothId(null)
+    setNavTargetPoint({ x: peer.x, y: peer.y })
+    focusNonce.current += 1
+    setFocusRequest({ x: peer.x, y: peer.y, nonce: focusNonce.current })
+    setTab('map')
+    setMapMode('navigate')
+  }
+
+  const navigateToVendor = (vendor: VendorRecord) => {
+    void (async () => {
+      if (eventId != null) await getOrCreateUserLocation(eventId)
+      setNavTargetPoint(null)
+      setNavTargetBoothId(vendor.boothId)
+      setSelectedBoothId(vendor.boothId)
+      setTab('map')
+      setMapMode('navigate')
+    })()
+  }
+
+  const navigateToBooth = (boothId: number) => {
+    void (async () => {
+      if (eventId != null) await getOrCreateUserLocation(eventId)
+      setNavTargetPoint(null)
+      setNavTargetBoothId(boothId)
+      setTab('map')
+      setMapMode('navigate')
+    })()
+  }
+
+  const openBoothDetails = (boothId: number) => {
+    void (async () => {
+      if (eventId == null) return
+      await ensureVendorForBooth(eventId, boothId)
+      setSelectedBoothId(boothId)
+      setTab('map')
+    })()
   }
 
   const useGps = () => {
@@ -165,24 +251,27 @@ function App() {
     )
   }
 
-  const navigateToVendor = (vendor: VendorRecord) => {
-    setNavTargetBoothId(vendor.boothId)
-    setSelectedBoothId(vendor.boothId)
-    setTab('map')
-    setMapMode('navigate')
-  }
-
-  const navigateToBooth = (boothId: number) => {
-    setNavTargetBoothId(boothId)
-    setTab('map')
-    setMapMode('navigate')
-  }
-
   const openVendorById = (vendorId: number) => {
     const v = (vendors ?? []).find((x) => x.id === vendorId)
     if (!v) return
     setSelectedBoothId(v.boothId)
     setTab('map')
+  }
+
+  const setAppTab = (next: Tab) => {
+    setTab(next)
+    setMapMenuOpen(false)
+    if (next !== 'map') setMapFullscreen(false)
+  }
+
+  const enterMapFullscreen = () => {
+    setMapFullscreen(true)
+    setMapMenuOpen(false)
+  }
+
+  const exitMapFullscreen = () => {
+    setMapFullscreen(false)
+    setMapMenuOpen(false)
   }
 
   if (eventId == null) {
@@ -194,7 +283,7 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className={`app${mapFullscreen ? ' map-fullscreen' : ''}`}>
       <header className="topbar">
         <div className="brand">
           <span className="brand-mark">CFN</span>
@@ -203,6 +292,27 @@ function App() {
             <span className="muted sm">{event?.venueNotes}</span>
           </div>
         </div>
+        {tab === 'map' && (
+          <div className="topbar-map-actions">
+            <button
+              type="button"
+              className="icon-btn map-menu-toggle"
+              aria-label="Map filters and modes"
+              aria-expanded={mapMenuOpen}
+              aria-controls="map-toolbar"
+              onClick={() => setMapMenuOpen((open) => !open)}
+            >
+              <span className="hamburger-icon" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              className="btn secondary sm map-expand-btn"
+              onClick={enterMapFullscreen}
+            >
+              Full map
+            </button>
+          </div>
+        )}
         <nav className="tabs" aria-label="Main">
           {(
             [
@@ -217,7 +327,7 @@ function App() {
               key={id}
               type="button"
               className={`tab ${tab === id ? 'active' : ''}`}
-              onClick={() => setTab(id)}
+              onClick={() => setAppTab(id)}
             >
               {label}
             </button>
@@ -227,7 +337,30 @@ function App() {
 
       {tab === 'map' && (
         <div className="map-layout">
-          <div className="map-toolbar">
+          {mapMenuOpen && (
+            <button
+              type="button"
+              className="map-menu-backdrop"
+              aria-label="Close map menu"
+              onClick={() => setMapMenuOpen(false)}
+            />
+          )}
+          <div
+            id="map-toolbar"
+            className={`map-toolbar${mapMenuOpen ? ' is-open' : ''}`}
+            role={mapMenuOpen ? 'dialog' : undefined}
+            aria-label={mapMenuOpen ? 'Map filters and modes' : undefined}
+          >
+            <div className="map-toolbar-header">
+              <strong>Map options</strong>
+              <button
+                type="button"
+                className="btn ghost sm"
+                onClick={() => setMapMenuOpen(false)}
+              >
+                Close
+              </button>
+            </div>
             <div className="chip-row wrap">
               {(
                 [
@@ -284,6 +417,15 @@ function App() {
                 ),
               )}
             </div>
+            <div className="map-toolbar-footer">
+              <button
+                type="button"
+                className="btn secondary sm"
+                onClick={enterMapFullscreen}
+              >
+                Full map
+              </button>
+            </div>
           </div>
 
           <div className="map-body">
@@ -297,20 +439,57 @@ function App() {
               tagFilter={tagFilter}
               selectedBoothId={selectedBoothId}
               navTargetBoothId={navTargetBoothId}
+              navTargetPoint={navTargetPoint}
+              focusRequest={focusRequest}
+              peerPins={peerPins}
               pin={userLoc ? { x: userLoc.x, y: userLoc.y } : null}
               mode={mapMode}
               onSelectBooth={setSelectedBoothId}
               onUpdateBoothRect={(id, rect) => void updateBoothRect(id, rect)}
               onPinChange={(x, y) => void setPin(x, y)}
               onNavigateBooth={navigateToBooth}
-              onViewBoothDetails={setSelectedBoothId}
+              onViewBoothDetails={openBoothDetails}
+              onSelectPeer={navigateToPeer}
             />
-            {selectedVendor && selectedBooth && (
+            {mapFullscreen && (
+              <div className="map-fullscreen-bar">
+                <button
+                  type="button"
+                  className="btn secondary sm"
+                  aria-expanded={mapMenuOpen}
+                  aria-controls="map-toolbar"
+                  onClick={() => setMapMenuOpen((open) => !open)}
+                >
+                  Menu
+                </button>
+                <button
+                  type="button"
+                  className="btn secondary sm"
+                  onClick={exitMapFullscreen}
+                >
+                  Exit full map
+                </button>
+              </div>
+            )}
+            {selectedBooth && (
               <VendorPanel
-                vendor={selectedVendor}
+                vendor={
+                  selectedVendor ?? {
+                    eventId,
+                    boothId: selectedBooth.id!,
+                    name:
+                      selectedBooth.nameOverride?.trim() ||
+                      `Booth ${selectedBooth.label}`,
+                    tags: [],
+                    visitStatus: 'none' as const,
+                  }
+                }
                 boothLabel={selectedBooth.label}
                 onClose={() => setSelectedBoothId(null)}
-                onNavigate={() => navigateToVendor(selectedVendor)}
+                onNavigate={() => {
+                  if (selectedVendor) navigateToVendor(selectedVendor)
+                  else navigateToBooth(selectedBooth.id!)
+                }}
               />
             )}
           </div>
@@ -323,6 +502,12 @@ function App() {
           <p className="muted">
             Quick pick from favorites and look-again. Routes an aisle path from your pin around booths and pillars.
           </p>
+          <SharePartyPanel
+            pin={userLoc ? { x: userLoc.x, y: userLoc.y } : null}
+            onApplySharedPin={(p) => void applySharedPin(p)}
+            onPeersChange={onPeersChange}
+            partyClientRef={partyClientRef}
+          />
           {!quickPick.length && (
             <p className="muted">Mark vendors as Favorite or Look again first.</p>
           )}
@@ -351,11 +536,14 @@ function App() {
               )
             })}
           </ul>
-          {navTargetBoothId != null && (
+          {(navTargetBoothId != null || navTargetPoint != null) && (
             <button
               type="button"
               className="btn ghost"
-              onClick={() => setNavTargetBoothId(null)}
+              onClick={() => {
+                setNavTargetBoothId(null)
+                setNavTargetPoint(null)
+              }}
             >
               Clear navigation line
             </button>
