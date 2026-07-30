@@ -172,6 +172,12 @@ function App() {
     setMapMode('navigate')
   }
 
+  const navigateToBooth = (boothId: number) => {
+    setNavTargetBoothId(boothId)
+    setTab('map')
+    setMapMode('navigate')
+  }
+
   const openVendorById = (vendorId: number) => {
     const v = (vendors ?? []).find((x) => x.id === vendorId)
     if (!v) return
@@ -286,6 +292,7 @@ function App() {
               mapWidth={floorMap?.width ?? 1000}
               mapHeight={floorMap?.height ?? 700}
               booths={booths ?? []}
+              obstacles={floorMap?.obstacles ?? []}
               vendorsByBoothId={vendorsByBoothId}
               tagFilter={tagFilter}
               selectedBoothId={selectedBoothId}
@@ -295,7 +302,8 @@ function App() {
               onSelectBooth={setSelectedBoothId}
               onUpdateBoothRect={(id, rect) => void updateBoothRect(id, rect)}
               onPinChange={(x, y) => void setPin(x, y)}
-              obstacles={floorMap?.obstacles ?? []}
+              onNavigateBooth={navigateToBooth}
+              onViewBoothDetails={setSelectedBoothId}
             />
             {selectedVendor && selectedBooth && (
               <VendorPanel

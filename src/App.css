@@ -220,6 +220,45 @@ img {
   z-index: 2;
 }
 
+.booth-popover {
+  position: absolute;
+  z-index: 4;
+  transform: translate(-50%, -100%);
+  min-width: 11.5rem;
+  max-width: min(16rem, 70vw);
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+}
+
+.booth-popover-booth {
+  margin: 0;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.booth-popover-name {
+  margin: 0.2rem 0 0.65rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.booth-popover-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.booth-popover-actions .btn {
+  flex: 1 1 auto;
+}
+
 .side-panel {
   width: min(360px, 92vw);
   background: var(--bg-panel);

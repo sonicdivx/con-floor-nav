@@ -8,6 +8,10 @@ import {
   type WheelEvent as ReactWheelEvent,
 } from 'react'
 import type { BoothRecord, Rect, VendorRecord, VisitStatus } from '../db/types'
+import {
+  computeRowHundredLabels,
+  fitBoothLabelFontSize,
+} from '../lib/boothLabels'
 import { findAislePath } from '../lib/pathfinding'
 import { STATUS_COLORS } from '../lib/statusColors'
 
@@ -18,16 +22,19 @@ interface Props {
   mapWidth: number
   mapHeight: number
   booths: BoothRecord[]
+  /** Extra blocked regions (pillars etc.). Empty / omitted = booths only. */
+  obstacles?: Rect[]
   vendorsByBoothId: Map<number, VendorRecord>
   tagFilter: string | null
   selectedBoothId: number | null
   navTargetBoothId: number | null
   pin: { x: number; y: number } | null
   mode: MapMode
-  obstacles?: Rect[]
   onSelectBooth: (boothId: number | null) => void
   onUpdateBoothRect: (boothId: number, rect: BoothRecord['rect']) => void
   onPinChange: (x: number, y: number) => void
+  onNavigateBooth?: (boothId: number) => void
+  onViewBoothDetails?: (boothId: number) => void
 }
 
 export function MapViewer({
@@ -35,21 +42,26 @@ export function MapViewer({
   mapWidth,
   mapHeight,
   booths,
+  obstacles = [],
   vendorsByBoothId,
   tagFilter,
   selectedBoothId,
   navTargetBoothId,
   pin,
   mode,
-  obstacles = [],
   onSelectBooth,
   onUpdateBoothRect,
   onPinChange,
+  onNavigateBooth,
+  onViewBoothDetails,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
   const [tx, setTx] = useState(0)
   const [ty, setTy] = useState(0)
+  /** Hover preview (pointer fine); tap sets pinned until dismissed. */
+  const [hoverBoothId, setHoverBoothId] = useState<number | null>(null)
+  const [pinnedBoothId, setPinnedBoothId] = useState<number | null>(null)
   const dragRef = useRef<{
     kind: 'pan' | 'booth' | 'pin' | 'resize'
     startX: number
@@ -59,7 +71,27 @@ export function MapViewer({
     boothId?: number
     origRect?: BoothRecord['rect']
     handle?: 'se'
+    moved?: boolean
   } | null>(null)
+  const suppressClickRef = useRef(false)
+  const hoverClearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const clearHoverClearTimer = () => {
+    if (hoverClearTimerRef.current != null) {
+      clearTimeout(hoverClearTimerRef.current)
+      hoverClearTimerRef.current = null
+    }
+  }
+
+  const scheduleHoverClear = (boothId: number) => {
+    clearHoverClearTimer()
+    hoverClearTimerRef.current = setTimeout(() => {
+      setHoverBoothId((prev) =>
+        prev === boothId && pinnedBoothId !== boothId ? null : prev,
+      )
+      hoverClearTimerRef.current = null
+    }, 180)
+  }
 
   const aspect = mapWidth > 0 && mapHeight > 0 ? mapWidth / mapHeight : 16 / 9
 
@@ -84,6 +116,13 @@ export function MapViewer({
     return () => ro.disconnect()
   }, [fit, mapUrl])
 
+  useEffect(() => {
+    if (mode !== 'navigate') {
+      setHoverBoothId(null)
+      setPinnedBoothId(null)
+    }
+  }, [mode])
+
   const visibleBooths = useMemo(() => {
     if (!tagFilter) return booths
     return booths.filter((b) => {
@@ -92,6 +131,32 @@ export function MapViewer({
       return v?.tags.includes(tagFilter)
     })
   }, [booths, vendorsByBoothId, tagFilter])
+
+  const rowLabels = useMemo(
+    () => computeRowHundredLabels(visibleBooths, mapWidth, mapHeight),
+    [visibleBooths, mapWidth, mapHeight],
+  )
+
+  const popoverBoothId = pinnedBoothId ?? hoverBoothId
+
+  const popoverBooth = useMemo(() => {
+    if (popoverBoothId == null) return null
+    return booths.find((b) => b.id === popoverBoothId) ?? null
+  }, [booths, popoverBoothId])
+
+  const popoverVendor =
+    popoverBoothId != null ? vendorsByBoothId.get(popoverBoothId) : undefined
+
+  const popoverStyle = useMemo(() => {
+    if (!popoverBooth) return null
+    const cx =
+      tx + (popoverBooth.rect.x + popoverBooth.rect.w / 2) * mapWidth * scale
+    const top = ty + popoverBooth.rect.y * mapHeight * scale
+    return {
+      left: cx,
+      top: Math.max(8, top - 8),
+    }
+  }, [popoverBooth, tx, ty, scale, mapWidth, mapHeight])
 
   const navPathD = useMemo(() => {
     if (!pin || navTargetBoothId == null || mapWidth <= 0 || mapHeight <= 0) {
@@ -103,20 +168,21 @@ export function MapViewer({
       x: booth.rect.x + booth.rect.w / 2,
       y: booth.rect.y + booth.rect.h / 2,
     }
-    const points = findAislePath({
-      start: pin,
-      goal,
-      booths: booths.map((b) => b.rect),
-      obstacles,
-      mapWidth,
-      mapHeight,
-    })
-    if (!points || points.length < 2) return null
-    return points
-      .map(
-        (pt, i) =>
-          `${i === 0 ? 'M' : 'L'} ${pt.x * mapWidth} ${pt.y * mapHeight}`,
-      )
+    const path =
+      findAislePath({
+        start: pin,
+        goal,
+        booths: booths.map((b) => b.rect),
+        obstacles,
+        mapWidth,
+        mapHeight,
+      }) ?? [pin, goal]
+    return path
+      .map((p, i) => {
+        const x = p.x * mapWidth
+        const y = p.y * mapHeight
+        return `${i === 0 ? 'M' : 'L'}${x} ${y}`
+      })
       .join(' ')
   }, [pin, navTargetBoothId, booths, obstacles, mapWidth, mapHeight])
 
@@ -132,6 +198,12 @@ export function MapViewer({
       x: Math.min(1, Math.max(0, ix / mapWidth)),
       y: Math.min(1, Math.max(0, iy / mapHeight)),
     }
+  }
+
+  const dismissPopover = () => {
+    clearHoverClearTimer()
+    setHoverBoothId(null)
+    setPinnedBoothId(null)
   }
 
   const onWheel = (e: ReactWheelEvent) => {
@@ -163,6 +235,7 @@ export function MapViewer({
         startY: e.clientY,
         origTx: tx,
         origTy: ty,
+        moved: false,
       }
       return
     }
@@ -173,12 +246,15 @@ export function MapViewer({
       startY: e.clientY,
       origTx: tx,
       origTy: ty,
+      moved: false,
     }
   }
 
   const onPointerMove = (e: ReactPointerEvent) => {
     const d = dragRef.current
     if (!d) return
+    const dist = Math.hypot(e.clientX - d.startX, e.clientY - d.startY)
+    if (dist > 4) d.moved = true
     if (d.kind === 'pan') {
       setTx(d.origTx + (e.clientX - d.startX))
       setTy(d.origTy + (e.clientY - d.startY))
@@ -205,6 +281,16 @@ export function MapViewer({
   }
 
   const onPointerUp = () => {
+    const d = dragRef.current
+    if (d?.kind === 'pan') {
+      if (d.moved) {
+        suppressClickRef.current = true
+        dismissPopover()
+      } else {
+        // Tap empty map (not a booth — booths stopPropagation).
+        dismissPopover()
+      }
+    }
     dragRef.current = null
   }
 
@@ -226,6 +312,7 @@ export function MapViewer({
       boothId: booth.id,
       origRect: { ...booth.rect },
       handle: 'se',
+      moved: false,
     }
   }
 
@@ -233,6 +320,24 @@ export function MapViewer({
     if (boothId == null) return 'none'
     return vendorsByBoothId.get(boothId)?.visitStatus ?? 'none'
   }
+
+  const onBoothActivate = (boothId: number, e: ReactPointerEvent) => {
+    e.stopPropagation()
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false
+      return
+    }
+    if (mode === 'edit') {
+      onSelectBooth(boothId)
+      return
+    }
+    if (mode !== 'navigate') return
+    // Tap toggles pinned popover (works for touch; mouse can also pin).
+    setPinnedBoothId((prev) => (prev === boothId ? null : boothId))
+    setHoverBoothId(boothId)
+  }
+
+  const rowLabelFont = Math.max(11, 14 / Math.min(scale, 1.25))
 
   return (
     <div
@@ -275,16 +380,38 @@ export function MapViewer({
           >
             {obstacles.map((obs, i) => (
               <rect
-                key={`obs-${i}`}
+                key={`obstacle-${i}`}
                 x={obs.x * mapWidth}
                 y={obs.y * mapHeight}
                 width={obs.w * mapWidth}
                 height={obs.h * mapHeight}
-                fill="rgba(20, 20, 20, 0.35)"
-                stroke="rgba(180, 40, 40, 0.5)"
+                fill="rgba(20, 24, 32, 0.35)"
+                stroke="rgba(180, 40, 40, 0.45)"
                 strokeWidth={1 / scale}
+                rx={1 / scale}
                 pointerEvents="none"
               />
+            ))}
+            {rowLabels.map((row) => (
+              <g key={`row-${row.hundred}`} pointerEvents="none">
+                <text
+                  x={row.x}
+                  y={row.y}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fill="rgba(255,255,255,0.92)"
+                  fontSize={rowLabelFont}
+                  fontWeight={700}
+                  letterSpacing={0.5}
+                  style={{
+                    paintOrder: 'stroke',
+                    stroke: 'rgba(10,14,22,0.75)',
+                    strokeWidth: 3 / Math.max(scale, 0.5),
+                  }}
+                >
+                  {row.text}
+                </text>
+              </g>
             ))}
             {visibleBooths.map((booth) => {
               if (booth.id == null) return null
@@ -292,44 +419,64 @@ export function MapViewer({
               const color = STATUS_COLORS[status]
               const selected = selectedBoothId === booth.id
               const isNav = navTargetBoothId === booth.id
+              const isPopover = popoverBoothId === booth.id
               const x = booth.rect.x * mapWidth
               const y = booth.rect.y * mapHeight
               const w = booth.rect.w * mapWidth
               const h = booth.rect.h * mapHeight
+              const label = booth.label
+              const fontSize = fitBoothLabelFontSize(label, w, h)
+              const clipId = `booth-clip-${booth.id}`
               return (
                 <g key={booth.id}>
+                  <defs>
+                    <clipPath id={clipId}>
+                      <rect x={x} y={y} width={w} height={h} rx={2 / scale} />
+                    </clipPath>
+                  </defs>
                   <rect
                     x={x}
                     y={y}
                     width={w}
                     height={h}
                     fill={color}
-                    fillOpacity={selected || isNav ? 0.55 : 0.35}
-                    stroke={isNav ? '#fff' : selected ? '#fff' : color}
-                    strokeWidth={(selected || isNav ? 3 : 1.5) / scale}
+                    fillOpacity={selected || isNav || isPopover ? 0.55 : 0.35}
+                    stroke={
+                      isNav || isPopover ? '#fff' : selected ? '#fff' : color
+                    }
+                    strokeWidth={(selected || isNav || isPopover ? 3 : 1.5) / scale}
                     rx={2 / scale}
                     style={{ cursor: mode === 'edit' ? 'move' : 'pointer' }}
                     onPointerDown={(e) => {
                       if (mode === 'edit') startBoothDrag(e, booth, 'booth')
-                      else {
-                        e.stopPropagation()
-                        onSelectBooth(booth.id!)
+                      else onBoothActivate(booth.id!, e)
+                    }}
+                    onPointerEnter={() => {
+                      if (mode !== 'navigate') return
+                      if (window.matchMedia('(hover: hover)').matches) {
+                        clearHoverClearTimer()
+                        setHoverBoothId(booth.id!)
                       }
                     }}
+                    onPointerLeave={() => {
+                      if (mode !== 'navigate') return
+                      scheduleHoverClear(booth.id!)
+                    }}
                   />
-                  <text
-                    x={x + w / 2}
-                    y={y + h / 2}
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    fill="#fff"
-                    fontSize={Math.max(10, Math.min(w, h) * 0.45) / Math.min(scale, 1.5)}
-                    fontWeight={600}
-                    pointerEvents="none"
-                    style={{ textShadow: '0 1px 2px rgba(0,0,0,.6)' }}
-                  >
-                    {booth.label}
-                  </text>
+                  <g clipPath={`url(#${clipId})`} pointerEvents="none">
+                    <text
+                      x={x + w / 2}
+                      y={y + h / 2}
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fill="#fff"
+                      fontSize={fontSize}
+                      fontWeight={600}
+                      style={{ textShadow: '0 1px 2px rgba(0,0,0,.6)' }}
+                    >
+                      {label}
+                    </text>
+                  </g>
                   {mode === 'edit' && selected && (
                     <rect
                       x={x + w - 10 / scale}
@@ -370,6 +517,7 @@ export function MapViewer({
                     startY: e.clientY,
                     origTx: tx,
                     origTy: ty,
+                    moved: false,
                   }
                 }}
               >
@@ -380,6 +528,61 @@ export function MapViewer({
           </svg>
         </div>
       )}
+
+      {mode === 'navigate' && popoverBooth && popoverStyle && (
+        <div
+          className="booth-popover"
+          style={{
+            left: popoverStyle.left,
+            top: popoverStyle.top,
+          }}
+          role="dialog"
+          aria-label={`Booth ${popoverBooth.label}`}
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerEnter={() => {
+            clearHoverClearTimer()
+            if (popoverBooth.id != null) setHoverBoothId(popoverBooth.id)
+          }}
+          onPointerLeave={() => {
+            if (popoverBooth.id != null && pinnedBoothId !== popoverBooth.id) {
+              scheduleHoverClear(popoverBooth.id)
+            }
+          }}
+        >
+          <p className="booth-popover-booth">Booth {popoverBooth.label}</p>
+          <p className="booth-popover-name">
+            {popoverVendor?.name ??
+              popoverBooth.nameOverride ??
+              'No vendor listed'}
+          </p>
+          <div className="booth-popover-actions">
+            <button
+              type="button"
+              className="btn primary sm"
+              onClick={() => {
+                const id = popoverBooth.id!
+                onNavigateBooth?.(id)
+                dismissPopover()
+              }}
+            >
+              Navigate
+            </button>
+            <button
+              type="button"
+              className="btn secondary sm"
+              onClick={() => {
+                const id = popoverBooth.id!
+                onViewBoothDetails?.(id)
+                onSelectBooth(id)
+                dismissPopover()
+              }}
+            >
+              View details
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="map-fab-row">
         <button type="button" className="btn ghost sm" onClick={fit}>
           Fit
