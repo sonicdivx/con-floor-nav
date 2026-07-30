@@ -32,4 +32,8 @@ android/captures/
 *.apk
 *.aab
 *.keystore
-.cursor/
+
+# Cursor: keep project rules in git; ignore local-only IDE state
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
