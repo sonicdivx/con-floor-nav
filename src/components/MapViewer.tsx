@@ -7,7 +7,8 @@ import {
   type PointerEvent as ReactPointerEvent,
   type WheelEvent as ReactWheelEvent,
 } from 'react'
-import type { BoothRecord, VendorRecord, VisitStatus } from '../db/types'
+import type { BoothRecord, Rect, VendorRecord, VisitStatus } from '../db/types'
+import { findAislePath } from '../lib/pathfinding'
 import { STATUS_COLORS } from '../lib/statusColors'
 
 export type MapMode = 'navigate' | 'edit' | 'pin'
@@ -23,6 +24,7 @@ interface Props {
   navTargetBoothId: number | null
   pin: { x: number; y: number } | null
   mode: MapMode
+  obstacles?: Rect[]
   onSelectBooth: (boothId: number | null) => void
   onUpdateBoothRect: (boothId: number, rect: BoothRecord['rect']) => void
   onPinChange: (x: number, y: number) => void
@@ -39,6 +41,7 @@ export function MapViewer({
   navTargetBoothId,
   pin,
   mode,
+  obstacles = [],
   onSelectBooth,
   onUpdateBoothRect,
   onPinChange,
@@ -90,19 +93,32 @@ export function MapViewer({
     })
   }, [booths, vendorsByBoothId, tagFilter])
 
-  const navLine = useMemo(() => {
-    if (!pin || navTargetBoothId == null) return null
+  const navPathD = useMemo(() => {
+    if (!pin || navTargetBoothId == null || mapWidth <= 0 || mapHeight <= 0) {
+      return null
+    }
     const booth = booths.find((b) => b.id === navTargetBoothId)
     if (!booth) return null
-    const cx = (booth.rect.x + booth.rect.w / 2) * mapWidth
-    const cy = (booth.rect.y + booth.rect.h / 2) * mapHeight
-    return {
-      x1: pin.x * mapWidth,
-      y1: pin.y * mapHeight,
-      x2: cx,
-      y2: cy,
+    const goal = {
+      x: booth.rect.x + booth.rect.w / 2,
+      y: booth.rect.y + booth.rect.h / 2,
     }
-  }, [pin, navTargetBoothId, booths, mapWidth, mapHeight])
+    const points = findAislePath({
+      start: pin,
+      goal,
+      booths: booths.map((b) => b.rect),
+      obstacles,
+      mapWidth,
+      mapHeight,
+    })
+    if (!points || points.length < 2) return null
+    return points
+      .map(
+        (pt, i) =>
+          `${i === 0 ? 'M' : 'L'} ${pt.x * mapWidth} ${pt.y * mapHeight}`,
+      )
+      .join(' ')
+  }, [pin, navTargetBoothId, booths, obstacles, mapWidth, mapHeight])
 
   const clientToNorm = (clientX: number, clientY: number) => {
     const el = containerRef.current
@@ -257,6 +273,19 @@ export function MapViewer({
             width={mapWidth}
             height={mapHeight}
           >
+            {obstacles.map((obs, i) => (
+              <rect
+                key={`obs-${i}`}
+                x={obs.x * mapWidth}
+                y={obs.y * mapHeight}
+                width={obs.w * mapWidth}
+                height={obs.h * mapHeight}
+                fill="rgba(20, 20, 20, 0.35)"
+                stroke="rgba(180, 40, 40, 0.5)"
+                strokeWidth={1 / scale}
+                pointerEvents="none"
+              />
+            ))}
             {visibleBooths.map((booth) => {
               if (booth.id == null) return null
               const status = statusFor(booth.id)
@@ -317,16 +346,15 @@ export function MapViewer({
                 </g>
               )
             })}
-            {navLine && (
-              <line
-                x1={navLine.x1}
-                y1={navLine.y1}
-                x2={navLine.x2}
-                y2={navLine.y2}
+            {navPathD && (
+              <path
+                d={navPathD}
+                fill="none"
                 stroke="#ff6b4a"
                 strokeWidth={3 / scale}
                 strokeDasharray={`${8 / scale} ${6 / scale}`}
                 strokeLinecap="round"
+                strokeLinejoin="round"
               />
             )}
             {pin && (
