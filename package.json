@@ -23,6 +23,7 @@
     "@capacitor/core": "^8.4.2",
     "dexie": "^4.4.4",
     "dexie-react-hooks": "^4.4.0",
+    "pg": "^8.22.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-icons": "^5.7.0",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.13.2",
+    "@types/pg": "^8.20.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@types/ws": "^8.18.1",

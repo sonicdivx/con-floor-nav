@@ -3,6 +3,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_PARTY_WS_URL?: string
+  readonly VITE_SYNC_URL?: string
   readonly VITE_HTTPS?: string
 }
 

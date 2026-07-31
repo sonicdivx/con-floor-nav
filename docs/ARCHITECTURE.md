@@ -20,7 +20,9 @@ flowchart TB
   subgraph render [Render_single_web_service]
     Static[dist_static]
     Party["/party_WebSocket"]
+    Sync["/api/sync/catalog"]
     Health["/api/health"]
+    PG[(Postgres_optional)]
   end
   PWA --> IDB
   Cap --> IDB
@@ -28,6 +30,9 @@ flowchart TB
   PWA --> SW
   PWA -->|optional_live_party| Party
   Cap -->|needs_VITE_PARTY_WS_URL| Party
+  PWA -->|catalog_pull_when_online| Sync
+  Sync --> PG
+  Party --> PG
   PWA -->|first_load| Static
 ```
 
@@ -36,12 +41,19 @@ flowchart TB
 | Layer | Choice |
 |-------|--------|
 | App | Vite 8, React 19, TypeScript |
-| Storage | Dexie 4 / IndexedDB |
+| Storage | Dexie 4 / IndexedDB (runtime) + optional Render Postgres (shared catalog + durable parties) |
 | Map UI | CSS transform pan/zoom + SVG booth overlays (`MapViewer`) |
 | Pathfinding | Grid A* around booths + obstacles (`src/lib/pathfinding.ts`) |
 | PWA | `vite-plugin-pwa` |
 | Native | Capacitor 8 Android (`app.confloornav.pwa`) |
-| Party + hosting | `server/party-server.ts` serves `dist/` + `ws` path `/party` |
+| Party + hosting | `server/party-server.ts` serves `dist/` + `ws` path `/party` + `/api/sync/*` |
+
+## Cloud sync
+
+- **Source of truth (shared):** events, floor maps, booths, dealer names/tags via `GET /api/sync/catalog`.
+- **Device-local:** visitStatus, notes, photos, pin, custom tags, AI keys.
+- Client: `src/lib/cloudSync.ts` pulls on launch + `online`; Settings → Sync now.
+- Postgres (`DATABASE_URL`) stores catalog bundle + party rooms (36h TTL). Without it, catalog is served from `public/samples` and parties are memory-only.
 
 ## Data model (Dexie)
 
