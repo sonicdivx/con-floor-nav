@@ -1,4 +1,5 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { PiCheckBold } from 'react-icons/pi'
 import type { BoothRecord, VendorRecord } from '../db/types'
 import { STATUS_COLORS, STATUS_LABELS } from '../lib/statusColors'
 
@@ -103,9 +104,15 @@ export function DealerSearch({
     inputRef.current?.blur()
   }
 
+  const dismiss = () => {
+    setQuery('')
+    setOpen(false)
+    inputRef.current?.blur()
+  }
+
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      setOpen(false)
+      dismiss()
       return
     }
     if (e.key === 'ArrowDown') {
@@ -128,29 +135,42 @@ export function DealerSearch({
   return (
     <div
       ref={rootRef}
-      className={`dealer-search${compact ? ' compact' : ''}${open && query.trim() ? ' is-open' : ''}`}
+      className={`dealer-search${compact ? ' compact' : ''}${open && query.trim() ? ' is-open' : ''}${open || query ? ' has-done' : ''}`}
     >
-      <label className="dealer-search-label">
-        <span className="sr-only">Search dealers</span>
-        <input
-          ref={inputRef}
-          type="search"
-          value={query}
-          placeholder={placeholder}
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          aria-autocomplete="list"
-          aria-controls={listId}
-          aria-expanded={open && hits.length > 0}
-          onChange={(e) => {
-            setQuery(e.target.value)
-            setOpen(true)
-          }}
-          onFocus={() => setOpen(true)}
-          onKeyDown={onKeyDown}
-        />
-      </label>
+      <div className="dealer-search-field">
+        <label className="dealer-search-label">
+          <span className="sr-only">Search dealers</span>
+          <input
+            ref={inputRef}
+            type="search"
+            value={query}
+            placeholder={placeholder}
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            aria-autocomplete="list"
+            aria-controls={listId}
+            aria-expanded={open && hits.length > 0}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              setOpen(true)
+            }}
+            onFocus={() => setOpen(true)}
+            onKeyDown={onKeyDown}
+          />
+        </label>
+        {(open || query) && (
+          <button
+            type="button"
+            className="search-done-btn"
+            aria-label="Close search"
+            title="Done"
+            onClick={dismiss}
+          >
+            <PiCheckBold size={18} aria-hidden />
+          </button>
+        )}
+      </div>
       {open && query.trim().length > 0 && (
         <ul id={listId} className="dealer-search-results" role="listbox">
           {hits.length === 0 ? (
