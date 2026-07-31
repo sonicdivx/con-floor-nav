@@ -21,6 +21,8 @@ import { NativeAppPanel } from './components/NativeAppPanel'
 import { SharePartyPanel } from './components/SharePartyPanel'
 import { NavCollapsible } from './components/NavCollapsible'
 import { DealerSearch, type DealerHit } from './components/DealerSearch'
+import { UpdateToast } from './components/UpdateToast'
+import { ChangelogPanel } from './components/ChangelogPanel'
 import { STATUS_COLORS, STATUS_LABELS } from './lib/statusColors'
 import { maybeAutoSeedOtakonSample } from './lib/sampleData'
 import { mergeTagCatalog, registerCustomTags } from './lib/tags'
@@ -28,9 +30,10 @@ import type { PartyPeer } from './lib/partySocket'
 import { peerColor } from './lib/partySocket'
 import { usePartySession } from './hooks/usePartySession'
 import { syncCatalogFromCloud } from './lib/cloudSync'
+import { APP_VERSION } from './lib/changelog'
 import './App.css'
 
-type Tab = 'map' | 'settings' | 'ai' | 'gallery' | 'nav'
+type Tab = 'map' | 'settings' | 'ai' | 'gallery' | 'nav' | 'changelog'
 
 function App() {
   const [eventId, setEventId] = useState<number | null>(null)
@@ -532,6 +535,8 @@ function App() {
     if (next !== 'map') setMapFullscreen(false)
   }
 
+  const openChangelog = () => setAppTab('changelog')
+
   const enterMapFullscreen = () => {
     setMapFullscreen(true)
     setMapMenuOpen(false)
@@ -712,11 +717,19 @@ function App() {
             <div className="map-toolbar-footer">
               <button
                 type="button"
-                className="btn secondary sm"
+                className="btn secondary sm map-toolbar-fullmap"
                 onClick={enterMapFullscreen}
               >
                 Full map
               </button>
+              <button
+                type="button"
+                className="btn ghost sm"
+                onClick={openChangelog}
+              >
+                Changelog
+              </button>
+              <p className="app-menu-version">v{APP_VERSION}</p>
             </div>
           </div>
 
@@ -1030,6 +1043,16 @@ function App() {
           </section>
 
           <section className="panel-section settings-section">
+            <h3>About</h3>
+            <div className="settings-card">
+              <p className="muted sm">App version v{APP_VERSION}</p>
+              <button type="button" className="btn secondary" onClick={openChangelog}>
+                Changelog
+              </button>
+            </div>
+          </section>
+
+          <section className="panel-section settings-section">
             <BackupPanel
               eventId={eventId}
               onRestored={() => {
@@ -1071,6 +1094,12 @@ function App() {
           <GalleryPanel eventId={eventId} onOpenVendor={openVendorById} />
         </div>
       )}
+
+      {tab === 'changelog' && (
+        <ChangelogPanel onBack={() => setAppTab('map')} />
+      )}
+
+      <UpdateToast onOpenChangelog={openChangelog} />
     </div>
   )
 }

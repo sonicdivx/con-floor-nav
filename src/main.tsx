@@ -1,12 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { registerSW } from 'virtual:pwa-register'
 import './index.css'
 import App from './App.tsx'
 import { bindAppViewportHeight } from './lib/viewportHeight'
+import { initAppUpdateRegistration } from './lib/appUpdate'
 
 bindAppViewportHeight()
-registerSW({ immediate: true })
+initAppUpdateRegistration()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
