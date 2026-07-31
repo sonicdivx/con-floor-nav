@@ -1020,11 +1020,6 @@ img {
     font-size: 0.72rem;
   }
 
-  .vendor-panel .photo-grid {
-    max-height: 3.75rem;
-    overflow: hidden;
-  }
-
   .vendor-panel .btn.sm {
     padding: 0.28rem 0.55rem;
     font-size: 0.75rem;
@@ -1356,6 +1351,14 @@ label.btn.disabled,
   margin-top: 0.65rem;
 }
 
+/* Details card: exactly 3 thumbs per row, filling the panel width. */
+.vendor-panel .photo-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+  max-height: none;
+  overflow: visible;
+}
+
 .photo-thumb,
 .photo-select {
   border: 1px solid var(--border);
@@ -1364,6 +1367,7 @@ label.btn.disabled,
   background: var(--bg);
   padding: 0;
   text-align: left;
+  min-width: 0;
 }
 
 .photo-thumb img,
@@ -1371,6 +1375,12 @@ label.btn.disabled,
   aspect-ratio: 1;
   object-fit: cover;
   width: 100%;
+  display: block;
+}
+
+.vendor-panel .photo-thumb .btn {
+  width: 100%;
+  border-radius: 0;
 }
 
 .photo-thumb figcaption,
