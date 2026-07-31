@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.0'
+export const APP_VERSION = '0.3.1'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.1',
+    date: '2026-07-31',
+    highlights: [
+      'Gallery fullscreen photo viewer',
+      'Pinch to zoom photos',
+    ],
+    notes: [
+      'Photos tab: tap a photo to open fullscreen with vendor name',
+      'Pinch / scroll wheel zoom, pan when zoomed, Close or Escape to exit',
+      'Hold a thumbnail to multi-select for revisit passes',
+    ],
+  },
   {
     version: '0.3.0',
     date: '2026-07-31',

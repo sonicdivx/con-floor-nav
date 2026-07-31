@@ -1,13 +1,22 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../db/schema'
-import type { VisitStatus } from '../db/types'
+import type { ItemPhotoRecord, VisitStatus } from '../db/types'
 import { useObjectUrl } from '../hooks/useObjectUrl'
+import { PhotoLightbox } from './PhotoLightbox'
 
 interface Props {
   eventId: number
   onOpenVendor: (vendorId: number) => void
 }
+
+type ViewerState = {
+  blob: Blob
+  title: string
+  note?: string
+}
+
+const LONG_PRESS_MS = 420
 
 export function GalleryPanel({ eventId, onOpenVendor }: Props) {
   const photos = useLiveQuery(
@@ -20,6 +29,7 @@ export function GalleryPanel({ eventId, onOpenVendor }: Props) {
   )
   const [selected, setSelected] = useState<Set<number>>(new Set())
   const [message, setMessage] = useState<string | null>(null)
+  const [viewer, setViewer] = useState<ViewerState | null>(null)
 
   const vendorMap = useMemo(() => {
     const m = new Map<number, { name: string; id: number }>()
@@ -30,7 +40,7 @@ export function GalleryPanel({ eventId, onOpenVendor }: Props) {
   }, [vendors])
 
   const grouped = useMemo(() => {
-    const groups = new Map<number, typeof photos>()
+    const groups = new Map<number, ItemPhotoRecord[]>()
     for (const p of photos ?? []) {
       const list = groups.get(p.vendorId) ?? []
       list.push(p)
@@ -39,7 +49,7 @@ export function GalleryPanel({ eventId, onOpenVendor }: Props) {
     const entries = [...groups.entries()].map(([vendorId, list]) => ({
       vendorId,
       name: vendorMap.get(vendorId)?.name ?? `Vendor #${vendorId}`,
-      photos: [...(list ?? [])].sort((a, b) => b.createdAt - a.createdAt),
+      photos: [...list].sort((a, b) => b.createdAt - a.createdAt),
     }))
     entries.sort((a, b) => a.name.localeCompare(b.name))
     return entries
@@ -78,7 +88,9 @@ export function GalleryPanel({ eventId, onOpenVendor }: Props) {
   return (
     <div className="stack-panel">
       <h2>Photo gallery</h2>
-      <p className="muted">Sorted by vendor. Multi-select to mark a revisit pass.</p>
+      <p className="muted">
+        Tap a photo for fullscreen (pinch to zoom). Hold to multi-select for a revisit pass.
+      </p>
 
       {selectedVendorIds.length > 0 && (
         <div className="gallery-actions">
@@ -128,21 +140,109 @@ export function GalleryPanel({ eventId, onOpenVendor }: Props) {
           <div className="photo-grid">
             {g.photos.map((p) =>
               p.id != null ? (
-                <button
+                <GalleryPhotoButton
                   key={p.id}
-                  type="button"
-                  className={`photo-select ${selected.has(p.id) ? 'selected' : ''}`}
-                  onClick={() => toggle(p.id!)}
-                >
-                  <GalleryThumb blob={p.imageBlob} />
-                  {p.note && <span className="photo-note">{p.note}</span>}
-                </button>
+                  photo={p}
+                  vendorName={g.name}
+                  selected={selected.has(p.id)}
+                  onToggleSelect={() => toggle(p.id!)}
+                  onOpen={() =>
+                    setViewer({
+                      blob: p.imageBlob,
+                      title: g.name,
+                      note: p.note,
+                    })
+                  }
+                />
               ) : null,
             )}
           </div>
         </section>
       ))}
+
+      {viewer && (
+        <PhotoLightbox
+          blob={viewer.blob}
+          title={viewer.title}
+          note={viewer.note}
+          onClose={() => setViewer(null)}
+        />
+      )}
     </div>
+  )
+}
+
+function GalleryPhotoButton({
+  photo,
+  vendorName,
+  selected,
+  onToggleSelect,
+  onOpen,
+}: {
+  photo: ItemPhotoRecord
+  vendorName: string
+  selected: boolean
+  onToggleSelect: () => void
+  onOpen: () => void
+}) {
+  const timer = useRef<number | null>(null)
+  const longPressed = useRef(false)
+  const start = useRef<{ x: number; y: number } | null>(null)
+
+  const clearTimer = () => {
+    if (timer.current != null) {
+      window.clearTimeout(timer.current)
+      timer.current = null
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      className={`photo-select ${selected ? 'selected' : ''}`}
+      aria-label={`${vendorName} photo${photo.note ? ` — ${photo.note}` : ''}`}
+      onPointerDown={(e) => {
+        if (e.button !== 0 && e.pointerType === 'mouse') return
+        longPressed.current = false
+        start.current = { x: e.clientX, y: e.clientY }
+        clearTimer()
+        timer.current = window.setTimeout(() => {
+          longPressed.current = true
+          onToggleSelect()
+          try {
+            navigator.vibrate?.(12)
+          } catch {
+            /* ignore */
+          }
+        }, LONG_PRESS_MS)
+      }}
+      onPointerMove={(e) => {
+        if (!start.current) return
+        const dx = e.clientX - start.current.x
+        const dy = e.clientY - start.current.y
+        if (Math.hypot(dx, dy) > 12) clearTimer()
+      }}
+      onPointerUp={() => {
+        const wasLong = longPressed.current
+        clearTimer()
+        start.current = null
+        if (!wasLong) onOpen()
+        longPressed.current = false
+      }}
+      onPointerCancel={() => {
+        clearTimer()
+        start.current = null
+        longPressed.current = false
+      }}
+      onContextMenu={(e) => {
+        e.preventDefault()
+        clearTimer()
+        onToggleSelect()
+      }}
+    >
+      <GalleryThumb blob={photo.imageBlob} />
+      {photo.note && <span className="photo-note">{photo.note}</span>}
+    </button>
   )
 }
 
