@@ -47,6 +47,8 @@ function App() {
   const [boothEditSaving, setBoothEditSaving] = useState(false)
   /** Keep details panel open while tapping the map. */
   const [detailsPinned, setDetailsPinned] = useState(false)
+  /** Expand vendor details sheet to near-full height. */
+  const [detailsExpanded, setDetailsExpanded] = useState(false)
   /** Immediate pin for nav (avoids live-query lag after getOrCreate). */
   const [localPin, setLocalPin] = useState<{ x: number; y: number } | null>(null)
   const [navTargetBoothId, setNavTargetBoothId] = useState<number | null>(null)
@@ -76,6 +78,7 @@ function App() {
     setBoothDrafts({})
     setSelectedBoothId(null)
     setDetailsPinned(false)
+    setDetailsExpanded(false)
     setNavTargetBoothId(null)
     setNavTargetPoint(null)
     setLocalPin(null)
@@ -465,6 +468,7 @@ function App() {
   const closeBoothDetails = () => {
     setSelectedBoothId(null)
     setDetailsPinned(false)
+    setDetailsExpanded(false)
   }
 
   const useGps = () => {
@@ -835,7 +839,9 @@ function App() {
                 }
                 boothLabel={selectedBooth.label}
                 pinned={detailsPinned}
+                expanded={detailsExpanded}
                 onTogglePinned={() => setDetailsPinned((p) => !p)}
+                onToggleExpanded={() => setDetailsExpanded((e) => !e)}
                 onClose={closeBoothDetails}
                 onNavigate={() => {
                   if (selectedVendor) navigateToVendor(selectedVendor)

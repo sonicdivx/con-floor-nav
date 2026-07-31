@@ -1,6 +1,12 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { useMemo, useState } from 'react'
-import { PiPushPinFill, PiPushPinLight } from 'react-icons/pi'
+import { useMemo, useRef, useState } from 'react'
+import {
+  PiArrowsInSimple,
+  PiArrowsOutSimple,
+  PiCamera,
+  PiPushPinFill,
+  PiPushPinLight,
+} from 'react-icons/pi'
 import { db } from '../db/schema'
 import type { VendorRecord, VisitStatus } from '../db/types'
 import { useObjectUrl } from '../hooks/useObjectUrl'
@@ -12,7 +18,9 @@ interface Props {
   vendor: VendorRecord
   boothLabel: string
   pinned?: boolean
+  expanded?: boolean
   onTogglePinned?: () => void
+  onToggleExpanded?: () => void
   onClose: () => void
   onNavigate: () => void
 }
@@ -21,11 +29,14 @@ export function VendorPanel({
   vendor,
   boothLabel,
   pinned = false,
+  expanded = false,
   onTogglePinned,
+  onToggleExpanded,
   onClose,
   onNavigate,
 }: Props) {
   const [note, setNote] = useState('')
+  const cameraInputRef = useRef<HTMLInputElement>(null)
   const photos = useLiveQuery(
     () =>
       vendor.id != null
@@ -75,13 +86,55 @@ export function VendorPanel({
   }
 
   return (
-    <aside className={`side-panel vendor-panel${pinned ? ' is-pinned' : ''}`}>
+    <aside
+      className={`side-panel vendor-panel${pinned ? ' is-pinned' : ''}${expanded ? ' is-expanded' : ''}`}
+    >
       <header className="panel-header">
-        <div>
-          <p className="eyebrow">Booth {boothLabel}</p>
-          <h2>{vendor.name}</h2>
+        <div className="panel-header-leading">
+          <button
+            type="button"
+            className="btn ghost sm panel-header-icon"
+            aria-label="Take photo"
+            title="Take photo"
+            disabled={vendor.id == null}
+            onClick={() => cameraInputRef.current?.click()}
+          >
+            <PiCamera size={20} aria-hidden />
+          </button>
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            hidden
+            onChange={(e) => {
+              const f = e.target.files?.[0]
+              if (f) void addPhoto(f)
+              e.target.value = ''
+            }}
+          />
+          <div>
+            <p className="eyebrow">Booth {boothLabel}</p>
+            <h2>{vendor.name}</h2>
+          </div>
         </div>
         <div className="panel-header-actions">
+          {onToggleExpanded && (
+            <button
+              type="button"
+              className={`btn ghost sm panel-header-icon${expanded ? ' active' : ''}`}
+              onClick={onToggleExpanded}
+              aria-pressed={expanded}
+              aria-label={expanded ? 'Collapse details' : 'Expand details'}
+              title={expanded ? 'Collapse' : 'Expand'}
+            >
+              {expanded ? (
+                <PiArrowsInSimple size={18} aria-hidden />
+              ) : (
+                <PiArrowsOutSimple size={18} aria-hidden />
+              )}
+            </button>
+          )}
           {onTogglePinned && (
             <button
               type="button"

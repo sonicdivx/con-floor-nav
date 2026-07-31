@@ -818,6 +818,27 @@ img {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.panel-header-leading {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.panel-header-icon {
+  display: inline-grid;
+  place-items: center;
+  padding: 0.35rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.panel-header-icon.active {
+  color: var(--otakon-sun, #ffe566);
 }
 
 .pin-keep-open {
@@ -829,6 +850,30 @@ img {
 
 .pin-keep-open.active {
   color: var(--otakon-label, #e30774);
+}
+
+.search-done-btn {
+  position: absolute;
+  right: 0.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--ok, #3ecf8e) 22%, var(--bg-panel));
+  color: var(--ok, #3ecf8e);
+  cursor: pointer;
+}
+
+.search-done-btn:hover,
+.search-done-btn:focus-visible {
+  background: color-mix(in srgb, var(--ok, #3ecf8e) 35%, var(--bg-panel));
+  outline: none;
 }
 
 .tag-select {
@@ -851,8 +896,13 @@ img {
   position: relative;
 }
 
+.tag-select-field.has-done .tag-select-input {
+  padding-right: 2.5rem;
+}
+
 .tag-select-input {
   margin-top: 0;
+  font-size: 16px;
 }
 
 .tag-select-menu {
@@ -929,6 +979,16 @@ img {
     box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.4);
     padding: 0.45rem 0.7rem max(0.55rem, env(safe-area-inset-bottom, 0px));
     z-index: 5;
+    overflow: auto;
+  }
+
+  .side-panel.vendor-panel.is-expanded {
+    max-height: min(88vh, 100%);
+  }
+
+  .map-body:has(.vendor-panel.is-expanded) .map-fab-row {
+    bottom: calc(min(88vh, 100%) + 0.45rem);
+    display: none;
   }
 
   .vendor-panel .panel-header {
@@ -1391,6 +1451,10 @@ label.btn.disabled,
   margin: 0 0 0.75rem;
 }
 
+.dealer-search-field {
+  position: relative;
+}
+
 .dealer-search-label input {
   width: 100%;
   padding: 0.65rem 0.75rem;
@@ -1402,6 +1466,10 @@ label.btn.disabled,
   font-size: 16px;
 }
 
+.dealer-search.has-done .dealer-search-label input {
+  padding-right: 2.5rem;
+}
+
 .dealer-search.compact {
   margin: 0 0 0.5rem;
 }
@@ -1409,6 +1477,10 @@ label.btn.disabled,
 .dealer-search.compact .dealer-search-label input {
   padding: 0.45rem 0.6rem;
   font-size: 16px;
+}
+
+.dealer-search.compact.has-done .dealer-search-label input {
+  padding-right: 2.5rem;
 }
 
 .dealer-search-results {

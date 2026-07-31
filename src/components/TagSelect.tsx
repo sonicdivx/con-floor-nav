@@ -1,4 +1,5 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { PiCheckBold } from 'react-icons/pi'
 import { mergeTagCatalog, normalizeTag, registerCustomTag } from '../lib/tags'
 
 interface Props {
@@ -46,6 +47,12 @@ export function TagSelect({ selected, catalogExtra = [], onChange }: Props) {
     return () => document.removeEventListener('mousedown', onDoc)
   }, [])
 
+  const dismiss = () => {
+    setQuery('')
+    setOpen(false)
+    inputRef.current?.blur()
+  }
+
   const toggle = (tag: string) => {
     const t = normalizeTag(tag)
     if (!t) return
@@ -71,7 +78,7 @@ export function TagSelect({ selected, catalogExtra = [], onChange }: Props) {
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      setOpen(false)
+      dismiss()
       return
     }
     if (e.key === 'Enter') {
@@ -84,6 +91,8 @@ export function TagSelect({ selected, catalogExtra = [], onChange }: Props) {
       onChange(selected.slice(0, -1))
     }
   }
+
+  const showDone = open || query.length > 0
 
   return (
     <div className="tag-select" ref={rootRef}>
@@ -102,7 +111,7 @@ export function TagSelect({ selected, catalogExtra = [], onChange }: Props) {
         ))}
       </div>
 
-      <div className={`tag-select-field${open ? ' is-open' : ''}`}>
+      <div className={`tag-select-field${open ? ' is-open' : ''}${showDone ? ' has-done' : ''}`}>
         <input
           ref={inputRef}
           className="input tag-select-input"
@@ -119,6 +128,17 @@ export function TagSelect({ selected, catalogExtra = [], onChange }: Props) {
           onFocus={() => setOpen(true)}
           onKeyDown={onKeyDown}
         />
+        {showDone && (
+          <button
+            type="button"
+            className="search-done-btn"
+            aria-label="Done editing tags"
+            title="Done"
+            onClick={dismiss}
+          >
+            <PiCheckBold size={18} aria-hidden />
+          </button>
+        )}
         {open && (
           <ul id={listId} className="tag-select-menu" role="listbox">
             {filtered.map((tag) => (
