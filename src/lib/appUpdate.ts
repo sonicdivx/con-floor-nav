@@ -13,7 +13,7 @@ function notify() {
   for (const listener of listeners) listener(updateAvailable)
 }
 
-/** Call once at startup (main.tsx). Uses prompt mode so the UI can Refresh / Later. */
+/** Call once at startup (main.tsx). Uses prompt mode so the UI can Refresh / Dismiss. */
 export function initAppUpdateRegistration(): void {
   updateSW = registerSW({
     immediate: true,
@@ -36,6 +36,12 @@ export function initAppUpdateRegistration(): void {
     onOfflineReady() {
       /* shell cached — no toast needed */
     },
+  })
+
+  // Dev/QA: `window.dispatchEvent(new Event('cfn:force-update-toast'))`
+  window.addEventListener('cfn:force-update-toast', () => {
+    updateAvailable = true
+    notify()
   })
 }
 
