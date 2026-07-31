@@ -409,6 +409,11 @@ function App() {
   const navigateToDealer = (hit: DealerHit) => {
     const { booth } = hit
     if (booth.id == null) return
+    // Dismiss keyboard / clear any iOS focus scroll before switching tabs.
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur()
+    }
+    window.scrollTo(0, 0)
     if (booth.floorMapId != null && booth.floorMapId !== floorMapId) {
       if (eventId != null) setActiveFloorMapId(eventId, booth.floorMapId)
       setFloorMapId(booth.floorMapId)

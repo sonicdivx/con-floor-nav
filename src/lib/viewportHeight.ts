@@ -1,23 +1,29 @@
-/** Keep the app shell matched to the visible mobile viewport (URL bar / chrome). */
+/**
+ * Keep the app shell sized to the layout viewport.
+ *
+ * Do NOT pin to visualViewport offset/width — on iOS that shifts the whole UI
+ * when the keyboard opens (search), landscape chrome animates, or the hamburger
+ * drawer opens. Use innerHeight / 100svh instead; safe-area pads the chrome.
+ */
 export function bindAppViewportHeight(): () => void {
   const root = document.documentElement
 
   const apply = () => {
-    const vv = window.visualViewport
-    const height = Math.round(vv?.height ?? window.innerHeight)
-    const top = Math.round(vv?.offsetTop ?? 0)
-    const width = Math.round(vv?.width ?? window.innerWidth)
+    // Prefer layout viewport height (stable vs keyboard). Fall back for older WebViews.
+    const height = Math.round(window.innerHeight || root.clientHeight || 0)
     root.style.setProperty('--app-height', `${Math.max(height, 1)}px`)
-    root.style.setProperty('--app-top', `${top}px`)
-    root.style.setProperty('--app-width', `${Math.max(width, 1)}px`)
+    // Clear any legacy shift vars from older builds / cached SW.
+    root.style.removeProperty('--app-top')
+    root.style.removeProperty('--app-width')
+    // Kill accidental document scroll from focus/keyboard.
+    window.scrollTo(0, 0)
+    document.documentElement.scrollLeft = 0
+    document.body.scrollLeft = 0
   }
 
   apply()
   requestAnimationFrame(apply)
-  // iOS often reports the wrong height on the first portrait paint; remeasure shortly after.
-  const t0 = window.setTimeout(apply, 0)
-  const t1 = window.setTimeout(apply, 100)
-  const t2 = window.setTimeout(apply, 350)
+  const timers = [0, 100, 350].map((ms) => window.setTimeout(apply, ms))
 
   const onOrientation = () => {
     apply()
@@ -26,18 +32,13 @@ export function bindAppViewportHeight(): () => void {
     window.setTimeout(apply, 250)
   }
 
-  window.visualViewport?.addEventListener('resize', apply)
-  window.visualViewport?.addEventListener('scroll', apply)
+  // Resize of the layout viewport (rotate, browser chrome settle) — not vv.scroll.
   window.addEventListener('resize', apply)
   window.addEventListener('orientationchange', onOrientation)
   window.addEventListener('pageshow', apply)
 
   return () => {
-    window.clearTimeout(t0)
-    window.clearTimeout(t1)
-    window.clearTimeout(t2)
-    window.visualViewport?.removeEventListener('resize', apply)
-    window.visualViewport?.removeEventListener('scroll', apply)
+    for (const t of timers) window.clearTimeout(t)
     window.removeEventListener('resize', apply)
     window.removeEventListener('orientationchange', onOrientation)
     window.removeEventListener('pageshow', apply)
