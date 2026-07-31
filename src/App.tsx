@@ -749,16 +749,43 @@ function App() {
             Quick pick from favorites and look-again. Routes an aisle path from your pin around booths and pillars.
           </p>
 
+          <NavCollapsible
+            key={party.inParty ? 'party-in' : 'party-out'}
+            title="Share & party"
+            summary={
+              party.inParty
+                ? `${party.partyCode} · ${party.status}`
+                : party.liveEnabled
+                  ? 'Create or join'
+                  : 'Share pin'
+            }
+            defaultOpen={!party.inParty}
+          >
+            <SharePartyPanel
+              pin={mapPin}
+              onApplySharedPin={(p) => void applySharedPin(p)}
+              party={{
+                liveEnabled: party.liveEnabled,
+                status: party.status,
+                detail: party.detail,
+                partyCode: party.partyCode,
+                create: party.create,
+                join: party.join,
+                leave: party.leave,
+              }}
+            />
+          </NavCollapsible>
+
           {party.inParty && (
-            <NavCollapsible
-              title="Party members"
-              summary={
-                party.peers.length
-                  ? `${party.peers.length} online · ${party.partyCode}`
-                  : `Waiting · ${party.partyCode}`
-              }
-              defaultOpen
-            >
+            <section className="nav-section">
+              <h3>
+                Party members
+                <span className="muted sm">
+                  {party.peers.length
+                    ? ` · ${party.peers.length} online · ${party.partyCode}`
+                    : ` · Waiting · ${party.partyCode}`}
+                </span>
+              </h3>
               {!party.peers.length ? (
                 <p className="muted sm">No other members yet — share your party code.</p>
               ) : (
@@ -783,18 +810,11 @@ function App() {
                   ))}
                 </ul>
               )}
-            </NavCollapsible>
+            </section>
           )}
 
-          <NavCollapsible
-            title="Favorites & look again"
-            summary={
-              quickPick.length
-                ? `${quickPick.length} vendor${quickPick.length === 1 ? '' : 's'}`
-                : undefined
-            }
-            defaultOpen
-          >
+          <section className="nav-section">
+            <h3>Favorites & look again</h3>
             {!quickPick.length && (
               <p className="muted">Mark vendors as Favorite or Look again first.</p>
             )}
@@ -823,33 +843,7 @@ function App() {
                 )
               })}
             </ul>
-          </NavCollapsible>
-
-          <NavCollapsible
-            title="Share & party"
-            summary={
-              party.inParty
-                ? `${party.partyCode} · ${party.status}`
-                : party.liveEnabled
-                  ? 'Create or join'
-                  : 'Share pin'
-            }
-            defaultOpen={!party.inParty}
-          >
-            <SharePartyPanel
-              pin={mapPin}
-              onApplySharedPin={(p) => void applySharedPin(p)}
-              party={{
-                liveEnabled: party.liveEnabled,
-                status: party.status,
-                detail: party.detail,
-                partyCode: party.partyCode,
-                create: party.create,
-                join: party.join,
-                leave: party.leave,
-              }}
-            />
-          </NavCollapsible>
+          </section>
 
           {(navTargetBoothId != null || navTargetPoint != null) && (
             <button

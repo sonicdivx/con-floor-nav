@@ -331,6 +331,19 @@ img {
   margin-top: 0.65rem;
 }
 
+.nav-section {
+  margin: 0 0 1rem;
+}
+
+.nav-section h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
 .share-party-panel {
   margin: 0;
   padding: 0.65rem 0 0;
