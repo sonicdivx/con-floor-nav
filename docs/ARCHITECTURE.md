@@ -108,7 +108,7 @@ Dev Vite: Live party UI off unless `VITE_PARTY_WS_URL` is set. Capacitor WebView
 ## Deploy
 
 - Blueprint: `render.yaml`
-- Branch currently auto-deployed: `cursor/phase2-3-backup`
+- Branch currently auto-deployed: `cursor/con-floor-nav-pwa`
 - Live: https://con-floor-nav.onrender.com
 - One service only — no separate party instance required
 - Free tier may cold-start (~30s)

@@ -18,7 +18,7 @@ Cursor project rules (committed): `.cursor/rules/*.mdc`.
 
 - Prefer small, focused changes that match existing patterns in `src/`.
 - Do not commit secrets, API keys, or `.env` files. AI keys live in `localStorage` only.
-- Do not force-push `main`. Feature work is typically on `cursor/*` branches; Render auto-deploys `cursor/phase2-3-backup`.
+- Do not force-push `main`. Feature work is typically on `cursor/*` branches; Render auto-deploys `cursor/con-floor-nav-pwa`.
 - Only commit when the user asks. When committing, follow the repo’s recent message style.
 - Do not add unsolicited markdown docs; this `docs/` set is intentional project context.
 
