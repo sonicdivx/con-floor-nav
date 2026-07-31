@@ -34,34 +34,61 @@ export const db = new ConFloorDB()
 
 export { DEFAULT_TAGS }
 
-export async function ensureDefaultEvent(): Promise<number> {
-  const existing = await db.events.orderBy('createdAt').first()
-  if (existing?.id != null) return existing.id
+let defaultEventLock: Promise<number> | null = null
 
-  const now = Date.now()
-  const id = await db.events.add({
-    name: 'Otakon',
-    venueNotes: 'Walter E. Washington Convention Center',
-    createdAt: now,
-    updatedAt: now,
-  })
-  return id as number
+export async function ensureDefaultEvent(): Promise<number> {
+  if (defaultEventLock) return defaultEventLock
+
+  defaultEventLock = (async () => {
+    const existing = await db.events.orderBy('createdAt').first()
+    if (existing?.id != null) return existing.id
+
+    const now = Date.now()
+    const id = await db.events.add({
+      name: 'Otakon',
+      venueNotes: 'Walter E. Washington Convention Center',
+      createdAt: now,
+      updatedAt: now,
+    })
+    return id as number
+  })()
+
+  try {
+    return await defaultEventLock
+  } catch (err) {
+    defaultEventLock = null
+    throw err
+  }
 }
 
+let activeEventLock: Promise<number> | null = null
+
 export async function getActiveEventId(): Promise<number> {
-  const stored = localStorage.getItem('cfn-active-event')
-  if (stored) {
-    const id = Number(stored)
-    const ev = await db.events.get(id)
-    if (ev) return id
+  if (activeEventLock) return activeEventLock
+
+  activeEventLock = (async () => {
+    const stored = localStorage.getItem('cfn-active-event')
+    if (stored) {
+      const id = Number(stored)
+      const ev = await db.events.get(id)
+      if (ev) return id
+    }
+    const id = await ensureDefaultEvent()
+    localStorage.setItem('cfn-active-event', String(id))
+    return id
+  })()
+
+  try {
+    return await activeEventLock
+  } catch (err) {
+    activeEventLock = null
+    throw err
   }
-  const id = await ensureDefaultEvent()
-  localStorage.setItem('cfn-active-event', String(id))
-  return id
 }
 
 export function setActiveEventId(id: number) {
   localStorage.setItem('cfn-active-event', String(id))
+  activeEventLock = Promise.resolve(id)
 }
 
 export async function getOrCreateUserLocation(
