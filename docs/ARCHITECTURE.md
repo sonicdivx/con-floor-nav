@@ -52,8 +52,9 @@ flowchart TB
 
 - **Source of truth (shared):** events, floor maps, booths, dealer names/tags via `GET /api/sync/catalog`.
 - **Device-local:** visitStatus, notes, photos, pin, custom tags, AI keys.
-- Client: `src/lib/cloudSync.ts` pulls on launch + `online`; Settings → Sync now.
-- Postgres (`DATABASE_URL`) stores catalog bundle + party rooms (36h TTL). Without it, catalog is served from `public/samples` and parties are memory-only.
+- **Device login (optional):** Settings → Device login — unique code (no password) stores personal overlays via `POST/GET /api/sync/device` (`device_backups` in Postgres). Use to open another browser / recover after a hung tab.
+- Client: `src/lib/cloudSync.ts` pulls catalog on launch + `online`; `src/lib/personalSync.ts` for device codes. Settings → Sync now / Device login.
+- Postgres (`DATABASE_URL`) stores catalog bundle + party rooms (36h TTL) + device backups (90d TTL). Without it, catalog is served from `public/samples`, parties are memory-only, and device login is unavailable.
 
 ## Data model (Dexie)
 

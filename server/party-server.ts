@@ -5,8 +5,9 @@
  *   PORT (default 8787)
  *   STALE_MS (default 180000) — drop idle WS members
  *   PARTY_TTL_MS (default 36h) — durable party codes
- *   DATABASE_URL — Postgres for durable parties + catalog SoT
+ *   DATABASE_URL — Postgres for durable parties + catalog SoT + device login
  *   DATABASE_SSL=0 — disable TLS for local Postgres
+ *   DEVICE_TTL_MS — device login code TTL (default 90d)
  */
 import http from 'node:http'
 import fs from 'node:fs'
@@ -15,6 +16,13 @@ import { fileURLToPath } from 'node:url'
 import { WebSocketServer, type WebSocket } from 'ws'
 import { ensureDb, hasDatabaseUrl } from './db.ts'
 import { getCatalogBundle } from './catalogStore.ts'
+import {
+  createDeviceBackup,
+  getDeviceBackup,
+  isDeviceSyncAvailable,
+  normalizeDeviceCode,
+  upsertDeviceBackup,
+} from './deviceStore.ts'
 import {
   loadActiveRooms,
   removePin,
@@ -188,12 +196,47 @@ function json(res: http.ServerResponse, status: number, body: unknown) {
   res.writeHead(status, {
     'Content-Type': 'application/json',
     'Cache-Control': 'no-store',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
   })
   res.end(JSON.stringify(body))
 }
 
+const MAX_DEVICE_BODY_BYTES = 12 * 1024 * 1024
+
+function readBody(req: http.IncomingMessage, limit = MAX_DEVICE_BODY_BYTES): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = []
+    let size = 0
+    req.on('data', (chunk: Buffer) => {
+      size += chunk.length
+      if (size > limit) {
+        reject(new Error('Payload too large'))
+        req.destroy()
+        return
+      }
+      chunks.push(chunk)
+    })
+    req.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
+    req.on('error', reject)
+  })
+}
+
 const server = http.createServer((req, res) => {
   const url = req.url || '/'
+
+  if (req.method === 'OPTIONS' && url.startsWith('/api/')) {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '86400',
+    })
+    res.end()
+    return
+  }
+
   if (url.startsWith('/api/health')) {
     void (async () => {
       const durable = hasDatabaseUrl()
@@ -203,6 +246,7 @@ const server = http.createServer((req, res) => {
         rooms: rooms.size,
         persistedRooms: persisted,
         database: durable,
+        deviceSync: isDeviceSyncAvailable(),
       })
     })()
     return
@@ -229,9 +273,104 @@ const server = http.createServer((req, res) => {
           updatedAt: bundle.updatedAt,
           events: bundle.events.length,
           database: hasDatabaseUrl(),
+          deviceSync: isDeviceSyncAvailable(),
         })
       } catch (err) {
         json(res, 500, { error: String(err) })
+      }
+    })()
+    return
+  }
+
+  // Device login (no password): unique code ↔ personal overlay blob
+  if (url.startsWith('/api/sync/device') && req.method === 'POST') {
+    void (async () => {
+      try {
+        if (!isDeviceSyncAvailable()) {
+          json(res, 503, { error: 'Device sync unavailable (no DATABASE_URL)' })
+          return
+        }
+        const raw = await readBody(req)
+        const body = JSON.parse(raw || '{}') as {
+          code?: string
+          payload?: unknown
+        }
+        if (!body.payload || typeof body.payload !== 'object') {
+          json(res, 400, { error: 'payload required' })
+          return
+        }
+        const row = body.code?.trim()
+          ? await upsertDeviceBackup(body.code, body.payload)
+          : await createDeviceBackup(body.payload)
+        json(res, 200, {
+          code: row.code,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          expiresAt: row.expiresAt,
+        })
+      } catch (err) {
+        console.error('[sync/device POST]', err)
+        const msg = err instanceof Error ? err.message : String(err)
+        json(res, msg.includes('too large') ? 413 : 500, { error: msg })
+      }
+    })()
+    return
+  }
+
+  const deviceGet = url.match(/^\/api\/sync\/device\/([A-Za-z0-9]+)\/?$/)
+  if (deviceGet && req.method === 'GET') {
+    void (async () => {
+      try {
+        if (!isDeviceSyncAvailable()) {
+          json(res, 503, { error: 'Device sync unavailable (no DATABASE_URL)' })
+          return
+        }
+        const code = normalizeDeviceCode(deviceGet[1] || '')
+        const row = await getDeviceBackup(code)
+        if (!row) {
+          json(res, 404, { error: 'Unknown or expired device code' })
+          return
+        }
+        json(res, 200, {
+          code: row.code,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          expiresAt: row.expiresAt,
+          payload: row.payload,
+        })
+      } catch (err) {
+        console.error('[sync/device GET]', err)
+        json(res, 500, { error: String(err) })
+      }
+    })()
+    return
+  }
+
+  if (deviceGet && req.method === 'PUT') {
+    void (async () => {
+      try {
+        if (!isDeviceSyncAvailable()) {
+          json(res, 503, { error: 'Device sync unavailable (no DATABASE_URL)' })
+          return
+        }
+        const code = normalizeDeviceCode(deviceGet[1] || '')
+        const raw = await readBody(req)
+        const body = JSON.parse(raw || '{}') as { payload?: unknown }
+        if (!body.payload || typeof body.payload !== 'object') {
+          json(res, 400, { error: 'payload required' })
+          return
+        }
+        const row = await upsertDeviceBackup(code, body.payload)
+        json(res, 200, {
+          code: row.code,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          expiresAt: row.expiresAt,
+        })
+      } catch (err) {
+        console.error('[sync/device PUT]', err)
+        const msg = err instanceof Error ? err.message : String(err)
+        json(res, msg.includes('too large') ? 413 : 500, { error: msg })
       }
     })()
     return

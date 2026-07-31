@@ -14,6 +14,7 @@ import { VendorPanel } from './components/VendorPanel'
 import { ImportPanel } from './components/ImportPanel'
 import { AiExtractPanel } from './components/AiExtractPanel'
 import { BackupPanel } from './components/BackupPanel'
+import { DeviceLoginPanel } from './components/DeviceLoginPanel'
 import { EventsPanel } from './components/EventsPanel'
 import { MapsPanel } from './components/MapsPanel'
 import { GalleryPanel } from './components/GalleryPanel'
@@ -1020,7 +1021,7 @@ function App() {
             <div className="settings-card">
               <p className="muted sm">
                 Shared floor maps and dealer directories sync from the server when you are online.
-                Favorites, notes, and photos stay on this device.
+                Favorites, notes, and photos stay on this device unless you use Device login below.
               </p>
               {syncMsg && <p className="muted sm">{syncMsg}</p>}
               <button
@@ -1046,6 +1047,18 @@ function App() {
                 Sync now
               </button>
             </div>
+          </section>
+
+          <section className="panel-section settings-section">
+            <DeviceLoginPanel
+              onLoaded={() => {
+                setLocalPin(null)
+                setSelectedBoothId(null)
+                if (eventId != null) {
+                  void resolveActiveFloorMapId(eventId).then(setFloorMapId)
+                }
+              }}
+            />
           </section>
 
           <section className="panel-section settings-section">

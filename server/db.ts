@@ -54,6 +54,15 @@ export async function ensureDb(): Promise<boolean> {
         updated_at BIGINT NOT NULL,
         PRIMARY KEY (code, member_key)
       );
+      CREATE TABLE IF NOT EXISTS device_backups (
+        code TEXT PRIMARY KEY,
+        created_at BIGINT NOT NULL,
+        updated_at BIGINT NOT NULL,
+        expires_at BIGINT NOT NULL,
+        payload JSONB NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS device_backups_expires_at_idx
+        ON device_backups (expires_at);
     `)
     return true
   })().catch((err) => {
