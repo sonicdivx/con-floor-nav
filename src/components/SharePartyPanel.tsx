@@ -280,8 +280,9 @@ export function SharePartyPanel({
         </>
       ) : (
         <p className="muted sm">
-          Live party sharing is off until <code>VITE_PARTY_WS_URL</code> is set (see
-          README).
+          Live party is off in local Vite until <code>VITE_PARTY_WS_URL</code> points at{' '}
+          <code>npm run party-server</code>. On the Render deploy it uses this same host
+          automatically.
         </p>
       )}
     </div>

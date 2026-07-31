@@ -1,10 +1,12 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { PiPushPinFill, PiPushPinLight } from 'react-icons/pi'
 import { db } from '../db/schema'
 import type { VendorRecord, VisitStatus } from '../db/types'
-import { DEFAULT_TAGS } from '../db/types'
+import { useObjectUrl } from '../hooks/useObjectUrl'
 import { STATUS_COLORS, STATUS_LABELS, VISIT_STATUSES } from '../lib/statusColors'
+import { normalizeTag, registerCustomTags } from '../lib/tags'
+import { TagSelect } from './TagSelect'
 
 interface Props {
   vendor: VendorRecord
@@ -31,18 +33,29 @@ export function VendorPanel({
         : [],
     [vendor.id],
   )
+  const allVendors = useLiveQuery(
+    () => db.vendors.where('eventId').equals(vendor.eventId).toArray(),
+    [vendor.eventId],
+  )
+
+  const catalogExtra = useMemo(() => {
+    const tags: string[] = []
+    for (const v of allVendors ?? []) {
+      for (const t of v.tags) tags.push(t)
+    }
+    return tags
+  }, [allVendors])
 
   const setStatus = async (visitStatus: VisitStatus) => {
     if (vendor.id == null) return
     await db.vendors.update(vendor.id, { visitStatus })
   }
 
-  const toggleTag = async (tag: string) => {
+  const setTags = async (tags: string[]) => {
     if (vendor.id == null) return
-    const tags = vendor.tags.includes(tag)
-      ? vendor.tags.filter((t) => t !== tag)
-      : [...vendor.tags, tag]
-    await db.vendors.update(vendor.id, { tags })
+    const normalized = tags.map(normalizeTag).filter(Boolean)
+    registerCustomTags(normalized)
+    await db.vendors.update(vendor.id, { tags: normalized })
   }
 
   const addPhoto = async (file: File) => {
@@ -76,7 +89,11 @@ export function VendorPanel({
               onClick={onTogglePinned}
               aria-pressed={pinned}
               aria-label={pinned ? 'Unpin details panel' : 'Keep details panel open'}
-              title={pinned ? 'Unpin' : 'Keep open'}
+              title={
+                pinned
+                  ? 'Pinned open — tap other booths to switch'
+                  : 'Keep open while tapping the map'
+              }
             >
               {pinned ? (
                 <PiPushPinFill size={18} aria-hidden />
@@ -130,18 +147,11 @@ export function VendorPanel({
 
       <section className="panel-section">
         <h3>Tags</h3>
-        <div className="chip-row">
-          {DEFAULT_TAGS.map((tag) => (
-            <button
-              key={tag}
-              type="button"
-              className={`chip ${vendor.tags.includes(tag) ? 'active' : ''}`}
-              onClick={() => toggleTag(tag)}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
+        <TagSelect
+          selected={vendor.tags}
+          catalogExtra={catalogExtra}
+          onChange={(tags) => void setTags(tags)}
+        />
       </section>
 
       <section className="panel-section">
@@ -204,12 +214,7 @@ export function VendorPanel({
 }
 
 function PhotoThumb({ blob }: { blob: Blob }) {
-  const url = URL.createObjectURL(blob)
-  return (
-    <img
-      src={url}
-      alt=""
-      onLoad={() => URL.revokeObjectURL(url)}
-    />
-  )
+  const url = useObjectUrl(blob)
+  if (!url) return null
+  return <img src={url} alt="" />
 }

@@ -1,0 +1,15 @@
+---
+description: Map and vendor panel UX conventions
+globs: src/components/{MapViewer,VendorPanel,TagSelect,SharePartyPanel}.tsx,src/App.tsx
+alwaysApply: false
+---
+
+# Map / details UX
+
+- **My pin** FAB toggles `mapMode` `pin` ↔ `navigate`; tap map places pin; long-press pin to drag.
+- Booth tap in navigate: popover (Navigate / View details). If details already open, also switch selection.
+- Details **keep-open** pin is panel-level (`detailsPinned`), not per-vendor. Background tap closes only when unpinned.
+- Booth layout edit is Settings → Customize → Map (draft rects; Save / Reset / Done).
+- Tags: searchable `TagSelect` with “+ Add New”; map filter chips use `mergeTagCatalog`.
+- Live party UI only when `isPartyLiveEnabled()` (prod same-origin, or `VITE_PARTY_WS_URL`). Capacitor builds need `VITE_PARTY_WS_URL=wss://con-floor-nav.onrender.com/party` at build time.
+- Section labels use inverse-scale / screen-stable band — don’t break zoom math casually.

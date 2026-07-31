@@ -1,5 +1,5 @@
 import type { Rect } from '../db/types'
-import { db } from '../db/schema'
+import { db, resolveActiveFloorMapId, setActiveFloorMapId } from '../db/schema'
 import { applyBoothImport, parseBoothImportJson } from './import'
 import { getOtakon2026DealersObstacles } from './obstacles'
 
@@ -27,43 +27,98 @@ async function readImageDimensions(
   }
 }
 
+export type SaveFloorMapMode = 'replace-active' | 'add' | 'replace-all'
+
+/**
+ * Save a floor map image for an event.
+ * - `replace-active` (default): update the active map, or create one if none
+ * - `add`: always create a new map and make it active
+ * - `replace-all`: wipe all maps for the event, then create one (sample load)
+ */
 export async function saveFloorMapBlob(
   eventId: number,
   imageBlob: Blob,
-  options: { obstacles?: Rect[] } = {},
-): Promise<{ width: number; height: number }> {
-  const dims = await readImageDimensions(imageBlob)
-  const patch: {
-    imageBlob: Blob
-    width: number
-    height: number
+  options: {
     obstacles?: Rect[]
-  } = {
-    imageBlob,
-    width: dims.width,
-    height: dims.height,
-  }
-  if (options.obstacles !== undefined) {
-    patch.obstacles = options.obstacles
-  }
-  await db.transaction('rw', db.floorMaps, async () => {
-    const existing = await db.floorMaps.where('eventId').equals(eventId).toArray()
-    if (existing.length > 0) {
-      const [keep, ...extras] = existing
-      if (keep.id != null) {
-        await db.floorMaps.update(keep.id, patch)
+    name?: string
+    mode?: SaveFloorMapMode
+  } = {},
+): Promise<{ width: number; height: number; floorMapId: number }> {
+  const dims = await readImageDimensions(imageBlob)
+  const mode = options.mode ?? 'replace-active'
+  const name = options.name?.trim() || 'Floor map'
+
+  const floorMapId = await db.transaction('rw', db.floorMaps, db.booths, async () => {
+    if (mode === 'replace-all') {
+      const existing = await db.floorMaps.where('eventId').equals(eventId).toArray()
+      const ids = existing.map((m) => m.id).filter((id): id is number => id != null)
+      if (ids.length) {
+        await db.booths.where('floorMapId').anyOf(ids).modify((b) => {
+          delete b.floorMapId
+        })
+        await db.floorMaps.bulkDelete(ids)
       }
-      const extraIds = extras.map((m) => m.id).filter((id): id is number => id != null)
-      if (extraIds.length) await db.floorMaps.bulkDelete(extraIds)
-    } else {
-      await db.floorMaps.add({
+      const id = (await db.floorMaps.add({
         eventId,
-        ...patch,
+        name,
+        imageBlob,
+        width: dims.width,
+        height: dims.height,
+        obstacles: options.obstacles,
         createdAt: Date.now(),
-      })
+      })) as number
+      setActiveFloorMapId(eventId, id)
+      return id
     }
+
+    if (mode === 'add') {
+      const id = (await db.floorMaps.add({
+        eventId,
+        name,
+        imageBlob,
+        width: dims.width,
+        height: dims.height,
+        obstacles: options.obstacles,
+        createdAt: Date.now(),
+      })) as number
+      setActiveFloorMapId(eventId, id)
+      return id
+    }
+
+    // replace-active
+    let activeId = await resolveActiveFloorMapId(eventId)
+    if (activeId == null) {
+      activeId = (await db.floorMaps.add({
+        eventId,
+        name,
+        imageBlob,
+        width: dims.width,
+        height: dims.height,
+        obstacles: options.obstacles,
+        createdAt: Date.now(),
+      })) as number
+      setActiveFloorMapId(eventId, activeId)
+      return activeId
+    }
+
+    const patch: Partial<{
+      imageBlob: Blob
+      width: number
+      height: number
+      name: string
+      obstacles: Rect[]
+    }> = {
+      imageBlob,
+      width: dims.width,
+      height: dims.height,
+      name,
+    }
+    if (options.obstacles !== undefined) patch.obstacles = options.obstacles
+    await db.floorMaps.update(activeId, patch)
+    return activeId
   })
-  return dims
+
+  return { ...dims, floorMapId }
 }
 
 type SampleLoadResult = {
@@ -73,6 +128,7 @@ type SampleLoadResult = {
   height: number
   totalBooths: number
   obstacles: number
+  floorMapId: number
 }
 
 /** Deduplicate concurrent sample loads (auto-seed + Setup button / Strict Mode). */
@@ -101,9 +157,14 @@ export async function loadOtakon2026DealersSample(
     const data = parseBoothImportJson(text)
     const obstacles =
       data.obstacles?.length ? data.obstacles : getOtakon2026DealersObstacles()
-    const dims = await saveFloorMapBlob(eventId, imageBlob, { obstacles })
+    const dims = await saveFloorMapBlob(eventId, imageBlob, {
+      obstacles,
+      name: OTAKON_2026_DEALERS_SAMPLE.label,
+      mode: 'replace-all',
+    })
     const result = await applyBoothImport(eventId, data, {
       replace: options.replace ?? true,
+      floorMapId: dims.floorMapId,
     })
 
     return {
@@ -113,6 +174,7 @@ export async function loadOtakon2026DealersSample(
       height: dims.height,
       totalBooths: data.booths.length,
       obstacles: obstacles.length,
+      floorMapId: dims.floorMapId,
     }
   })()
 
@@ -124,40 +186,16 @@ export async function loadOtakon2026DealersSample(
   }
 }
 
-/**
- * If the active event has no floor map yet, load the Otakon dealers sample.
- * After success the image lives in IndexedDB so the app stays offline-capable.
- *
- * Uses a synchronous sessionStorage latch so React Strict Mode (double effect)
- * cannot start two imports before the async lock is registered.
- */
-export async function maybeAutoSeedOtakonSample(
-  eventId: number,
-): Promise<boolean> {
-  const flagKey = `cfn-otakon-autoseed:${eventId}`
-  const existingLock = inflightAutoSeeds.get(eventId)
-  if (existingLock) return existingLock
-
-  if (sessionStorage.getItem(flagKey)) {
-    return false
-  }
-  // Latch before any await — Strict Mode remount must not start a second seed.
-  sessionStorage.setItem(flagKey, 'pending')
+/** Auto-seed sample once if this event has no floor map yet. */
+export async function maybeAutoSeedOtakonSample(eventId: number): Promise<boolean> {
+  const existing = inflightAutoSeeds.get(eventId)
+  if (existing) return existing
 
   const pending = (async () => {
-    try {
-      const existing = await db.floorMaps.where('eventId').equals(eventId).first()
-      if (existing?.imageBlob) {
-        sessionStorage.setItem(flagKey, 'done')
-        return false
-      }
-      await loadOtakon2026DealersSample(eventId, { replace: true })
-      sessionStorage.setItem(flagKey, 'done')
-      return true
-    } catch (err) {
-      sessionStorage.removeItem(flagKey)
-      throw err
-    }
+    const map = await db.floorMaps.where('eventId').equals(eventId).first()
+    if (map?.imageBlob) return false
+    await loadOtakon2026DealersSample(eventId, { replace: true })
+    return true
   })()
 
   inflightAutoSeeds.set(eventId, pending)

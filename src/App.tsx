@@ -5,20 +5,26 @@ import {
   ensureVendorForBooth,
   getActiveEventId,
   getOrCreateUserLocation,
+  resolveActiveFloorMapId,
+  setActiveFloorMapId,
 } from './db/schema'
 import type { Rect, VendorRecord } from './db/types'
-import { DEFAULT_TAGS } from './db/types'
 import { MapViewer, type MapMode } from './components/MapViewer'
 import { VendorPanel } from './components/VendorPanel'
 import { ImportPanel } from './components/ImportPanel'
 import { AiExtractPanel } from './components/AiExtractPanel'
+import { BackupPanel } from './components/BackupPanel'
+import { EventsPanel } from './components/EventsPanel'
+import { MapsPanel } from './components/MapsPanel'
 import { GalleryPanel } from './components/GalleryPanel'
+import { NativeAppPanel } from './components/NativeAppPanel'
 import {
   SharePartyPanel,
   type PartyClientHandle,
 } from './components/SharePartyPanel'
 import { STATUS_COLORS, STATUS_LABELS } from './lib/statusColors'
 import { maybeAutoSeedOtakonSample } from './lib/sampleData'
+import { mergeTagCatalog, registerCustomTags } from './lib/tags'
 import type { PartyPeer } from './lib/partySocket'
 import './App.css'
 
@@ -26,6 +32,7 @@ type Tab = 'map' | 'settings' | 'ai' | 'gallery' | 'nav'
 
 function App() {
   const [eventId, setEventId] = useState<number | null>(null)
+  const [floorMapId, setFloorMapId] = useState<number | null>(null)
   const [tab, setTab] = useState<Tab>('map')
   const [mapMode, setMapMode] = useState<MapMode>('navigate')
   const [tagFilter, setTagFilter] = useState<string | null>(null)
@@ -57,28 +64,76 @@ function App() {
   const lastPinPublish = useRef(0)
   const focusNonce = useRef(0)
 
+  const resetMapSession = () => {
+    setBoothDrafts({})
+    setSelectedBoothId(null)
+    setDetailsPinned(false)
+    setNavTargetBoothId(null)
+    setNavTargetPoint(null)
+    setLocalPin(null)
+    setMapMode('navigate')
+  }
+
+  const switchEvent = (id: number) => {
+    setEventId(id)
+    setFloorMapId(null)
+    resetMapSession()
+    setTab('map')
+  }
+
+  const switchFloorMap = (id: number) => {
+    if (eventId != null) setActiveFloorMapId(eventId, id)
+    setFloorMapId(id)
+    resetMapSession()
+  }
+
   useEffect(() => {
     void getActiveEventId().then(setEventId)
   }, [])
 
   useEffect(() => {
     if (eventId == null) return
-    void maybeAutoSeedOtakonSample(eventId).catch((err) => {
-      console.warn('Auto-seed Otakon sample skipped:', err)
-    })
+    // First-run only: don't dump Otakon sample into every newly created blank event.
+    void (async () => {
+      const count = await db.events.count()
+      if (count !== 1) return
+      try {
+        await maybeAutoSeedOtakonSample(eventId)
+      } catch (err) {
+        console.warn('Auto-seed Otakon sample skipped:', err)
+      }
+    })()
+  }, [eventId])
+
+  useEffect(() => {
+    if (eventId == null) return
+    void resolveActiveFloorMapId(eventId).then(setFloorMapId)
   }, [eventId])
 
   const event = useLiveQuery(
     () => (eventId != null ? db.events.get(eventId) : undefined),
     [eventId],
   )
-  const floorMap = useLiveQuery(
-    () => (eventId != null ? db.floorMaps.where('eventId').equals(eventId).first() : undefined),
+  const floorMaps = useLiveQuery(
+    () =>
+      eventId != null
+        ? db.floorMaps.where('eventId').equals(eventId).sortBy('createdAt')
+        : [],
     [eventId],
   )
+  const floorMap = useLiveQuery(
+    () => (floorMapId != null ? db.floorMaps.get(floorMapId) : undefined),
+    [floorMapId],
+  )
   const booths = useLiveQuery(
-    () => (eventId != null ? db.booths.where('eventId').equals(eventId).toArray() : []),
-    [eventId],
+    () => {
+      if (eventId == null) return []
+      if (floorMapId != null) {
+        return db.booths.where('floorMapId').equals(floorMapId).toArray()
+      }
+      return db.booths.where('eventId').equals(eventId).toArray()
+    },
+    [eventId, floorMapId],
   )
   const vendors = useLiveQuery(
     () => (eventId != null ? db.vendors.where('eventId').equals(eventId).toArray() : []),
@@ -139,8 +194,15 @@ function App() {
   const boothEditsDirty = Object.keys(boothDrafts).length > 0
 
   const quickPick = useMemo(() => {
+    const boothIds = new Set(
+      (booths ?? [])
+        .map((b) => b.id)
+        .filter((id): id is number => id != null),
+    )
     const list = (vendors ?? []).filter(
-      (v) => v.visitStatus === 'favorite' || v.visitStatus === 'look_again',
+      (v) =>
+        boothIds.has(v.boothId) &&
+        (v.visitStatus === 'favorite' || v.visitStatus === 'look_again'),
     )
     list.sort((a, b) => {
       if (a.visitStatus !== b.visitStatus) {
@@ -149,6 +211,23 @@ function App() {
       return a.name.localeCompare(b.name)
     })
     return list
+  }, [vendors, booths])
+
+  const filterTags = useMemo(() => {
+    const inUse: string[] = []
+    for (const v of vendors ?? []) {
+      for (const t of v.tags) inUse.push(t)
+    }
+    return mergeTagCatalog(inUse)
+  }, [vendors])
+
+  useEffect(() => {
+    if (!vendors?.length) return
+    const inUse: string[] = []
+    for (const v of vendors) {
+      for (const t of v.tags) inUse.push(t)
+    }
+    registerCustomTags(inUse)
   }, [vendors])
 
   const updateBoothRectDraft = (boothId: number, rect: Rect) => {
@@ -284,12 +363,20 @@ function App() {
   }
 
   const openBoothDetails = (boothId: number) => {
-    // Open panel immediately — don't wait on IndexedDB.
+    // Open / switch panel immediately — don't wait on IndexedDB.
+    // Keep pin state: fill means “keep open while browsing,” not “this booth.”
     setSelectedBoothId(boothId)
-    // Unpinned = outline pin; user can pin (fill) to keep open while tapping the map.
-    setDetailsPinned(false)
     setTab('map')
     if (eventId != null) {
+      void ensureVendorForBooth(eventId, boothId).catch((err) => {
+        console.warn('ensureVendorForBooth failed', err)
+      })
+    }
+  }
+
+  const selectBoothForDetails = (boothId: number | null) => {
+    setSelectedBoothId(boothId)
+    if (boothId != null && eventId != null) {
       void ensureVendorForBooth(eventId, boothId).catch((err) => {
         console.warn('ensureVendorForBooth failed', err)
       })
@@ -490,6 +577,22 @@ function App() {
               </p>
             )}
             <div className="chip-row wrap">
+              {(floorMaps?.length ?? 0) > 1 && (
+                <>
+                  {(floorMaps ?? []).map((m) =>
+                    m.id != null ? (
+                      <button
+                        key={m.id}
+                        type="button"
+                        className={`chip ${floorMapId === m.id ? 'active' : ''}`}
+                        onClick={() => switchFloorMap(m.id!)}
+                      >
+                        {m.name?.trim() || 'Floor map'}
+                      </button>
+                    ) : null,
+                  )}
+                </>
+              )}
               <button
                 type="button"
                 className={`chip ${tagFilter == null ? 'active' : ''}`}
@@ -497,7 +600,7 @@ function App() {
               >
                 All tags
               </button>
-              {DEFAULT_TAGS.map((t) => (
+              {filterTags.map((t) => (
                 <button
                   key={t}
                   type="button"
@@ -546,7 +649,7 @@ function App() {
               peerPins={peerPins}
               pin={mapPin}
               mode={mapMode}
-              onSelectBooth={setSelectedBoothId}
+              onSelectBooth={selectBoothForDetails}
               onUpdateBoothRect={updateBoothRectDraft}
               onPinChange={(x, y) => void setPin(x, y)}
               onModeChange={setMapMode}
@@ -617,6 +720,7 @@ function App() {
             )}
             {selectedBooth && eventId != null && mapMode !== 'edit' && (
               <VendorPanel
+                key={selectedBooth.id}
                 vendor={
                   selectedVendor ?? {
                     eventId,
@@ -700,7 +804,21 @@ function App() {
       {tab === 'settings' && (
         <div className="page settings-page">
           <h2>Settings</h2>
-          <p className="muted">Import floor data and customize how the map behaves on this device.</p>
+          <p className="muted">
+            Manage events and floor maps, import data, and customize this device.
+          </p>
+
+          <section className="panel-section settings-section">
+            <EventsPanel activeEventId={eventId} onSwitchEvent={switchEvent} />
+          </section>
+
+          <section className="panel-section settings-section">
+            <MapsPanel
+              eventId={eventId}
+              activeFloorMapId={floorMapId}
+              onSwitchMap={switchFloorMap}
+            />
+          </section>
 
           <section className="panel-section settings-section">
             <h3>Customize</h3>
@@ -717,14 +835,39 @@ function App() {
           </section>
 
           <section className="panel-section settings-section">
-            <ImportPanel eventId={eventId} onDone={() => setAppTab('map')} />
+            <BackupPanel
+              eventId={eventId}
+              onRestored={() => {
+                setLocalPin(null)
+                setSelectedBoothId(null)
+                setNavTargetBoothId(null)
+                setNavTargetPoint(null)
+                void resolveActiveFloorMapId(eventId).then(setFloorMapId)
+              }}
+            />
+          </section>
+
+          <section className="panel-section settings-section">
+            <NativeAppPanel />
+          </section>
+
+          <section className="panel-section settings-section">
+            <ImportPanel
+              eventId={eventId}
+              floorMapId={floorMapId}
+              onDone={() => setAppTab('map')}
+            />
           </section>
         </div>
       )}
 
       {tab === 'ai' && (
         <div className="page">
-          <AiExtractPanel eventId={eventId} onImported={() => setTab('map')} />
+          <AiExtractPanel
+            eventId={eventId}
+            floorMapId={floorMapId}
+            onImported={() => setTab('map')}
+          />
         </div>
       )}
 

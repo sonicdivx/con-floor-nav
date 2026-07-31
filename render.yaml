@@ -1,0 +1,19 @@
+# Render Blueprint — Con Floor Nav PWA + party WebSocket
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: con-floor-nav
+    runtime: node
+    plan: free
+    region: oregon
+    branch: cursor/phase2-3-backup
+    autoDeploy: true
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Optional override; production defaults to same-origin wss://<host>/party
+      - key: VITE_PARTY_WS_URL
+        sync: false

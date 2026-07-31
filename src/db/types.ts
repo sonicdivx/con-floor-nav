@@ -33,6 +33,8 @@ export interface EventRecord {
 export interface FloorMapRecord {
   id?: number
   eventId: number
+  /** Display name (e.g. "Dealers", "Artist Alley"). */
+  name?: string
   imageBlob: Blob
   width: number
   height: number
@@ -54,6 +56,8 @@ export interface FloorMapRecord {
 export interface BoothRecord {
   id?: number
   eventId: number
+  /** Which floor map this booth belongs to (required for multi-map events). */
+  floorMapId?: number
   boothKey: string
   label: string
   nameOverride?: string

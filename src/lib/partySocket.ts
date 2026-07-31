@@ -31,20 +31,26 @@ function toPartyWsUrl(base: string): string {
   return u
 }
 
-function wsUrlFromEnv(): string | null {
+/** Explicit env, or same-origin party server in production builds (Render). */
+export function resolvePartyWsBase(): string | null {
   const raw = import.meta.env.VITE_PARTY_WS_URL as string | undefined
-  if (!raw?.trim()) return null
-  return toPartyWsUrl(raw)
+  if (raw?.trim()) return raw.trim()
+  // Dev Vite has no /party — keep live UI off unless env is set.
+  if (import.meta.env.DEV) return null
+  if (typeof location === 'undefined') return null
+  if (location.protocol !== 'http:' && location.protocol !== 'https:') return null
+  return `${location.protocol}//${location.host}`
 }
 
-function isPartyEnvSet(): boolean {
-  const raw = import.meta.env.VITE_PARTY_WS_URL as string | undefined
-  return Boolean(raw?.trim())
+function wsUrlFromEnv(): string | null {
+  const base = resolvePartyWsBase()
+  if (!base) return null
+  return toPartyWsUrl(base)
 }
 
 /** True when live party UI should be shown. */
 export function isPartyLiveEnabled(): boolean {
-  return isPartyEnvSet()
+  return resolvePartyWsBase() != null
 }
 
 export function createPartyClient(handlers: Handlers) {

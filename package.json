@@ -12,9 +12,15 @@
     "preview": "vite preview --host",
     "preview:https": "VITE_HTTPS=1 vite preview --host",
     "party-server": "tsx server/party-server.ts",
-    "start": "tsx server/party-server.ts"
+    "start": "tsx server/party-server.ts",
+    "cap:sync": "npm run build && npx cap sync android",
+    "cap:open": "npx cap open android",
+    "android": "npm run cap:sync && npx cap open android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/cli": "^8.4.2",
+    "@capacitor/core": "^8.4.2",
     "dexie": "^4.4.4",
     "dexie-react-hooks": "^4.4.0",
     "react": "^19.2.7",
