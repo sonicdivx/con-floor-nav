@@ -273,12 +273,70 @@ img {
   height: 100%;
 }
 
-.share-party-panel {
-  margin: 0 0 1.25rem;
-  padding: 0.85rem 1rem;
-  background: var(--bg-elev);
+.nav-collapsible {
+  margin: 0 0 0.85rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  background: var(--bg-elev);
+  overflow: hidden;
+}
+
+.nav-collapsible-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-align: left;
+  padding: 0.75rem 0.9rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.nav-collapsible-toggle:hover {
+  background: color-mix(in srgb, var(--bg-panel) 70%, transparent);
+}
+
+.nav-collapsible-chevron {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+  margin-top: -0.15rem;
+}
+
+.nav-collapsible.is-open .nav-collapsible-chevron {
+  transform: rotate(45deg);
+  margin-top: 0;
+}
+
+.nav-collapsible-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.nav-collapsible-body {
+  padding: 0 0.9rem 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+.nav-collapsible-body > .muted:first-child,
+.nav-collapsible-body > .nav-list:first-child {
+  margin-top: 0.65rem;
+}
+
+.share-party-panel {
+  margin: 0;
+  padding: 0.65rem 0 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
 }
 
 .share-party-panel h3 {

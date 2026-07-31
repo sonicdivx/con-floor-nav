@@ -18,14 +18,14 @@ import { EventsPanel } from './components/EventsPanel'
 import { MapsPanel } from './components/MapsPanel'
 import { GalleryPanel } from './components/GalleryPanel'
 import { NativeAppPanel } from './components/NativeAppPanel'
-import {
-  SharePartyPanel,
-  type PartyClientHandle,
-} from './components/SharePartyPanel'
+import { SharePartyPanel } from './components/SharePartyPanel'
+import { NavCollapsible } from './components/NavCollapsible'
 import { STATUS_COLORS, STATUS_LABELS } from './lib/statusColors'
 import { maybeAutoSeedOtakonSample } from './lib/sampleData'
 import { mergeTagCatalog, registerCustomTags } from './lib/tags'
 import type { PartyPeer } from './lib/partySocket'
+import { peerColor } from './lib/partySocket'
+import { usePartySession } from './hooks/usePartySession'
 import './App.css'
 
 type Tab = 'map' | 'settings' | 'ai' | 'gallery' | 'nav'
@@ -54,13 +54,13 @@ function App() {
     y: number
     nonce: number
   } | null>(null)
-  const [peerPins, setPeerPins] = useState<PartyPeer[]>([])
   const [mapUrl, setMapUrl] = useState<string | null>(null)
   const [gpsBusy, setGpsBusy] = useState(false)
   const [gpsMsg, setGpsMsg] = useState<string | null>(null)
   const [mapMenuOpen, setMapMenuOpen] = useState(false)
   const [mapFullscreen, setMapFullscreen] = useState(false)
-  const partyClientRef = useRef<PartyClientHandle | null>(null)
+  const party = usePartySession()
+  const peerPins = party.peers
   const lastPinPublish = useRef(0)
   const focusNonce = useRef(0)
 
@@ -287,13 +287,13 @@ function App() {
     const now = Date.now()
     if (now - lastPinPublish.current >= 1500) {
       lastPinPublish.current = now
-      partyClientRef.current?.publishPin(x, y)
+      party.publishPin(x, y)
     } else {
       window.setTimeout(() => {
         const t = Date.now()
         if (t - lastPinPublish.current >= 1400) {
           lastPinPublish.current = t
-          partyClientRef.current?.publishPin(x, y)
+          party.publishPin(x, y)
         }
       }, 1600)
     }
@@ -315,10 +315,6 @@ function App() {
     setFocusRequest({ x: p.x, y: p.y, nonce: focusNonce.current })
     setTab('map')
     setMapMode('navigate')
-  }, [])
-
-  const onPeersChange = useCallback((peers: PartyPeer[], _selfId: string | null) => {
-    setPeerPins(peers)
   }, [])
 
   const navigateToPeer = (peer: PartyPeer) => {
@@ -752,40 +748,109 @@ function App() {
           <p className="muted">
             Quick pick from favorites and look-again. Routes an aisle path from your pin around booths and pillars.
           </p>
-          <SharePartyPanel
-            pin={mapPin}
-            onApplySharedPin={(p) => void applySharedPin(p)}
-            onPeersChange={onPeersChange}
-            partyClientRef={partyClientRef}
-          />
-          {!quickPick.length && (
-            <p className="muted">Mark vendors as Favorite or Look again first.</p>
+
+          {party.inParty && (
+            <NavCollapsible
+              title="Party members"
+              summary={
+                party.peers.length
+                  ? `${party.peers.length} online · ${party.partyCode}`
+                  : `Waiting · ${party.partyCode}`
+              }
+              defaultOpen
+            >
+              {!party.peers.length ? (
+                <p className="muted sm">No other members yet — share your party code.</p>
+              ) : (
+                <ul className="nav-list">
+                  {party.peers.map((p) => (
+                    <li key={p.id}>
+                      <button
+                        type="button"
+                        className="nav-item"
+                        onClick={() => navigateToPeer(p)}
+                      >
+                        <span
+                          className="status-dot"
+                          style={{ background: peerColor(p.id || p.name) }}
+                        />
+                        <span>
+                          <strong>{p.name}</strong>
+                          <span className="muted sm">Tap to navigate to their pin</span>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </NavCollapsible>
           )}
-          <ul className="nav-list">
-            {quickPick.map((v) => {
-              const booth = (booths ?? []).find((b) => b.id === v.boothId)
-              return (
-                <li key={v.id}>
-                  <button
-                    type="button"
-                    className="nav-item"
-                    onClick={() => navigateToVendor(v)}
-                  >
-                    <span
-                      className="status-dot"
-                      style={{ background: STATUS_COLORS[v.visitStatus] }}
-                    />
-                    <span>
-                      <strong>{v.name}</strong>
-                      <span className="muted sm">
-                        Booth {booth?.label ?? '?'} · {STATUS_LABELS[v.visitStatus]}
+
+          <NavCollapsible
+            title="Favorites & look again"
+            summary={
+              quickPick.length
+                ? `${quickPick.length} vendor${quickPick.length === 1 ? '' : 's'}`
+                : undefined
+            }
+            defaultOpen
+          >
+            {!quickPick.length && (
+              <p className="muted">Mark vendors as Favorite or Look again first.</p>
+            )}
+            <ul className="nav-list">
+              {quickPick.map((v) => {
+                const booth = (booths ?? []).find((b) => b.id === v.boothId)
+                return (
+                  <li key={v.id}>
+                    <button
+                      type="button"
+                      className="nav-item"
+                      onClick={() => navigateToVendor(v)}
+                    >
+                      <span
+                        className="status-dot"
+                        style={{ background: STATUS_COLORS[v.visitStatus] }}
+                      />
+                      <span>
+                        <strong>{v.name}</strong>
+                        <span className="muted sm">
+                          Booth {booth?.label ?? '?'} · {STATUS_LABELS[v.visitStatus]}
+                        </span>
                       </span>
-                    </span>
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </NavCollapsible>
+
+          <NavCollapsible
+            title="Share & party"
+            summary={
+              party.inParty
+                ? `${party.partyCode} · ${party.status}`
+                : party.liveEnabled
+                  ? 'Create or join'
+                  : 'Share pin'
+            }
+            defaultOpen={!party.inParty}
+          >
+            <SharePartyPanel
+              pin={mapPin}
+              onApplySharedPin={(p) => void applySharedPin(p)}
+              party={{
+                liveEnabled: party.liveEnabled,
+                status: party.status,
+                detail: party.detail,
+                partyCode: party.partyCode,
+                create: party.create,
+                join: party.join,
+                leave: party.leave,
+              }}
+            />
+          </NavCollapsible>
+
           {(navTargetBoothId != null || navTargetPoint != null) && (
             <button
               type="button"

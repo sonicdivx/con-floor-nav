@@ -111,6 +111,17 @@ export function createPartyClient(handlers: Handlers) {
         if (msg.type === 'joined') {
           selfId = String(msg.selfId)
           code = String(msg.code)
+          // After create, reconnect must re-join the same code (not create a new room).
+          if (lastJoin?.kind === 'create') {
+            lastJoin = {
+              kind: 'join',
+              code: String(msg.code),
+              name: lastJoin.name,
+              pin: lastJoin.pin,
+            }
+          } else if (lastJoin?.kind === 'join') {
+            lastJoin = { ...lastJoin, code: String(msg.code) }
+          }
           handlers.onStatus('joined')
           handlers.onJoined({
             code: String(msg.code),
@@ -200,11 +211,14 @@ export function createPartyClient(handlers: Handlers) {
       selfId = null
       code = null
       lastJoin = null
+      handlers.onLeft?.()
       handlers.onStatus('idle')
     },
     dispose() {
+      // App teardown only — closes the socket (server drops the member).
       intentionalClose = true
       clearReconnect()
+      lastJoin = null
       try {
         ws?.close()
       } catch {
