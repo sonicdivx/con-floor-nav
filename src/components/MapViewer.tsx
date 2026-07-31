@@ -187,7 +187,17 @@ export function MapViewer({
     if (!el) return
     const ro = new ResizeObserver(() => fit())
     ro.observe(el)
-    return () => ro.disconnect()
+    // Portrait first-load: visualViewport can settle after layout; re-fit then.
+    const onViewport = () => fit()
+    window.visualViewport?.addEventListener('resize', onViewport)
+    window.addEventListener('orientationchange', onViewport)
+    const t = window.setTimeout(fit, 350)
+    return () => {
+      ro.disconnect()
+      window.clearTimeout(t)
+      window.visualViewport?.removeEventListener('resize', onViewport)
+      window.removeEventListener('orientationchange', onViewport)
+    }
   }, [fit, mapUrl])
 
   useEffect(() => {

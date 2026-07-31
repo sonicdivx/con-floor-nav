@@ -36,19 +36,19 @@
 html,
 body,
 #root {
-  height: 100%;
+  height: var(--app-height, 100svh);
+  max-height: var(--app-height, 100svh);
+  width: var(--app-width, 100%);
+  max-width: 100%;
   margin: 0;
   overflow: hidden;
 }
 
-/* Prefer the small viewport so bottom FABs stay above mobile browser chrome on load. */
-@supports (height: 100svh) {
-  html,
-  body,
-  #root {
-    height: 100svh;
-    max-height: 100svh;
-  }
+/* Fixed shell so portrait first-paint can't leave FABs under browser chrome. */
+#root {
+  position: fixed;
+  top: var(--app-top, 0px);
+  left: 0;
 }
 
 body {
