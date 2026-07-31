@@ -10,7 +10,8 @@ export default defineConfig({
     react(),
     ...(useHttps ? [basicSsl()] : []),
     VitePWA({
-      registerType: 'autoUpdate',
+      // Waiting SW activates only when the user chooses Refresh / Update to latest.
+      registerType: 'prompt',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'Con Floor Nav',

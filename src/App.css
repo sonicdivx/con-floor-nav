@@ -199,9 +199,29 @@ img {
   display: none;
 }
 
-.map-toolbar-header,
-.map-toolbar-footer {
+.map-toolbar-header {
   display: none;
+}
+
+.map-toolbar-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+  padding-top: 0.15rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.15rem;
+}
+
+.map-toolbar-fullmap {
+  display: none;
+}
+
+.app-menu-version {
+  margin: 0 0 0 0 auto;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .map-menu-backdrop {
@@ -968,7 +988,21 @@ img {
 
   .map-toolbar-footer {
     display: flex;
-    padding-top: 0.25rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .map-toolbar-fullmap {
+    display: inline-flex;
+  }
+
+  .app-menu-version {
+    margin: 0.25rem 0 0;
+    text-align: center;
   }
 
   .map-menu-backdrop {
@@ -1050,7 +1084,21 @@ img {
   }
 
   .app.map-fullscreen .map-toolbar-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+
+  .app.map-fullscreen .map-toolbar-fullmap {
     display: none;
+  }
+
+  .app.map-fullscreen .app-menu-version {
+    margin: 0.25rem 0 0;
+    text-align: center;
   }
 }
 
@@ -1447,3 +1495,109 @@ label.btn.disabled,
 .gps-msg {
   margin: 0;
 }
+
+/* —— App update toast —— */
+.update-toast {
+  position: fixed;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-elev);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.update-toast-body {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.update-toast-body strong {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.update-toast-body p {
+  margin: 0 0 0.25rem;
+}
+
+.update-toast-link {
+  padding-left: 0;
+}
+
+.update-toast-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+/* —— Changelog page —— */
+.changelog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.changelog-header h2 {
+  margin: 0 0 0.2rem;
+}
+
+.changelog-update-card {
+  margin-bottom: 1.25rem;
+}
+
+.changelog-update-card .btn {
+  margin-top: 0.55rem;
+}
+
+.changelog-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.changelog-entry {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-panel);
+}
+
+.changelog-entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.changelog-current {
+  font-size: 0.72rem;
+}
+
+.changelog-entry ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.changelog-entry li + li {
+  margin-top: 0.25rem;
+}
+
