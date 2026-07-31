@@ -1,11 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type MutableRefObject,
-} from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   clearPinHash,
   copyText,
@@ -14,28 +7,27 @@ import {
   pinShareUrl,
   readPinFromLocationHash,
 } from '../lib/pinShare'
-import {
-  createPartyClient,
-  isPartyLiveEnabled,
-  type PartyPeer,
-  type PartyStatus,
-} from '../lib/partySocket'
+import type { PartyStatus } from '../lib/partySocket'
 
 type Pin = { x: number; y: number }
+
+export type PartySessionProps = {
+  liveEnabled: boolean
+  status: PartyStatus
+  detail: string | null
+  partyCode: string | null
+  create: (name: string, pin?: Pin) => Promise<void>
+  join: (code: string, name: string, pin?: Pin) => Promise<void>
+  leave: () => void
+}
 
 type Props = {
   pin: Pin | null
   onApplySharedPin: (pin: Pin) => void
-  onPeersChange: (peers: PartyPeer[], selfId: string | null) => void
-  partyClientRef: MutableRefObject<ReturnType<typeof createPartyClient> | null>
+  party: PartySessionProps
 }
 
-export function SharePartyPanel({
-  pin,
-  onApplySharedPin,
-  onPeersChange,
-  partyClientRef,
-}: Props) {
+export function SharePartyPanel({ pin, onApplySharedPin, party }: Props) {
   const [pasteValue, setPasteValue] = useState('')
   const [shareMsg, setShareMsg] = useState<string | null>(null)
   const [nickname, setNickname] = useState(() => {
@@ -46,59 +38,6 @@ export function SharePartyPanel({
     }
   })
   const [joinCode, setJoinCode] = useState('')
-  const [partyCode, setPartyCode] = useState<string | null>(null)
-  const [partyStatus, setPartyStatus] = useState<PartyStatus>('idle')
-  const [partyDetail, setPartyDetail] = useState<string | null>(null)
-  const [peers, setPeers] = useState<PartyPeer[]>([])
-  const [selfId, setSelfId] = useState<string | null>(null)
-  const selfIdRef = useRef<string | null>(null)
-  const liveEnabled = isPartyLiveEnabled()
-
-  const client = useMemo(() => {
-    if (!liveEnabled) return null
-    return createPartyClient({
-      onStatus: (s, detail) => {
-        setPartyStatus(s)
-        setPartyDetail(detail ?? null)
-      },
-      onJoined: ({ code, selfId: id, members }) => {
-        selfIdRef.current = id
-        setPartyCode(code)
-        setSelfId(id)
-        setPeers(members.filter((m) => m.id !== id))
-      },
-      onMembers: (members) => {
-        const id = selfIdRef.current
-        setPeers(members.filter((m) => m.id !== id))
-      },
-      onPeerPin: (peer) => {
-        if (peer.id === selfIdRef.current) return
-        setPeers((prev) => {
-          const next = prev.filter((p) => p.id !== peer.id)
-          next.push(peer)
-          return next
-        })
-      },
-      onLeft: () => {
-        selfIdRef.current = null
-        setPartyCode(null)
-        setSelfId(null)
-        setPeers([])
-      },
-    })
-  }, [liveEnabled])
-
-  useEffect(() => {
-    partyClientRef.current = client
-    return () => {
-      client?.dispose()
-      partyClientRef.current = null
-    }
-  }, [client, partyClientRef])
-
-  useEffect(() => {
-    onPeersChange(peers, selfId)
-  }, [peers, selfId, onPeersChange])
 
   const applyShared = useCallback(
     (p: Pin) => {
@@ -150,33 +89,15 @@ export function SharePartyPanel({
   }
 
   const createParty = async () => {
-    if (!client) return
     const name = nickname.trim() || 'Friend'
     persistName(name)
-    try {
-      await client.create(name, pin ?? undefined)
-    } catch (e) {
-      setPartyDetail(e instanceof Error ? e.message : 'Create failed')
-    }
+    await party.create(name, pin ?? undefined)
   }
 
   const joinParty = async () => {
-    if (!client) return
     const name = nickname.trim() || 'Friend'
     persistName(name)
-    try {
-      await client.join(joinCode, name, pin ?? undefined)
-    } catch (e) {
-      setPartyDetail(e instanceof Error ? e.message : 'Join failed')
-    }
-  }
-
-  const leaveParty = () => {
-    client?.leave()
-    selfIdRef.current = null
-    setPartyCode(null)
-    setSelfId(null)
-    setPeers([])
+    await party.join(joinCode, name, pin ?? undefined)
   }
 
   return (
@@ -211,7 +132,7 @@ export function SharePartyPanel({
       </label>
       {shareMsg && <p className="muted sm">{shareMsg}</p>}
 
-      {liveEnabled ? (
+      {party.liveEnabled ? (
         <>
           <h3>Live party</h3>
           <p className="muted sm">
@@ -227,27 +148,15 @@ export function SharePartyPanel({
               maxLength={24}
             />
           </label>
-          {partyCode ? (
+          {party.partyCode ? (
             <div className="party-active">
               <p>
-                Party code: <strong className="party-code">{partyCode}</strong>
-                <span className="muted sm"> · {partyStatus}</span>
+                Party code: <strong className="party-code">{party.partyCode}</strong>
+                <span className="muted sm"> · {party.status}</span>
               </p>
-              <button type="button" className="btn ghost sm" onClick={leaveParty}>
+              <button type="button" className="btn ghost sm" onClick={party.leave}>
                 Leave party
               </button>
-              {peers.length > 0 && (
-                <ul className="peer-list">
-                  {peers.map((p) => (
-                    <li key={p.id}>
-                      {p.name}{' '}
-                      <span className="muted sm">
-                        ({p.x.toFixed(2)}, {p.y.toFixed(2)})
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
           ) : (
             <div className="party-join">
@@ -276,7 +185,7 @@ export function SharePartyPanel({
               </div>
             </div>
           )}
-          {partyDetail && <p className="muted sm">{partyDetail}</p>}
+          {party.detail && <p className="muted sm">{party.detail}</p>}
         </>
       ) : (
         <p className="muted sm">
@@ -288,5 +197,3 @@ export function SharePartyPanel({
     </div>
   )
 }
-
-export type PartyClientHandle = ReturnType<typeof createPartyClient>
