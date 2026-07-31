@@ -1,5 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useState } from 'react'
+import { PiPushPinFill, PiPushPinLight } from 'react-icons/pi'
 import { db } from '../db/schema'
 import type { VendorRecord, VisitStatus } from '../db/types'
 import { DEFAULT_TAGS } from '../db/types'
@@ -8,11 +9,20 @@ import { STATUS_COLORS, STATUS_LABELS, VISIT_STATUSES } from '../lib/statusColor
 interface Props {
   vendor: VendorRecord
   boothLabel: string
+  pinned?: boolean
+  onTogglePinned?: () => void
   onClose: () => void
   onNavigate: () => void
 }
 
-export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) {
+export function VendorPanel({
+  vendor,
+  boothLabel,
+  pinned = false,
+  onTogglePinned,
+  onClose,
+  onNavigate,
+}: Props) {
   const [note, setNote] = useState('')
   const photos = useLiveQuery(
     () =>
@@ -52,15 +62,33 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
   }
 
   return (
-    <aside className="side-panel vendor-panel">
+    <aside className={`side-panel vendor-panel${pinned ? ' is-pinned' : ''}`}>
       <header className="panel-header">
         <div>
           <p className="eyebrow">Booth {boothLabel}</p>
           <h2>{vendor.name}</h2>
         </div>
-        <button type="button" className="btn ghost sm" onClick={onClose} aria-label="Close">
-          ✕
-        </button>
+        <div className="panel-header-actions">
+          {onTogglePinned && (
+            <button
+              type="button"
+              className={`btn ghost sm pin-keep-open${pinned ? ' active' : ''}`}
+              onClick={onTogglePinned}
+              aria-pressed={pinned}
+              aria-label={pinned ? 'Unpin details panel' : 'Keep details panel open'}
+              title={pinned ? 'Unpin' : 'Keep open'}
+            >
+              {pinned ? (
+                <PiPushPinFill size={18} aria-hidden />
+              ) : (
+                <PiPushPinLight size={18} aria-hidden />
+              )}
+            </button>
+          )}
+          <button type="button" className="btn ghost sm" onClick={onClose} aria-label="Close">
+            ✕
+          </button>
+        </div>
       </header>
 
       <section className="panel-section">
@@ -81,6 +109,22 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
               {STATUS_LABELS[s]}
             </button>
           ))}
+          <button type="button" className="chip navigate-chip" onClick={onNavigate}>
+            <svg
+              className="navigate-chip-icon"
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                fill="currentColor"
+                d="M12 2.5 4.2 19.3c-.25.55.32 1.12.88.88L12 17.2l6.92 2.98c.56.24 1.13-.33.88-.88L12 2.5Z"
+              />
+            </svg>
+            Navigate
+          </button>
         </div>
       </section>
 
@@ -98,12 +142,6 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="panel-section">
-        <button type="button" className="btn primary block" onClick={onNavigate}>
-          Navigate here
-        </button>
       </section>
 
       <section className="panel-section">

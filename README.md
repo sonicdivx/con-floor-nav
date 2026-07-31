@@ -55,7 +55,9 @@ At the con, after you’ve installed the PWA and cached assets, the app is offli
 - Optional in-app OpenAI/Claude map→JSON (keys in localStorage; review before save)
 - Vendor status: favorite / look again / end of con / none; default tags
 - Item photos (camera or library) → Dexie blobs
-- Manual location pin + optional GPS; nav line + quick pick from favorites/look-again
+- Manual location pin + optional GPS; aisle nav line + quick pick from favorites/look-again
+- **Share pin** link (`cfn1:x,y` / `#pin=…`) for SMS/Signal; paste to navigate
+- **Live party** (optional): party codes + WebSocket peer pins when Wi‑Fi works
 - Photo gallery by vendor; multi-select → set look again / favorite
 
 ## Build
@@ -64,3 +66,35 @@ At the con, after you’ve installed the PWA and cached assets, the app is offli
 npm run build
 npm run preview
 ```
+
+**Render (static site only):** build command `npm run build`, publish directory `dist`.
+
+### Party WebSocket + static on Render (recommended for live sharing)
+
+1. Build the PWA with the public WebSocket URL baked in:
+
+```bash
+# Example — use your Render service hostname
+VITE_PARTY_WS_URL=wss://YOUR-SERVICE.onrender.com npm run build
+```
+
+Or set `VITE_PARTY_WS_URL` in the Render **build** environment (Vite inlines it at build time).
+
+2. Start command: `npm start` (runs `tsx server/party-server.ts`), which:
+   - Serves `dist/` over HTTP
+   - Accepts WebSockets at `/party`
+   - Health check: `GET /api/health`
+
+3. Local party server (dev):
+
+```bash
+# Terminal A — Vite app (optional: point at local party server)
+VITE_PARTY_WS_URL=ws://localhost:8787 npm run dev
+
+# Terminal B
+npm run party-server
+```
+
+Without `VITE_PARTY_WS_URL`, the app still supports **Copy share link / paste** offline; the Live party UI stays hidden.
+
+Party codes are for friends only — don’t post them publicly. Stale members expire after ~3 minutes without pin updates.

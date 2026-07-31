@@ -79,7 +79,7 @@ export function ImportPanel({ eventId, onDone }: Props) {
 
   return (
     <div className="stack-panel">
-      <h2>Setup & import</h2>
+      <h3>Import</h3>
       <p className="muted">
         Load a floorplan image, then import booth JSON/CSV — or copy the AI prompt and paste
         results from Claude / ChatGPT.

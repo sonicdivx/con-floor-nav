@@ -106,3 +106,26 @@ export async function getOrCreateUserLocation(
   const id = await db.userLocations.add(record)
   return { ...record, id }
 }
+
+/** Ensure a vendor row exists for a booth so the details panel can open. */
+export async function ensureVendorForBooth(
+  eventId: number,
+  boothId: number,
+): Promise<VendorRecord> {
+  const existing = await db.vendors.where('boothId').equals(boothId).first()
+  if (existing && existing.eventId === eventId) return existing
+
+  const booth = await db.booths.get(boothId)
+  const name =
+    booth?.nameOverride?.trim() ||
+    (booth?.label ? `Booth ${booth.label}` : `Booth ${boothId}`)
+  const record: VendorRecord = {
+    eventId,
+    boothId,
+    name,
+    tags: [],
+    visitStatus: 'none',
+  }
+  const id = await db.vendors.add(record)
+  return { ...record, id: id as number }
+}
