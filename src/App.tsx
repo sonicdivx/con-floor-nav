@@ -56,6 +56,8 @@ function App() {
     y: number
     nonce: number
   } | null>(null)
+  /** Bump to reset the map to default fit scale (dealer search). */
+  const [mapFitNonce, setMapFitNonce] = useState(0)
   const [mapUrl, setMapUrl] = useState<string | null>(null)
   const [gpsBusy, setGpsBusy] = useState(false)
   const [gpsMsg, setGpsMsg] = useState<string | null>(null)
@@ -405,7 +407,7 @@ function App() {
     return m
   }, [floorMaps])
 
-  /** Search result → switch map if needed, aisle-nav to booth. */
+  /** Search result → switch map if needed, aisle-nav to booth at default fit scale. */
   const navigateToDealer = (hit: DealerHit) => {
     const { booth } = hit
     if (booth.id == null) return
@@ -428,12 +430,9 @@ function App() {
       x: booth.rect.x + booth.rect.w / 2,
       y: booth.rect.y + booth.rect.h / 2,
     })
-    focusNonce.current += 1
-    setFocusRequest({
-      x: booth.rect.x + booth.rect.w / 2,
-      y: booth.rect.y + booth.rect.h / 2,
-      nonce: focusNonce.current,
-    })
+    // Do not zoom/focus the booth — keep (or reset to) default fit scale.
+    // Focusing was also interacting badly with iOS input page-zoom after search.
+    setMapFitNonce((n) => n + 1)
     setTab('map')
     setMapMode('navigate')
     void ensurePin()
@@ -734,6 +733,7 @@ function App() {
               navTargetBoothId={navTargetBoothId}
               navTargetPoint={navTargetPoint}
               focusRequest={focusRequest}
+              fitRequest={mapFitNonce}
               peerPins={peerPins}
               pin={mapPin}
               mode={mapMode}

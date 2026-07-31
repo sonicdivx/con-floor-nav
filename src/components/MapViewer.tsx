@@ -41,6 +41,8 @@ interface Props {
   peerPins?: PartyPeer[]
   /** Bump nonce to fly the camera to a point. */
   focusRequest?: { x: number; y: number; nonce: number } | null
+  /** Bump to reset pan/zoom to default fit (e.g. after dealer search). */
+  fitRequest?: number
   onSelectBooth: (_boothId: number | null) => void
   onUpdateBoothRect: (boothId: number, rect: BoothRecord['rect']) => void
   onPinChange: (x: number, y: number) => void
@@ -67,6 +69,7 @@ export function MapViewer({
   mode,
   peerPins = [],
   focusRequest = null,
+  fitRequest = 0,
   onSelectBooth,
   onUpdateBoothRect,
   onPinChange,
@@ -414,6 +417,13 @@ export function MapViewer({
     lastFocusNonce.current = focusRequest.nonce
     focusPoint(focusRequest.x, focusRequest.y)
   }, [focusRequest, focusPoint])
+
+  const lastFitNonce = useRef(0)
+  useEffect(() => {
+    if (!fitRequest || fitRequest === lastFitNonce.current) return
+    lastFitNonce.current = fitRequest
+    fit()
+  }, [fitRequest, fit])
 
   const beginPinch = () => {
     const pts = [...pointersRef.current.values()]
