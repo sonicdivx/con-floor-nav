@@ -1,4 +1,4 @@
-# Render Blueprint — Con Floor Nav PWA + party WebSocket
+# Render Blueprint — Con Floor Nav PWA + party WebSocket + shared catalog DB
 # https://render.com/docs/blueprint-spec
 services:
   - type: web
@@ -17,3 +17,16 @@ services:
       # Optional override; production defaults to same-origin wss://<host>/party
       - key: VITE_PARTY_WS_URL
         sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: con-floor-nav-db
+          property: connectionString
+      # Party codes survive this long after last activity (default 36h also in code)
+      - key: PARTY_TTL_MS
+        value: "129600000"
+
+databases:
+  - name: con-floor-nav-db
+    plan: free
+    region: oregon
+    postgresMajorVersion: "16"

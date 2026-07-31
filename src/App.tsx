@@ -20,12 +20,14 @@ import { GalleryPanel } from './components/GalleryPanel'
 import { NativeAppPanel } from './components/NativeAppPanel'
 import { SharePartyPanel } from './components/SharePartyPanel'
 import { NavCollapsible } from './components/NavCollapsible'
+import { DealerSearch, type DealerHit } from './components/DealerSearch'
 import { STATUS_COLORS, STATUS_LABELS } from './lib/statusColors'
 import { maybeAutoSeedOtakonSample } from './lib/sampleData'
 import { mergeTagCatalog, registerCustomTags } from './lib/tags'
 import type { PartyPeer } from './lib/partySocket'
 import { peerColor } from './lib/partySocket'
 import { usePartySession } from './hooks/usePartySession'
+import { syncCatalogFromCloud } from './lib/cloudSync'
 import './App.css'
 
 type Tab = 'map' | 'settings' | 'ai' | 'gallery' | 'nav'
@@ -59,6 +61,7 @@ function App() {
   const [gpsMsg, setGpsMsg] = useState<string | null>(null)
   const [mapMenuOpen, setMapMenuOpen] = useState(false)
   const [mapFullscreen, setMapFullscreen] = useState(false)
+  const [syncMsg, setSyncMsg] = useState<string | null>(null)
   const party = usePartySession()
   const peerPins = party.peers
   const lastPinPublish = useRef(0)
@@ -105,6 +108,37 @@ function App() {
     })()
   }, [eventId])
 
+  /** Pull shared catalog when online (cloud = source of truth for maps/dealers). */
+  useEffect(() => {
+    let cancelled = false
+    const run = async (force = false) => {
+      const result = await syncCatalogFromCloud({ force })
+      if (cancelled) return
+      if (result.ok) {
+        if (!result.skipped) {
+          setSyncMsg(
+            `Synced ${result.events} event${result.events === 1 ? '' : 's'} from cloud.`,
+          )
+          if (eventId != null) {
+            void resolveActiveFloorMapId(eventId).then(setFloorMapId)
+          }
+        }
+      } else if (
+        result.error !== 'Offline' &&
+        !result.error.includes('not configured')
+      ) {
+        setSyncMsg(`Sync: ${result.error}`)
+      }
+    }
+    void run(false)
+    const onOnline = () => void run(false)
+    window.addEventListener('online', onOnline)
+    return () => {
+      cancelled = true
+      window.removeEventListener('online', onOnline)
+    }
+  }, [eventId])
+
   useEffect(() => {
     if (eventId == null) return
     void resolveActiveFloorMapId(eventId).then(setFloorMapId)
@@ -134,6 +168,11 @@ function App() {
       return db.booths.where('eventId').equals(eventId).toArray()
     },
     [eventId, floorMapId],
+  )
+  /** All booths for the event — dealer search spans maps. */
+  const allBooths = useLiveQuery(
+    () => (eventId != null ? db.booths.where('eventId').equals(eventId).toArray() : []),
+    [eventId],
   )
   const vendors = useLiveQuery(
     () => (eventId != null ? db.vendors.where('eventId').equals(eventId).toArray() : []),
@@ -358,6 +397,43 @@ function App() {
     }
   }
 
+  const mapNameById = useMemo(() => {
+    const m = new Map<number, string>()
+    for (const fm of floorMaps ?? []) {
+      if (fm.id != null) m.set(fm.id, fm.name?.trim() || 'Floor map')
+    }
+    return m
+  }, [floorMaps])
+
+  /** Search result → switch map if needed, aisle-nav to booth. */
+  const navigateToDealer = (hit: DealerHit) => {
+    const { booth } = hit
+    if (booth.id == null) return
+    if (booth.floorMapId != null && booth.floorMapId !== floorMapId) {
+      if (eventId != null) setActiveFloorMapId(eventId, booth.floorMapId)
+      setFloorMapId(booth.floorMapId)
+      setBoothDrafts({})
+      setDetailsPinned(false)
+      setMapMode('navigate')
+    }
+    setSelectedBoothId(booth.id)
+    if (!mapPin) setLocalPin({ x: 0.5, y: 0.5 })
+    setNavTargetBoothId(booth.id)
+    setNavTargetPoint({
+      x: booth.rect.x + booth.rect.w / 2,
+      y: booth.rect.y + booth.rect.h / 2,
+    })
+    focusNonce.current += 1
+    setFocusRequest({
+      x: booth.rect.x + booth.rect.w / 2,
+      y: booth.rect.y + booth.rect.h / 2,
+      nonce: focusNonce.current,
+    })
+    setTab('map')
+    setMapMode('navigate')
+    void ensurePin()
+  }
+
   const openBoothDetails = (boothId: number) => {
     // Open / switch panel immediately — don't wait on IndexedDB.
     // Keep pin state: fill means “keep open while browsing,” not “this booth.”
@@ -549,6 +625,17 @@ function App() {
                 Close
               </button>
             </div>
+            <DealerSearch
+              compact
+              vendors={vendors ?? []}
+              booths={allBooths ?? []}
+              mapNameById={mapNameById}
+              placeholder="Search dealers…"
+              onSelect={(hit) => {
+                setMapMenuOpen(false)
+                navigateToDealer(hit)
+              }}
+            />
             <div className="chip-row wrap">
               {mapMode === 'edit' ? (
                 <span className="muted sm">
@@ -746,8 +833,19 @@ function App() {
         <div className="stack-panel page">
           <h2>Navigate</h2>
           <p className="muted">
-            Quick pick from favorites and look-again. Routes an aisle path from your pin around booths and pillars.
+            Search dealers, quick-pick favorites, or share a live party pin. Routes an aisle path from your pin around booths and pillars.
           </p>
+
+          <section className="nav-section">
+            <h3>Find a dealer</h3>
+            <DealerSearch
+              vendors={vendors ?? []}
+              booths={allBooths ?? []}
+              mapNameById={mapNameById}
+              onSelect={navigateToDealer}
+              placeholder="Type a dealer or booth…"
+            />
+          </section>
 
           <NavCollapsible
             key={party.inParty ? 'party-in' : 'party-out'}
@@ -889,6 +987,39 @@ function App() {
               </p>
               <button type="button" className="btn primary" onClick={startEditBooths}>
                 Edit booth layout
+              </button>
+            </div>
+          </section>
+
+          <section className="panel-section settings-section">
+            <h3>Cloud sync</h3>
+            <div className="settings-card">
+              <p className="muted sm">
+                Shared floor maps and dealer directories sync from the server when you are online.
+                Favorites, notes, and photos stay on this device.
+              </p>
+              {syncMsg && <p className="muted sm">{syncMsg}</p>}
+              <button
+                type="button"
+                className="btn secondary"
+                onClick={() => {
+                  void syncCatalogFromCloud({ force: true }).then((result) => {
+                    if (result.ok) {
+                      setSyncMsg(
+                        result.skipped
+                          ? 'Already up to date.'
+                          : `Synced ${result.events} event${result.events === 1 ? '' : 's'} from cloud.`,
+                      )
+                      if (eventId != null) {
+                        void resolveActiveFloorMapId(eventId).then(setFloorMapId)
+                      }
+                    } else {
+                      setSyncMsg(`Sync: ${result.error}`)
+                    }
+                  })
+                }}
+              >
+                Sync now
               </button>
             </div>
           </section>
