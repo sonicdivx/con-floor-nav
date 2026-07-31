@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.2.1'
+export const APP_VERSION = '0.3.0'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.0',
+    date: '2026-07-31',
+    highlights: [
+      'Device login (no password)',
+      'Pull content on another browser',
+    ],
+    notes: [
+      'Settings → Device login: create a unique code, save favorites/notes/photos/pin to the cloud',
+      'On another browser (or after a hung tab), enter the code → Log in & pull',
+      'Shared floor maps still come from catalog sync; the code is the only secret',
+    ],
+  },
   {
     version: '0.2.1',
     date: '2026-07-31',
