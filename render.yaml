@@ -6,7 +6,7 @@ services:
     runtime: node
     plan: free
     region: oregon
-    branch: cursor/phase2-3-backup
+    branch: cursor/con-floor-nav-pwa
     autoDeploy: true
     buildCommand: npm install && npm run build
     startCommand: npm start

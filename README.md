@@ -11,7 +11,7 @@ Git is the source of truth (rules and docs are committed).
 ```bash
 git clone https://github.com/sonicdivx/con-floor-nav.git
 cd con-floor-nav
-git checkout cursor/phase2-3-backup   # current Render / integration branch
+git checkout cursor/con-floor-nav-pwa   # active integration / Render branch
 npm install
 ```
 

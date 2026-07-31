@@ -28,7 +28,7 @@ Living roadmap. Architecture detail: [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Active branch / deploy
 
-- Primary integration branch: `cursor/phase2-3-backup`
+- Primary integration branch: `cursor/con-floor-nav-pwa`
 - Render auto-deploys that branch
 - `main` may lag; open PRs toward `main` when ready to stabilize
 
