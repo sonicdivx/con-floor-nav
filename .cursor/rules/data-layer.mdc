@@ -1,0 +1,16 @@
+---
+description: Dexie schema and data-layer conventions
+globs: src/db/**/*.ts,src/lib/{backup,import,sampleData,tags}.ts
+alwaysApply: false
+---
+
+# Data layer
+
+- Schema versions live only in `src/db/schema.ts`. Current: v4 (multi-map booth index).
+- Booths: prefer `floorMapId`; lookups use `[eventId+floorMapId+boothKey]` when scoped.
+- Active event: `localStorage` `cfn-active-event`. Active map: `cfn-active-map:<eventId>`.
+- Helpers: `createEvent`, `deleteEventCascade`, `resolveActiveFloorMapId`, `setActiveFloorMapId`.
+- `saveFloorMapBlob` modes: `replace-active` | `add` | `replace-all` (sample uses replace-all).
+- Backup format `cfn-backup` **v2** (`floorMaps[]` + booth `mapKey`); still parse v1.
+- Custom tags: `registerCustomTag(s)` / `mergeTagCatalog` in `src/lib/tags.ts` — not Dexie.
+- Auto-seed Otakon sample only when `events.count() === 1` (first-run).

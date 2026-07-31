@@ -1,18 +1,30 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { PiPushPinFill, PiPushPinLight } from 'react-icons/pi'
 import { db } from '../db/schema'
 import type { VendorRecord, VisitStatus } from '../db/types'
-import { DEFAULT_TAGS } from '../db/types'
+import { useObjectUrl } from '../hooks/useObjectUrl'
 import { STATUS_COLORS, STATUS_LABELS, VISIT_STATUSES } from '../lib/statusColors'
+import { normalizeTag, registerCustomTags } from '../lib/tags'
+import { TagSelect } from './TagSelect'
 
 interface Props {
   vendor: VendorRecord
   boothLabel: string
+  pinned?: boolean
+  onTogglePinned?: () => void
   onClose: () => void
   onNavigate: () => void
 }
 
-export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) {
+export function VendorPanel({
+  vendor,
+  boothLabel,
+  pinned = false,
+  onTogglePinned,
+  onClose,
+  onNavigate,
+}: Props) {
   const [note, setNote] = useState('')
   const photos = useLiveQuery(
     () =>
@@ -21,18 +33,29 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
         : [],
     [vendor.id],
   )
+  const allVendors = useLiveQuery(
+    () => db.vendors.where('eventId').equals(vendor.eventId).toArray(),
+    [vendor.eventId],
+  )
+
+  const catalogExtra = useMemo(() => {
+    const tags: string[] = []
+    for (const v of allVendors ?? []) {
+      for (const t of v.tags) tags.push(t)
+    }
+    return tags
+  }, [allVendors])
 
   const setStatus = async (visitStatus: VisitStatus) => {
     if (vendor.id == null) return
     await db.vendors.update(vendor.id, { visitStatus })
   }
 
-  const toggleTag = async (tag: string) => {
+  const setTags = async (tags: string[]) => {
     if (vendor.id == null) return
-    const tags = vendor.tags.includes(tag)
-      ? vendor.tags.filter((t) => t !== tag)
-      : [...vendor.tags, tag]
-    await db.vendors.update(vendor.id, { tags })
+    const normalized = tags.map(normalizeTag).filter(Boolean)
+    registerCustomTags(normalized)
+    await db.vendors.update(vendor.id, { tags: normalized })
   }
 
   const addPhoto = async (file: File) => {
@@ -52,15 +75,37 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
   }
 
   return (
-    <aside className="side-panel vendor-panel">
+    <aside className={`side-panel vendor-panel${pinned ? ' is-pinned' : ''}`}>
       <header className="panel-header">
         <div>
           <p className="eyebrow">Booth {boothLabel}</p>
           <h2>{vendor.name}</h2>
         </div>
-        <button type="button" className="btn ghost sm" onClick={onClose} aria-label="Close">
-          ✕
-        </button>
+        <div className="panel-header-actions">
+          {onTogglePinned && (
+            <button
+              type="button"
+              className={`btn ghost sm pin-keep-open${pinned ? ' active' : ''}`}
+              onClick={onTogglePinned}
+              aria-pressed={pinned}
+              aria-label={pinned ? 'Unpin details panel' : 'Keep details panel open'}
+              title={
+                pinned
+                  ? 'Pinned open — tap other booths to switch'
+                  : 'Keep open while tapping the map'
+              }
+            >
+              {pinned ? (
+                <PiPushPinFill size={18} aria-hidden />
+              ) : (
+                <PiPushPinLight size={18} aria-hidden />
+              )}
+            </button>
+          )}
+          <button type="button" className="btn ghost sm" onClick={onClose} aria-label="Close">
+            ✕
+          </button>
+        </div>
       </header>
 
       <section className="panel-section">
@@ -81,29 +126,32 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
               {STATUS_LABELS[s]}
             </button>
           ))}
+          <button type="button" className="chip navigate-chip" onClick={onNavigate}>
+            <svg
+              className="navigate-chip-icon"
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                fill="currentColor"
+                d="M12 2.5 4.2 19.3c-.25.55.32 1.12.88.88L12 17.2l6.92 2.98c.56.24 1.13-.33.88-.88L12 2.5Z"
+              />
+            </svg>
+            Navigate
+          </button>
         </div>
       </section>
 
       <section className="panel-section">
         <h3>Tags</h3>
-        <div className="chip-row">
-          {DEFAULT_TAGS.map((tag) => (
-            <button
-              key={tag}
-              type="button"
-              className={`chip ${vendor.tags.includes(tag) ? 'active' : ''}`}
-              onClick={() => toggleTag(tag)}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="panel-section">
-        <button type="button" className="btn primary block" onClick={onNavigate}>
-          Navigate here
-        </button>
+        <TagSelect
+          selected={vendor.tags}
+          catalogExtra={catalogExtra}
+          onChange={(tags) => void setTags(tags)}
+        />
       </section>
 
       <section className="panel-section">
@@ -166,12 +214,7 @@ export function VendorPanel({ vendor, boothLabel, onClose, onNavigate }: Props) 
 }
 
 function PhotoThumb({ blob }: { blob: Blob }) {
-  const url = URL.createObjectURL(blob)
-  return (
-    <img
-      src={url}
-      alt=""
-      onLoad={() => URL.revokeObjectURL(url)}
-    />
-  )
+  const url = useObjectUrl(blob)
+  if (!url) return null
+  return <img src={url} alt="" />
 }

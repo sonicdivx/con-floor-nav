@@ -1,19 +1,25 @@
 import { useState } from 'react'
 import { applyBoothImport, parseBoothCsv, parseBoothImportJson } from '../lib/import'
+import {
+  loadOtakon2026DealersSample,
+  OTAKON_2026_DEALERS_SAMPLE,
+  saveFloorMapBlob,
+} from '../lib/sampleData'
 import { getCopyPromptPackage } from '../lib/aiPrompt'
-import { db } from '../db/schema'
 
 interface Props {
   eventId: number
+  floorMapId?: number | null
   onDone: () => void
 }
 
-export function ImportPanel({ eventId, onDone }: Props) {
+export function ImportPanel({ eventId, floorMapId, onDone }: Props) {
   const [jsonText, setJsonText] = useState('')
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [replace, setReplace] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [sampleBusy, setSampleBusy] = useState(false)
 
   const importText = async (text: string, kind: 'json' | 'csv') => {
     setError(null)
@@ -21,7 +27,10 @@ export function ImportPanel({ eventId, onDone }: Props) {
     try {
       const data =
         kind === 'json' ? parseBoothImportJson(text) : parseBoothCsv(text)
-      const result = await applyBoothImport(eventId, data, { replace })
+      const result = await applyBoothImport(eventId, data, {
+        replace,
+        floorMapId: floorMapId ?? undefined,
+      })
       setMessage(
         `Imported ${data.booths.length} booths (${result.booths} new, ${result.vendors} new vendors).`,
       )
@@ -41,35 +50,31 @@ export function ImportPanel({ eventId, onDone }: Props) {
   const onMapImage = async (file: File) => {
     setError(null)
     try {
-      const url = URL.createObjectURL(file)
-      const dims = await new Promise<{ w: number; h: number }>((resolve, reject) => {
-        const img = new Image()
-        img.onload = () => resolve({ w: img.naturalWidth, h: img.naturalHeight })
-        img.onerror = () => reject(new Error('Could not read image'))
-        img.src = url
+      const dims = await saveFloorMapBlob(eventId, file, {
+        mode: 'replace-active',
+        name: file.name.replace(/\.[^.]+$/, '') || 'Floor map',
       })
-      URL.revokeObjectURL(url)
-
-      const existing = await db.floorMaps.where('eventId').equals(eventId).first()
-      if (existing?.id != null) {
-        await db.floorMaps.update(existing.id, {
-          imageBlob: file,
-          width: dims.w,
-          height: dims.h,
-        })
-      } else {
-        await db.floorMaps.add({
-          eventId,
-          imageBlob: file,
-          width: dims.w,
-          height: dims.h,
-          createdAt: Date.now(),
-        })
-      }
-      setMessage(`Map saved (${dims.w}×${dims.h}).`)
+      setMessage(`Map saved (${dims.width}×${dims.height}).`)
       onDone()
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
+    }
+  }
+
+  const loadSample = async () => {
+    setError(null)
+    setMessage(null)
+    setSampleBusy(true)
+    try {
+      const result = await loadOtakon2026DealersSample(eventId, { replace: true })
+      setMessage(
+        `Loaded ${OTAKON_2026_DEALERS_SAMPLE.label}: ${result.totalBooths} booths, ${result.obstacles} pillars, map ${result.width}×${result.height} (cached offline).`,
+      )
+      onDone()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e))
+    } finally {
+      setSampleBusy(false)
     }
   }
 
@@ -81,14 +86,37 @@ export function ImportPanel({ eventId, onDone }: Props) {
 
   return (
     <div className="stack-panel">
-      <h2>Setup & import</h2>
+      <h3>Import</h3>
       <p className="muted">
         Load a floorplan image, then import booth JSON/CSV — or copy the AI prompt and paste
         results from Claude / ChatGPT.
       </p>
 
       <section className="panel-section">
+        <h3>Sample data</h3>
+        <p className="muted sm">
+          Loads the Otakon 2026 Dealers floor map, booths, and pillars into{' '}
+          <strong>this event</strong> (replaces maps/booths on this event). Use Settings → Events to
+          create a separate con first if you want to keep other data.
+        </p>
+        <button
+          type="button"
+          className="btn primary"
+          disabled={sampleBusy}
+          onClick={() => void loadSample()}
+        >
+          {sampleBusy
+            ? 'Loading sample…'
+            : `Load ${OTAKON_2026_DEALERS_SAMPLE.label} sample`}
+        </button>
+      </section>
+
+      <section className="panel-section">
         <h3>1. Floor map image</h3>
+        <p className="muted sm">
+          Replaces the <strong>active</strong> map image. To add another hall without wiping this
+          one, use Settings → Floor maps → Add another map.
+        </p>
         <label className="file-btn">
           Choose image
           <input
@@ -123,7 +151,7 @@ export function ImportPanel({ eventId, onDone }: Props) {
             checked={replace}
             onChange={(e) => setReplace(e.target.checked)}
           />
-          Replace existing booths
+          Replace existing booths on the active map
         </label>
         <textarea
           className="textarea"

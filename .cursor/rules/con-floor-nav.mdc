@@ -1,0 +1,46 @@
+---
+description: Con Floor Nav project context for agents
+alwaysApply: true
+---
+
+# Con Floor Nav
+
+Offline-first Vite + React + TypeScript PWA for convention floor maps (Otakon-first).
+
+## Stack
+
+- UI: React 19, `src/App.tsx` + `src/components/*`, styles in `src/App.css`
+- Data: Dexie/IndexedDB (`src/db/schema.ts`, `src/db/types.ts`) — no backend DB
+- Map: `MapViewer` SVG overlay, aisle A* in `src/lib/pathfinding.ts`
+- Party WS: `server/party-server.ts` also serves `dist/` (`npm start`)
+- Android: Capacitor (`capacitor.config.ts`, `android/`)
+- Deploy: Render web service (`render.yaml`) — https://con-floor-nav.onrender.com
+
+## Product rules
+
+- Offline-first: never require network for core map/vendor/photos after cache
+- Multi-event + multi-map: booths belong to `floorMapId`; imports/sample replace scoped to active event/map
+- Custom tags are global on-device (`localStorage` via `src/lib/tags.ts`)
+- Share pin works offline; Live party needs Render (or local `VITE_PARTY_WS_URL`)
+- Prefer editing existing files; avoid drive-by refactors and unsolicited markdown
+
+## Where things live
+
+| Concern | Location |
+|---------|----------|
+| Events / maps UI | Settings → `EventsPanel`, `MapsPanel` |
+| Import / sample | Settings → `ImportPanel` |
+| Backup v2 | `src/lib/backup.ts`, Settings → `BackupPanel` |
+| Details / tags | `VendorPanel` + `TagSelect` |
+| Share / party | **Go** tab → `SharePartyPanel` |
+| Docs | `docs/ARCHITECTURE.md`, `docs/PLAN.md`, `AGENTS.md` |
+
+## Commands
+
+```bash
+npm run dev          # Vite LAN
+npm run build        # tsc + vite build
+npm start            # party server + static dist (Render)
+npm run party-server # alias of start for local WS
+npm run cap:sync     # build + cap sync android
+```

@@ -19,6 +19,9 @@ export interface Rect {
   h: number
 }
 
+/** Normalized 0–1 map coordinates (same shape as Rect). */
+export type NormalizedRect = Rect
+
 export interface EventRecord {
   id?: number
   name: string
@@ -30,9 +33,16 @@ export interface EventRecord {
 export interface FloorMapRecord {
   id?: number
   eventId: number
+  /** Display name (e.g. "Dealers", "Artist Alley"). */
+  name?: string
   imageBlob: Blob
   width: number
   height: number
+  /**
+   * Optional impassable regions (pillars, walls) in normalized 0–1 coords.
+   * Used by aisle pathfinding together with booth rects.
+   */
+  obstacles?: Rect[]
   /** Optional GPS calibration corners (image space ↔ lat/lng) — reserved */
   calibration?: {
     topLeft?: { lat: number; lng: number }
@@ -46,6 +56,8 @@ export interface FloorMapRecord {
 export interface BoothRecord {
   id?: number
   eventId: number
+  /** Which floor map this booth belongs to (required for multi-map events). */
+  floorMapId?: number
   boothKey: string
   label: string
   nameOverride?: string
@@ -86,6 +98,8 @@ export interface UserLocationRecord {
 export interface BoothImportJson {
   event?: string
   mapImage?: string
+  /** Optional impassable pillars / walls (normalized 0–1) */
+  obstacles?: Rect[]
   booths: Array<{
     id: string
     label?: string

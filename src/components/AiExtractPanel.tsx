@@ -16,13 +16,17 @@ import { applyBoothImport, parseBoothImportJson } from '../lib/import'
 
 interface Props {
   eventId: number
+  floorMapId?: number | null
   onImported: () => void
 }
 
-export function AiExtractPanel({ eventId, onImported }: Props) {
+export function AiExtractPanel({ eventId, floorMapId, onImported }: Props) {
   const floorMap = useLiveQuery(
-    () => db.floorMaps.where('eventId').equals(eventId).first(),
-    [eventId],
+    () =>
+      floorMapId != null
+        ? db.floorMaps.get(floorMapId)
+        : db.floorMaps.where('eventId').equals(eventId).first(),
+    [eventId, floorMapId],
   )
   const [provider, setProvider] = useState<AiProvider>(getAiProvider())
   const [openAiKey, setOai] = useState(getOpenAiKey())
@@ -68,7 +72,10 @@ export function AiExtractPanel({ eventId, onImported }: Props) {
     setError(null)
     try {
       const data = parseBoothImportJson(reviewJson)
-      const result = await applyBoothImport(eventId, data, { replace: false })
+      const result = await applyBoothImport(eventId, data, {
+        replace: false,
+        floorMapId: floorMap?.id ?? floorMapId ?? undefined,
+      })
       setMessage(
         `Saved ${data.booths.length} booths (${result.booths} new booths, ${result.vendors} new vendors).`,
       )
