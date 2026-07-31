@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.2.0'
+export const APP_VERSION = '0.2.1'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,20 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.2.1',
+    date: '2026-07-31',
+    highlights: [
+      'Hard refresh on Update to latest',
+      'Search done checkmark',
+      'Details camera / expand',
+    ],
+    notes: [
+      'Update to latest clears SW caches and reloads with a __cfn_r bust token',
+      'Dealer/tag search checkmark dismisses the keyboard/dropdown',
+      'Vendor details header: camera shortcut and expand sheet control',
+    ],
+  },
   {
     version: '0.2.0',
     date: '2026-07-31',

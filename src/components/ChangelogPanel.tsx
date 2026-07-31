@@ -33,7 +33,7 @@ export function ChangelogPanel({ onBack }: Props) {
         <p className="muted sm">
           {updateReady
             ? 'A newer build is ready on this device.'
-            : 'Pull the latest app shell from the server (uses a refresh).'}
+            : 'Checks for a new service worker, then force-refreshes (cache bust).'}
         </p>
         <button
           type="button"
