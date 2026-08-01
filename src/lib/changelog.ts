@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.6'
+export const APP_VERSION = '0.3.7'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.7',
+    date: '2026-08-01',
+    highlights: [
+      'Artist Alley masterlist info',
+      'Collapsible artist details',
+    ],
+    notes: [
+      'Imported unofficial Otakon AA masterlist (merch, fandoms, 18+, tablemates)',
+      'Vendor details: Artist info section above photos (collapsed by default)',
+      'Catalog sampleRevision 5 so sync pulls the new fields',
+    ],
+  },
   {
     version: '0.3.6',
     date: '2026-08-01',

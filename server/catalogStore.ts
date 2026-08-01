@@ -12,7 +12,23 @@ import path from 'node:path'
 import { ensureDb, getPool, hasDatabaseUrl } from './db.ts'
 
 /** Bump when public/samples catalog content changes (forces DB reseed). */
-export const SAMPLE_REVISION = 4
+export const SAMPLE_REVISION = 5
+
+export type CatalogInfo = {
+  source?: string
+  sourceUrl?: string
+  socials?: string
+  merch?: string
+  categories?: Array<{ label: string; value: string }>
+  adultContent?: string
+  tablemates?: Array<{
+    name: string
+    socials?: string
+    merch?: string
+    categories?: Array<{ label: string; value: string }>
+    adultContent?: string
+  }>
+}
 
 export type CatalogBooth = {
   boothKey: string
@@ -20,6 +36,7 @@ export type CatalogBooth = {
   name?: string
   rect: { x: number; y: number; w: number; h: number }
   tags?: string[]
+  catalogInfo?: CatalogInfo
 }
 
 export type CatalogMap = {
@@ -56,6 +73,7 @@ type SampleJson = {
     name?: string
     rect: CatalogBooth['rect']
     tags?: string[]
+    catalogInfo?: CatalogInfo
   }>
   obstacles?: CatalogBooth['rect'][]
 }
@@ -100,6 +118,7 @@ function readMapFromSample(
       name: b.name,
       rect: b.rect,
       tags: b.tags,
+      ...(b.catalogInfo ? { catalogInfo: b.catalogInfo } : {}),
     }))
   } catch (err) {
     console.warn('[catalog] sample JSON missing', opts.jsonRel, err)

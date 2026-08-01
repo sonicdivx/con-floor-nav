@@ -228,6 +228,7 @@ export async function applyBoothImport(
         await db.vendors.update(vendor.id, {
           name: b.name ?? vendor.name,
           tags: tags.length ? tags : vendor.tags,
+          ...(b.catalogInfo ? { catalogInfo: b.catalogInfo } : {}),
         })
       } else {
         await db.vendors.add({
@@ -236,6 +237,7 @@ export async function applyBoothImport(
           name: b.name ?? b.label ?? b.id,
           tags,
           visitStatus: 'none',
+          ...(b.catalogInfo ? { catalogInfo: b.catalogInfo } : {}),
         })
         vendorCount++
       }

@@ -66,6 +66,23 @@ export interface BoothRecord {
   rect: Rect
 }
 
+/** Shared catalog extras (e.g. Artist Alley masterlist) — not personal notes. */
+export type VendorCatalogInfo = {
+  source?: string
+  sourceUrl?: string
+  socials?: string
+  merch?: string
+  categories?: Array<{ label: string; value: string }>
+  adultContent?: string
+  tablemates?: Array<{
+    name: string
+    socials?: string
+    merch?: string
+    categories?: Array<{ label: string; value: string }>
+    adultContent?: string
+  }>
+}
+
 export interface VendorRecord {
   id?: number
   eventId: number
@@ -74,6 +91,8 @@ export interface VendorRecord {
   tags: string[]
   visitStatus: VisitStatus
   notes?: string
+  /** Fan/catalog profile (merch, fandoms, tablemates). Overwritten by catalog sync. */
+  catalogInfo?: VendorCatalogInfo
 }
 
 export interface ItemPhotoRecord {
@@ -108,5 +127,6 @@ export interface BoothImportJson {
     name?: string
     rect: Rect
     tags?: string[]
+    catalogInfo?: VendorCatalogInfo
   }>
 }

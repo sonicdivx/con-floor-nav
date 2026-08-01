@@ -3,7 +3,7 @@
  * Preserves per-device visitStatus / notes / photos when booth keys match.
  */
 import { db, getStoredFloorMapId, setActiveFloorMapId } from '../db/schema'
-import type { Rect, VisitStatus } from '../db/types'
+import type { Rect, VendorCatalogInfo, VisitStatus } from '../db/types'
 
 export type CatalogBooth = {
   boothKey: string
@@ -11,6 +11,7 @@ export type CatalogBooth = {
   name?: string
   rect: Rect
   tags?: string[]
+  catalogInfo?: VendorCatalogInfo
 }
 
 export type CatalogMap = {
@@ -231,6 +232,7 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
             tags: b.tags ?? vendor.tags,
             visitStatus: prev?.visitStatus ?? vendor.visitStatus,
             notes: prev?.notes ?? vendor.notes,
+            catalogInfo: b.catalogInfo,
           })
         } else {
           await db.vendors.add({
@@ -240,6 +242,7 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
             tags: b.tags ?? [],
             visitStatus: prev?.visitStatus ?? 'none',
             notes: prev?.notes,
+            catalogInfo: b.catalogInfo,
           })
         }
       }

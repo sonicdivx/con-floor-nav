@@ -8,10 +8,11 @@ import {
   PiPushPinLight,
 } from 'react-icons/pi'
 import { db } from '../db/schema'
-import type { VendorRecord, VisitStatus } from '../db/types'
+import type { VendorCatalogInfo, VendorRecord, VisitStatus } from '../db/types'
 import { useObjectUrl } from '../hooks/useObjectUrl'
 import { STATUS_COLORS, STATUS_LABELS, VISIT_STATUSES } from '../lib/statusColors'
 import { normalizeTag, registerCustomTags } from '../lib/tags'
+import { NavCollapsible } from './NavCollapsible'
 import { TagSelect } from './TagSelect'
 
 interface Props {
@@ -214,6 +215,18 @@ export function VendorPanel({
         />
       </section>
 
+      {vendor.catalogInfo && hasCatalogInfo(vendor.catalogInfo) ? (
+        <section className="panel-section catalog-info-section">
+          <NavCollapsible
+            title="Artist info"
+            summary={catalogInfoSummary(vendor.catalogInfo)}
+            defaultOpen={false}
+          >
+            <CatalogInfoBody info={vendor.catalogInfo} />
+          </NavCollapsible>
+        </section>
+      ) : null}
+
       <section className="panel-section">
         <h3>Item photos</h3>
         <input
@@ -280,4 +293,100 @@ function PhotoThumb({ blob }: { blob: Blob }) {
   const url = useObjectUrl(blob)
   if (!url) return null
   return <img src={url} alt="" />
+}
+
+function hasCatalogInfo(info: VendorCatalogInfo): boolean {
+  return Boolean(
+    info.merch ||
+      info.socials ||
+      info.adultContent ||
+      (info.categories && info.categories.length > 0) ||
+      (info.tablemates && info.tablemates.length > 0),
+  )
+}
+
+function catalogInfoSummary(info: VendorCatalogInfo): string | undefined {
+  const bits: string[] = []
+  if (info.merch) bits.push('merch')
+  if (info.categories?.length) bits.push(`${info.categories.length} fandoms`)
+  if (info.tablemates?.length) {
+    bits.push(
+      `${info.tablemates.length} tablemate${info.tablemates.length === 1 ? '' : 's'}`,
+    )
+  }
+  if (info.adultContent) bits.push('18+ note')
+  return bits.length ? bits.join(' · ') : undefined
+}
+
+function CatalogInfoBody({ info }: { info: VendorCatalogInfo }) {
+  return (
+    <div className="catalog-info">
+      {info.socials ? (
+        <p className="catalog-info-row">
+          <span className="catalog-info-label">Socials</span>
+          <span>{info.socials}</span>
+        </p>
+      ) : null}
+      {info.merch ? (
+        <p className="catalog-info-row">
+          <span className="catalog-info-label">Merch</span>
+          <span>{info.merch}</span>
+        </p>
+      ) : null}
+      {(info.categories ?? []).map((c) => (
+        <p key={c.label} className="catalog-info-row">
+          <span className="catalog-info-label">{c.label}</span>
+          <span>{c.value}</span>
+        </p>
+      ))}
+      {info.adultContent ? (
+        <p className="catalog-info-row catalog-info-nsfw">
+          <span className="catalog-info-label">18+</span>
+          <span>{info.adultContent}</span>
+        </p>
+      ) : null}
+      {(info.tablemates ?? []).map((mate, i) => (
+        <div key={`${mate.name}-${i}`} className="catalog-info-tablemate">
+          <p className="catalog-info-tablemate-name">
+            Tablemate · {mate.name}
+          </p>
+          {mate.socials ? (
+            <p className="catalog-info-row">
+              <span className="catalog-info-label">Socials</span>
+              <span>{mate.socials}</span>
+            </p>
+          ) : null}
+          {mate.merch ? (
+            <p className="catalog-info-row">
+              <span className="catalog-info-label">Merch</span>
+              <span>{mate.merch}</span>
+            </p>
+          ) : null}
+          {(mate.categories ?? []).map((c) => (
+            <p key={`${mate.name}-${c.label}`} className="catalog-info-row">
+              <span className="catalog-info-label">{c.label}</span>
+              <span>{c.value}</span>
+            </p>
+          ))}
+          {mate.adultContent ? (
+            <p className="catalog-info-row catalog-info-nsfw">
+              <span className="catalog-info-label">18+</span>
+              <span>{mate.adultContent}</span>
+            </p>
+          ) : null}
+        </div>
+      ))}
+      {info.source ? (
+        <p className="muted sm catalog-info-source">
+          {info.sourceUrl ? (
+            <a href={info.sourceUrl} target="_blank" rel="noreferrer">
+              {info.source}
+            </a>
+          ) : (
+            info.source
+          )}
+        </p>
+      ) : null}
+    </div>
+  )
 }
