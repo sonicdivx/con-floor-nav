@@ -248,7 +248,9 @@ export function VendorPanel({
           {(photos ?? []).map((p) =>
             p.id != null ? (
               <figure key={p.id} className="photo-thumb">
-                <PhotoThumb blob={p.imageBlob} />
+                <div className="photo-thumb-media">
+                  <PhotoThumb blob={p.imageBlob} />
+                </div>
                 {p.note && <figcaption>{p.note}</figcaption>}
                 <button
                   type="button"
