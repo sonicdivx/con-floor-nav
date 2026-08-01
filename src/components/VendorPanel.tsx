@@ -333,6 +333,12 @@ function catalogInfoSummary(info: VendorCatalogInfo): string | undefined {
 function CatalogInfoBody({ info }: { info: VendorCatalogInfo }) {
   return (
     <div className="catalog-info">
+      {info.sheet ? (
+        <p className="catalog-info-row">
+          <span className="catalog-info-label">Sheet</span>
+          <span>{info.sheet}</span>
+        </p>
+      ) : null}
       {info.multiBooth && info.multiBooth.length > 1 ? (
         <p className="catalog-info-row">
           <span className="catalog-info-label">Booths</span>
@@ -347,7 +353,7 @@ function CatalogInfoBody({ info }: { info: VendorCatalogInfo }) {
       ) : null}
       {info.merch ? (
         <p className="catalog-info-row">
-          <span className="catalog-info-label">Merch</span>
+          <span className="catalog-info-label">Type of merch</span>
           <span>{info.merch}</span>
         </p>
       ) : null}
@@ -359,7 +365,7 @@ function CatalogInfoBody({ info }: { info: VendorCatalogInfo }) {
       ))}
       {info.adultContent ? (
         <p className="catalog-info-row catalog-info-nsfw">
-          <span className="catalog-info-label">18+</span>
+          <span className="catalog-info-label">18+ content</span>
           <span>{info.adultContent}</span>
         </p>
       ) : null}

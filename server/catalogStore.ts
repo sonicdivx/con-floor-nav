@@ -12,11 +12,12 @@ import path from 'node:path'
 import { ensureDb, getPool, hasDatabaseUrl } from './db.ts'
 
 /** Bump when public/samples catalog content changes (forces DB reseed). */
-export const SAMPLE_REVISION = 8
+export const SAMPLE_REVISION = 9
 
 export type CatalogInfo = {
   source?: string
   sourceUrl?: string
+  sheet?: string
   socials?: string
   merch?: string
   categories?: Array<{ label: string; value: string }>
@@ -28,6 +29,22 @@ export type CatalogInfo = {
     merch?: string
     categories?: Array<{ label: string; value: string }>
     adultContent?: string
+  }>
+}
+
+export type CatalogMasterlist = {
+  source: string
+  sourceUrl?: string
+  booths: Array<{
+    booth: string
+    sheet?: string
+    name?: string
+    socials?: string
+    merch?: string
+    categories?: Array<{ label: string; value: string }>
+    adultContent?: string
+    multiBooth?: string[]
+    tablemates?: CatalogInfo['tablemates']
   }>
 }
 
@@ -64,6 +81,11 @@ export type CatalogBundle = {
   sampleRevision?: number
   updatedAt: number
   events: CatalogEvent[]
+  /** Full sheet dumps (also denormalized onto booth.catalogInfo). Stored in Postgres. */
+  masterlists?: {
+    artistAlley?: CatalogMasterlist
+    dealers?: CatalogMasterlist
+  }
 }
 
 type SampleJson = {
@@ -138,6 +160,17 @@ function readMapFromSample(
   }
 }
 
+function readMasterlist(root: string, rel: string): CatalogMasterlist | undefined {
+  try {
+    const raw = JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8')) as CatalogMasterlist
+    if (!raw?.source || !Array.isArray(raw.booths)) return undefined
+    return raw
+  } catch (err) {
+    console.warn('[catalog] masterlist missing', rel, err)
+    return undefined
+  }
+}
+
 function readSampleBundle(root: string): CatalogBundle {
   const dealers = readMapFromSample(root, {
     jsonRel: 'public/samples/otakon-2026-dealers.json',
@@ -155,6 +188,14 @@ function readSampleBundle(root: string): CatalogBundle {
     fallbackSize: { width: 2677, height: 3500 },
   })
 
+  const masterlists = {
+    dealers: readMasterlist(root, 'public/samples/otakon-2026-dealers-masterlist.json'),
+    artistAlley: readMasterlist(
+      root,
+      'public/samples/otakon-2026-artist-alley-masterlist.json',
+    ),
+  }
+
   return {
     version: 1,
     sampleRevision: SAMPLE_REVISION,
@@ -167,6 +208,10 @@ function readSampleBundle(root: string): CatalogBundle {
         maps: [dealers, artistAlley],
       },
     ],
+    masterlists: {
+      ...(masterlists.dealers ? { dealers: masterlists.dealers } : {}),
+      ...(masterlists.artistAlley ? { artistAlley: masterlists.artistAlley } : {}),
+    },
   }
 }
 

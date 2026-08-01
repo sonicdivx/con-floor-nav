@@ -19,7 +19,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row H"
       }
     },
     {
@@ -75,7 +76,8 @@
             "label": "OC / other",
             "value": "food, reptile art"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -101,7 +103,8 @@
             "label": "OC / other",
             "value": "OC - stylized spooky/horror, crypids, animals"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -164,7 +167,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -227,13 +231,14 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
       "id": "C310",
       "label": "C310",
-      "name": "3030.0",
+      "name": "3030",
       "rect": {
         "x": 0.324208,
         "y": 0.36206,
@@ -247,7 +252,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "carrd",
-        "merch": "crochet figures, stickers, keychains, misc"
+        "merch": "crochet figures, stickers, keychains, misc",
+        "sheet": "Row C"
       }
     },
     {
@@ -285,7 +291,8 @@
             "label": "OC / other",
             "value": "kawaii embroidered crewnecks, hats, stickers, enamel pins, keychains, Blind bags (frogs - emphasis, fish)"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -331,7 +338,8 @@
             "label": "OC / other",
             "value": "OC Korean art, animals"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -357,7 +365,8 @@
             "label": "OC / other",
             "value": "Japanese street fashion inspired"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -420,7 +429,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -454,7 +464,8 @@
             "label": "OC / other",
             "value": "horror"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -492,7 +503,8 @@
             "label": "OC / other",
             "value": "Fabula Ultima (official artist for), zodiacs, angels, fairies"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -512,7 +524,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "pins"
+        "merch": "pins",
+        "sheet": "Row D"
       }
     },
     {
@@ -531,7 +544,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row A"
       }
     },
     {
@@ -557,7 +571,8 @@
             "label": "OC / other",
             "value": "OC comic Sand, Lilac Garden"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -595,7 +610,8 @@
             "label": "OC / other",
             "value": "OC - irl cats, great blue heron series (with own original mythology)"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -641,7 +657,8 @@
             "label": "OC / other",
             "value": "fish, mythological creatures"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -683,7 +700,8 @@
             "label": "OC / other",
             "value": "OC - original dragons"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -743,7 +761,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -762,7 +781,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "linktree"
+        "socials": "linktree",
+        "sheet": "Row G"
       }
     },
     {
@@ -789,7 +809,8 @@
             "socials": "instagram",
             "merch": "Clay sculptures"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -831,7 +852,8 @@
             "label": "OC / other",
             "value": "bookish, dragons, soju, Asian food, silly animals, frogs, flowers, capybara, cats"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -890,7 +912,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -921,7 +944,8 @@
             "value": "OC -  OC prints, charms, lanyards, enamel pins"
           }
         ],
-        "adultContent": "Suggestive - \"suggestive yaoi stuff\""
+        "adultContent": "Suggestive - \"suggestive yaoi stuff\"",
+        "sheet": "Row F"
       }
     },
     {
@@ -941,7 +965,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "instagram",
-        "merch": "ceramic"
+        "merch": "ceramic",
+        "sheet": "Row G"
       }
     },
     {
@@ -979,7 +1004,8 @@
             "label": "OC / other",
             "value": "OC - original animal characters, keychains, stickers, etc"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -1005,7 +1031,8 @@
             "label": "Anime/Manga",
             "value": "One Piece"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -1035,7 +1062,8 @@
             "label": "Video Games",
             "value": "Pokemon, Sonic the Hedgehog"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -1077,7 +1105,8 @@
             "label": "OC / other",
             "value": "pride merch, spooky cute + witchy OC stuff, memes"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -1115,7 +1144,8 @@
             "label": "OC / other",
             "value": "original art"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -1153,7 +1183,8 @@
             "label": "OC / other",
             "value": "OC - Wasabi the Bunny"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -1172,7 +1203,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row H"
       }
     },
     {
@@ -1213,7 +1245,8 @@
             "socials": "instagram",
             "merch": "acrylic charms, enamel pins, stickers, plush buttons"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -1232,7 +1265,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "twitter"
+        "socials": "twitter",
+        "sheet": "Row B"
       }
     },
     {
@@ -1274,7 +1308,8 @@
             "label": "OC / other",
             "value": "oc merch - ear clowns and a tiger a bunny and a bear mascot"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -1300,7 +1335,8 @@
             "label": "OC / other",
             "value": "animals"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -1338,7 +1374,8 @@
             "label": "OC / other",
             "value": "yuri (MXTX Danmei inspired) furry kinsonas, other furry OC merch; silly animals, memes, worm on the string, gnarp cats, fantasy aesthetic things (both western and eastern), etc"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -1372,7 +1409,8 @@
             "label": "OC / other",
             "value": "Samoyeds, cute animals"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -1414,7 +1452,8 @@
             "label": "Misc media",
             "value": "Warrior Cats"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -1452,7 +1491,8 @@
             "label": "OC / other",
             "value": "fursona OC and cat OCs"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -1472,7 +1512,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "site",
-        "merch": "omamori, bags, washi tape, sketchbooks, wallets"
+        "merch": "omamori, bags, washi tape, sketchbooks, wallets",
+        "sheet": "Row A"
       }
     },
     {
@@ -1503,7 +1544,8 @@
             "value": "nature"
           }
         ],
-        "adultContent": "slightly suggestive"
+        "adultContent": "slightly suggestive",
+        "sheet": "Row A"
       }
     },
     {
@@ -1545,7 +1587,8 @@
             "label": "OC / other",
             "value": "alien cats, anthro animals, trans pride, cats"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -1565,7 +1608,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "plushies"
+        "merch": "plushies",
+        "sheet": "Row D"
       }
     },
     {
@@ -1585,7 +1629,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "prints, charms, sticker sheets"
+        "merch": "prints, charms, sticker sheets",
+        "sheet": "Row H"
       }
     },
     {
@@ -1604,7 +1649,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "links"
+        "socials": "links",
+        "sheet": "Row C"
       }
     },
     {
@@ -1647,7 +1693,8 @@
             "value": "OC"
           }
         ],
-        "adultContent": "suggestive/18+ OC"
+        "adultContent": "suggestive/18+ OC",
+        "sheet": "Row C"
       }
     },
     {
@@ -1667,7 +1714,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "bath+body products, stickers, bags"
+        "merch": "bath+body products, stickers, bags",
+        "sheet": "Row G"
       }
     },
     {
@@ -1693,7 +1741,8 @@
             "label": "Vtubers / Vocaloid",
             "value": "BEASTIEZ, Hololive, Matara, Mint, Dokibird, Densetsu.EXE, misc indie vtubers, Ironmouse"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -1719,7 +1768,8 @@
             "label": "OC / other",
             "value": "Sharks, Fish, Whales, and other ocean critters"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -1761,7 +1811,8 @@
             "label": "OC / other",
             "value": "Insects, houseplants, witchy aesthetic ; OC D&D characters"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -1787,7 +1838,8 @@
             "label": "OC / other",
             "value": "aliens"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -1825,7 +1877,8 @@
             "label": "OC / other",
             "value": "animals; illustrative, neo traditional color"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -1863,7 +1916,8 @@
             "label": "OC / other",
             "value": "Space Cats"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -1901,7 +1955,8 @@
             "label": "Misc media",
             "value": "Moomin"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -1936,7 +1991,8 @@
             "value": "OC frog emote merchandise, frog merchandise, Chinese zodiac pieces, original characters and subjects"
           }
         ],
-        "adultContent": "lightly suggestive"
+        "adultContent": "lightly suggestive",
+        "sheet": "Row H"
       }
     },
     {
@@ -1965,7 +2021,8 @@
             "label": "OC / other",
             "value": "Hamjin"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -1999,7 +2056,8 @@
             "label": "OC / other",
             "value": "OC motivational comics"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -2049,7 +2107,8 @@
             "label": "OC / other",
             "value": "personal OCs, Catboys, Food, and cats"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -2069,7 +2128,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "linktree",
-        "merch": "prints"
+        "merch": "prints",
+        "sheet": "Row H"
       }
     },
     {
@@ -2115,7 +2175,8 @@
             "label": "Misc media",
             "value": "Kpop Demon Hunters"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -2149,7 +2210,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -2191,7 +2253,8 @@
             "label": "OC / other",
             "value": "OC - food & floral art"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -2211,7 +2274,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "linktree",
-        "merch": "sculptures"
+        "merch": "sculptures",
+        "sheet": "Row F"
       }
     },
     {
@@ -2245,7 +2309,8 @@
             "label": "OC / other",
             "value": "Kawaii cats stickers, prints, keychains; Hawaii stickers, keychains"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -2265,7 +2330,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "linktree",
-        "merch": "tote bags"
+        "merch": "tote bags",
+        "sheet": "Row G"
       }
     },
     {
@@ -2295,7 +2361,8 @@
             "label": "OC / other",
             "value": "woodland critters, mushrooms, cozy fantasy vibes"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -2334,7 +2401,8 @@
             "value": "OC series - Honey Lemon (WEBTOON original), Beneath the Poppy Veil (WIP series)"
           }
         ],
-        "adultContent": "NSFW comic for Honey Lemon"
+        "adultContent": "NSFW comic for Honey Lemon",
+        "sheet": "Row G"
       }
     },
     {
@@ -2370,7 +2438,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -2416,7 +2485,8 @@
             "label": "OC / other",
             "value": "OC webcomic Star Crossed"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -2460,7 +2530,8 @@
             ],
             "adultContent": "maybe suggestive/18+"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -2486,7 +2557,8 @@
             "label": "OC / other",
             "value": "OC, food, ccyberpop"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -2505,7 +2577,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "carrd"
+        "socials": "carrd",
+        "sheet": "Row D"
       }
     },
     {
@@ -2548,7 +2621,8 @@
             "value": "Zodiac, tarot, fake taxidermy, memento mori-like merch"
           }
         ],
-        "adultContent": "slightly suggestive"
+        "adultContent": "slightly suggestive",
+        "sheet": "Row H"
       }
     },
     {
@@ -2573,7 +2647,8 @@
             "label": "OC / other",
             "value": "OC, pastel, cute"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -2633,7 +2708,8 @@
             ],
             "adultContent": "18+ zines"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -2663,7 +2739,8 @@
             "label": "Video Games",
             "value": "Bloodborne, Dark Souls, Elden Ring, Monster Hunter, Hades, Nier, Castlevania"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -2702,7 +2779,8 @@
             "value": "OC cats, otter mascot, dnd cats"
           }
         ],
-        "adultContent": "suggestive - \"nothing more than shirtless dudes \""
+        "adultContent": "suggestive - \"nothing more than shirtless dudes \"",
+        "sheet": "Row B"
       }
     },
     {
@@ -2744,7 +2822,8 @@
             "label": "OC / other",
             "value": "OC art"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -2782,7 +2861,8 @@
             "label": "Vtubers / Vocaloid",
             "value": "Nijisanji (By the Beat focus - no photocards), Hololive, indies (Saba, Dokibird, etc)"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -2824,7 +2904,8 @@
             "label": "OC / other",
             "value": "OC merch"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -2854,7 +2935,8 @@
             "label": "Video Games",
             "value": "Pokemon"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -2874,7 +2956,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "candles"
+        "merch": "candles",
+        "sheet": "Row A"
       }
     },
     {
@@ -2912,7 +2995,8 @@
             "label": "OC / other",
             "value": "OC - original oc prints"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -2947,7 +3031,8 @@
             "value": "dragons, Mermay challenge (and mermaids), October Ink Challenge artwork, OC"
           }
         ],
-        "adultContent": "mildly suggestive (mermaids)"
+        "adultContent": "mildly suggestive (mermaids)",
+        "sheet": "Row B"
       }
     },
     {
@@ -2989,7 +3074,8 @@
             "label": "OC / other",
             "value": "OCs - human,dragon, creature/furry; pride flag shrimp, cat loaf standees"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -3027,7 +3113,8 @@
             "label": "OC / other",
             "value": "OC animals"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -3065,7 +3152,8 @@
             "label": "OC / other",
             "value": "oc dog/puppy merch, cat, deer, bread bears"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -3124,7 +3212,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -3150,7 +3239,8 @@
             "label": "Video Games",
             "value": "Pokemon"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -3192,7 +3282,8 @@
             "label": "OC / other",
             "value": "OC - Gerald the Clown Dog, cute cats/animals, \"prints of pretty plus size gals!\""
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -3238,7 +3329,8 @@
             "label": "OC / other",
             "value": "clowns, furry, SparkleDog"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -3305,7 +3397,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -3355,7 +3448,8 @@
             "label": "OC / other",
             "value": "demons, angels, vampires, dark fantasy. (charms and stickers) silly ugly animals, pets, dinosaurs, fruit dogs, clown cats"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -3414,7 +3508,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -3461,7 +3556,8 @@
             "value": "OC fae, mermaid, dragon, demon, angel inspired resin jewelry"
           }
         ],
-        "adultContent": "18+/suggestive"
+        "adultContent": "18+/suggestive",
+        "sheet": "Row F"
       }
     },
     {
@@ -3487,7 +3583,8 @@
             "label": "Video Games",
             "value": "Baldur's Gate 3, Dragon Age"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -3525,7 +3622,8 @@
             "label": "Misc media",
             "value": "Heated Rivelry"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -3563,7 +3661,8 @@
             "label": "Misc media",
             "value": "Kpop Demon Hunters, The Amazing Digital Circus"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -3605,7 +3704,8 @@
             "label": "OC / other",
             "value": "OC photocards, various photocard holders"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -3624,7 +3724,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row B"
       }
     },
     {
@@ -3651,7 +3752,8 @@
             "socials": "instagram",
             "merch": "jewelry, coloring books, keychains, etc"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -3686,7 +3788,8 @@
             "value": "OC, monkeys, LGBT/Yuri/Yaoi"
           }
         ],
-        "adultContent": "slightly suggestive (rosettes)"
+        "adultContent": "slightly suggestive (rosettes)",
+        "sheet": "Row H"
       }
     },
     {
@@ -3705,7 +3808,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row G"
       }
     },
     {
@@ -3735,7 +3839,8 @@
             "label": "Video Games",
             "value": "Fire Emblem, Honkai Star Rail"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -3769,7 +3874,8 @@
             "label": "OC / other",
             "value": "cats, snacks, occult themed pins"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -3807,7 +3913,8 @@
             "label": "OC / other",
             "value": "witchy items, Zodiacs"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -3833,7 +3940,8 @@
             "socials": "carrd",
             "merch": "prints"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -3853,7 +3961,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "prints"
+        "merch": "prints",
+        "sheet": "Row E"
       }
     },
     {
@@ -3883,7 +3992,8 @@
             "label": "OC / other",
             "value": "memes"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -3913,7 +4023,8 @@
             "label": "Video Games",
             "value": "Pokemon, Okami, Final Fantasy, League of Legends, Hollow Knight, Marvel Rivals, Call of Duty"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -3932,7 +4043,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row C"
       }
     },
     {
@@ -3951,7 +4063,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row E"
       }
     },
     {
@@ -3971,7 +4084,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "instagram",
-        "merch": "photocard holders, felt figures, stickers"
+        "merch": "photocard holders, felt figures, stickers",
+        "sheet": "Row G"
       }
     },
     {
@@ -4013,7 +4127,8 @@
             "label": "OC / other",
             "value": "teeth, cowboy cats, opossums, fish, geese, New Jersey, oni/demons, wolves, crows, funny cats, alternate"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -4032,7 +4147,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram (we think)"
+        "socials": "instagram (we think)",
+        "sheet": "Row H"
       }
     },
     {
@@ -4052,7 +4168,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "carrd",
-        "merch": "plush"
+        "merch": "plush",
+        "sheet": "Row C"
       }
     },
     {
@@ -4071,7 +4188,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row E"
       }
     },
     {
@@ -4109,7 +4227,8 @@
             "label": "OC / other",
             "value": "cats"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -4147,7 +4266,8 @@
             "label": "OC / other",
             "value": "oc merch bear character, bok choy oc 'Cello', oc vampire trio"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -4193,7 +4313,8 @@
             "label": "OC / other",
             "value": "OC animal keychains"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -4231,7 +4352,8 @@
             "label": "OC / other",
             "value": "OC work Obscurity (prints), Underbelly (promoting a new game)"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -4269,7 +4391,8 @@
             "label": "OC / other",
             "value": "Grand Ma (Webtoon), medicine, OC merch"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -4288,7 +4411,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "carrd"
+        "socials": "carrd",
+        "sheet": "Row E"
       }
     },
     {
@@ -4318,7 +4442,8 @@
             "label": "Video Games",
             "value": "Pikmin, Genshin Impact"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -4338,7 +4463,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "prints, shirts, stickers, sticker sheets, lanyards, lanyards, etc"
+        "merch": "prints, shirts, stickers, sticker sheets, lanyards, lanyards, etc",
+        "sheet": "Row B"
       }
     },
     {
@@ -4368,7 +4494,8 @@
             "label": "OC / other",
             "value": "Bear OCs"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -4387,7 +4514,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row G"
       }
     },
     {
@@ -4417,7 +4545,8 @@
             "label": "OC / other",
             "value": "OC lifestyle"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -4455,7 +4584,8 @@
             "label": "OC / other",
             "value": "OC -  characters with dead moms, characters with daddy issues"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -4493,7 +4623,8 @@
             "label": "OC / other",
             "value": "OC animals"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -4519,7 +4650,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -4539,7 +4671,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "prints"
+        "merch": "prints",
+        "sheet": "Row C"
       }
     },
     {
@@ -4577,7 +4710,8 @@
             "label": "OC / other",
             "value": "cats"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -4616,7 +4750,8 @@
             "value": "Animals (fish, sea creatures, cats, frogs), vegetables, fruit, memes"
           }
         ],
-        "adultContent": "suggestive"
+        "adultContent": "suggestive",
+        "sheet": "Row G"
       }
     },
     {
@@ -4635,7 +4770,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row C"
       }
     },
     {
@@ -4681,7 +4817,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -4723,7 +4860,8 @@
             "label": "OC / other",
             "value": "OC - original characters and vtuber"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -4794,7 +4932,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -4813,7 +4952,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row H"
       }
     },
     {
@@ -4877,7 +5017,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -4896,7 +5037,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row G"
       }
     },
     {
@@ -4930,7 +5072,8 @@
             "label": "IRL / Live action",
             "value": "Obsession, Donnie Darko, SAW, Babadook, Child's Play, Alien, Creep, Magdalena Bay"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -4964,7 +5107,8 @@
             "label": "OC / other",
             "value": "mermaids, angel girl, kimono girls (\"basically just pretty women\"); watercolor"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -4983,7 +5127,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row D"
       }
     },
     {
@@ -5009,7 +5154,8 @@
             "label": "Video Games",
             "value": "Pokemon"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -5043,7 +5189,8 @@
             "label": "OC / other",
             "value": "OC -  mashi marshmallow, Joy (dog)"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -5062,7 +5209,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row D"
       }
     },
     {
@@ -5122,7 +5270,8 @@
             ],
             "adultContent": "mildly suggestive Dragon Age zine"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -5152,7 +5301,8 @@
             "label": "Video Games",
             "value": "Fire Emblem, Trails, Neir, Xenoblade, Genshin Impact"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -5171,7 +5321,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row E"
       }
     },
     {
@@ -5209,7 +5360,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -5252,7 +5404,8 @@
             "value": "OC"
           }
         ],
-        "adultContent": "slightly suggestive body pillows"
+        "adultContent": "slightly suggestive body pillows",
+        "sheet": "Row H"
       }
     },
     {
@@ -5286,7 +5439,8 @@
             "label": "OC / other",
             "value": "OC - weird"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -5305,7 +5459,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row C"
       }
     },
     {
@@ -5351,7 +5506,8 @@
             "label": "OC / other",
             "value": "OC - general fantasy original characters, original comic"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -5389,7 +5545,8 @@
             "label": "OC / other",
             "value": "bunnies"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -5409,7 +5566,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "instagram",
-        "merch": "prints"
+        "merch": "prints",
+        "sheet": "Row E"
       }
     },
     {
@@ -5447,7 +5605,8 @@
             "label": "OC / other",
             "value": "catboys, birds, food, pride"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -5485,7 +5644,8 @@
             "label": "OC / other",
             "value": "OC merch"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -5519,7 +5679,8 @@
             "label": "OC / other",
             "value": "coffee cats, Kittyland series (cat amusement park), Korean food and culture pins, cats, wombats, Jimothy, Neil the Seal"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -5545,7 +5706,8 @@
             "label": "OC / other",
             "value": "OC characters"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -5592,7 +5754,8 @@
             "value": "OC"
           }
         ],
-        "adultContent": "slightly suggestive"
+        "adultContent": "slightly suggestive",
+        "sheet": "Row G"
       }
     },
     {
@@ -5627,7 +5790,8 @@
             "value": "Heaven Official's Blessing (TGCF), Grandmaster of Demonic Cultivation (MDZS), Link Click, Alien Stage"
           }
         ],
-        "adultContent": "suggestive body pillows"
+        "adultContent": "suggestive body pillows",
+        "sheet": "Row H"
       }
     },
     {
@@ -5669,7 +5833,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -5703,7 +5868,8 @@
             "label": "OC / other",
             "value": "\"My OC is my grumpy orange cat named Taro. He has his own gacha enamel pin series along with a whole bunch of stickers and keychains.\""
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -5723,7 +5889,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "carrd",
-        "merch": "prints, keychains, pins, stickers"
+        "merch": "prints, keychains, pins, stickers",
+        "sheet": "Row F"
       }
     },
     {
@@ -5742,7 +5909,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "linktree"
+        "socials": "linktree",
+        "sheet": "Row C"
       }
     },
     {
@@ -5776,7 +5944,8 @@
             "label": "OC / other",
             "value": "cute animals, misc nature"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -5795,7 +5964,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row H"
       }
     },
     {
@@ -5837,7 +6007,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -5871,7 +6042,8 @@
             "label": "OC / other",
             "value": "Olga and the Witch"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -5897,7 +6069,8 @@
             "label": "OC / other",
             "value": "cute, animals"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -5923,7 +6096,8 @@
             "label": "OC / other",
             "value": "memes, cats, rats, seals, OC - cute, pink"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -5969,7 +6143,8 @@
             "label": "OC / other",
             "value": "lgbt+ ducks"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -6011,7 +6186,8 @@
             "label": "OC / other",
             "value": "Kawaii animals, food, Japanese themed items (yokai, koi fish, ginkgo leaves, etc), cryptids, mimic, dragon, misc"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -6031,7 +6207,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "carrd",
-        "merch": "prints, tote bags, keychains, charms, apparel, stickers, sticker sheets"
+        "merch": "prints, tote bags, keychains, charms, apparel, stickers, sticker sheets",
+        "sheet": "Row C"
       }
     },
     {
@@ -6065,7 +6242,8 @@
             "label": "OC / other",
             "value": "From the Woodlands"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -6091,7 +6269,8 @@
             "label": "OC / other",
             "value": "Mister Pumpkin"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -6111,7 +6290,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "J-fashion"
+        "merch": "J-fashion",
+        "sheet": "Row H"
       }
     },
     {
@@ -6149,7 +6329,8 @@
             "label": "OC / other",
             "value": "fruit themed tote bags, sticker sheets, etc"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -6169,7 +6350,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "tattoos"
+        "merch": "tattoos",
+        "sheet": "Row D"
       }
     },
     {
@@ -6195,7 +6377,8 @@
             "label": "OC / other",
             "value": "cats, whimsical creatures"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -6221,7 +6404,8 @@
             "label": "OC / other",
             "value": "cats"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -6263,7 +6447,8 @@
             "label": "IRL / Live action",
             "value": "Project Hail Mary"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -6301,7 +6486,8 @@
             "label": "OC / other",
             "value": "food and drink merch, fish, flowers,  nature, ricecake OC (tteok)"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -6343,7 +6529,8 @@
             "label": "OC / other",
             "value": "Feesh (OC fish with legs), generic idol penlights, frogs, sea life, crested geckos, plants, bugs, little guys/creatures"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -6377,7 +6564,8 @@
             "label": "OC / other",
             "value": "cute, colorful, watercolors"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -6444,7 +6632,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -6470,7 +6659,8 @@
             "label": "Video Games",
             "value": "Pokemon"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -6489,7 +6679,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "socials"
+        "socials": "socials",
+        "sheet": "Row B"
       }
     },
     {
@@ -6508,7 +6699,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row H"
       }
     },
     {
@@ -6542,7 +6734,8 @@
             "label": "OC / other",
             "value": "Fantasy related, cottagecore, goblincore, mushrooms, scifi"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -6605,7 +6798,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -6624,7 +6818,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row D"
       }
     },
     {
@@ -6643,7 +6838,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "carrd"
+        "socials": "carrd",
+        "sheet": "Row C"
       }
     },
     {
@@ -6663,7 +6859,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "shirts, paintings, prints, ceramics"
+        "merch": "shirts, paintings, prints, ceramics",
+        "sheet": "Row F"
       }
     },
     {
@@ -6683,7 +6880,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "prints"
+        "merch": "prints",
+        "sheet": "Row F"
       }
     },
     {
@@ -6722,7 +6920,8 @@
             "value": "OC merch"
           }
         ],
-        "adultContent": "slightly suggestive"
+        "adultContent": "slightly suggestive",
+        "sheet": "Row D"
       }
     },
     {
@@ -6742,7 +6941,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "carrd",
-        "merch": "prints, stickers, keychains, prints"
+        "merch": "prints, stickers, keychains, prints",
+        "sheet": "Row E"
       }
     },
     {
@@ -6788,7 +6988,8 @@
             "label": "OC / other",
             "value": "OCs: Fork and Knife, Clifford the Clown, Party Animals, Silly Guy Universe, Beeoaw, Bechamel, Ooma Poompa, Gnome and Friends"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -6807,7 +7008,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "beacons"
+        "socials": "beacons",
+        "sheet": "Row D"
       }
     },
     {
@@ -6850,7 +7052,8 @@
             "value": "horror-adjecent, kaiju art, Saints of Vengeance, Haunted House Prints, Reliquary Illustrations, Monster Yuri OCs, Mad Science Yaoi OCs (Zeno & Max)"
           }
         ],
-        "adultContent": "very slightly suggestive"
+        "adultContent": "very slightly suggestive",
+        "sheet": "Row A"
       }
     },
     {
@@ -6917,7 +7120,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -6959,7 +7163,8 @@
             "label": "OC / other",
             "value": "original paintings"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -6989,7 +7194,8 @@
             "label": "Video Games",
             "value": "Sonic the Hedgehog, NiGHTS, Five Nights at Freddies, Katamari"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -7008,7 +7214,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row F"
       }
     },
     {
@@ -7038,7 +7245,8 @@
             "label": "Misc media",
             "value": "Internet memes, tiktok memes, hamsters, food, frutiger Aero, glorp, animal memes"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -7118,7 +7326,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -7152,7 +7361,8 @@
             "label": "OC / other",
             "value": "animals"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -7202,7 +7412,8 @@
             "label": "OC / other",
             "value": "felt sculptures of animals, cats, dogs"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -7228,7 +7439,8 @@
             "label": "OC / other",
             "value": "fineline, angelcore, gore, yamikawaii"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -7262,7 +7474,8 @@
             "label": "OC / other",
             "value": "cat memes, clowncore, cats, other animals, sea critters; chaotic theme"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -7304,7 +7517,8 @@
             "label": "OC / other",
             "value": "OC - merch based off pets"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -7350,7 +7564,8 @@
             "label": "OC / other",
             "value": "OC Magical Girls tarot deck and art book, OC dessert critter keychains, OC D&D stickers, OC prints, OC tote bags, OC astrology prints"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -7380,7 +7595,8 @@
             "label": "OC / other",
             "value": "fish, nature, scenery (ocean focus)"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -7410,7 +7626,8 @@
             "label": "Video Games",
             "value": "Hoyoverse"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -7449,7 +7666,8 @@
             "value": "OC"
           }
         ],
-        "adultContent": "few suggestive"
+        "adultContent": "few suggestive",
+        "sheet": "Row G"
       }
     },
     {
@@ -7487,7 +7705,8 @@
             "label": "OC / other",
             "value": "MoogyMees"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -7507,7 +7726,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "prints, charms, prints, keychains, hair clips, etc"
+        "merch": "prints, charms, prints, keychains, hair clips, etc",
+        "sheet": "Row A"
       }
     },
     {
@@ -7541,7 +7761,8 @@
             "label": "OC / other",
             "value": "OC characters"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -7586,7 +7807,8 @@
             "name": "radiostarkiller",
             "socials": "carrd"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -7624,7 +7846,8 @@
             "label": "OC / other",
             "value": "animals, food"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -7687,7 +7910,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -7729,7 +7953,8 @@
             "label": "OC / other",
             "value": "OC cat prints+stickers"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -7788,7 +8013,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -7814,7 +8040,8 @@
             "label": "OC / other",
             "value": "fine line, illustrative, black/gray, full color"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -7852,7 +8079,8 @@
             "label": "Misc media",
             "value": "My Little Pony, The Amazing Digital Circus"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -7898,7 +8126,8 @@
             "label": "OC / other",
             "value": "OC - Pixel the cat, J-fashion inspired+other OCs, pride"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -7924,7 +8153,8 @@
             "label": "Anime/Manga",
             "value": "My Hero Acadamia, misc"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -7958,7 +8188,8 @@
             "label": "Manhua / Manhwa / CJK media",
             "value": "Danmei"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -8022,7 +8253,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -8056,7 +8288,8 @@
             "label": "Manhua / Manhwa / CJK media",
             "value": "Alien Stage"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -8075,7 +8308,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "facebook"
+        "socials": "facebook",
+        "sheet": "Row C"
       }
     },
     {
@@ -8110,7 +8344,8 @@
             "value": "OC"
           }
         ],
-        "adultContent": "suggestive"
+        "adultContent": "suggestive",
+        "sheet": "Row A"
       }
     },
     {
@@ -8170,7 +8405,8 @@
             ],
             "adultContent": "slightly suggestive"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -8204,7 +8440,8 @@
             "label": "OC / other",
             "value": "cats, bunnies, OC charms, stickers, bookmarks"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -8224,7 +8461,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "carrd",
-        "merch": "prints, stickers, pins, wallets, charms, sticker sheets"
+        "merch": "prints, stickers, pins, wallets, charms, sticker sheets",
+        "sheet": "Row H"
       }
     },
     {
@@ -8283,7 +8521,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -8317,7 +8556,8 @@
             "label": "OC / other",
             "value": "cats"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -8343,7 +8583,8 @@
             "label": "Video Games",
             "value": "Love and Deepspace"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -8385,7 +8626,8 @@
             "label": "OC / other",
             "value": "OC - Myers Briggs, Vtuber OC (Ottermelon), flower personas, astrology personas"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -8404,7 +8646,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row C"
       }
     },
     {
@@ -8438,7 +8681,8 @@
             "label": "IRL / Live action",
             "value": "Project Hail Mary"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -8468,7 +8712,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -8487,7 +8732,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row D"
       }
     },
     {
@@ -8530,7 +8776,8 @@
             "value": "OC bishoujo, Touhou doujinshi"
           }
         ],
-        "adultContent": "few suggestive"
+        "adultContent": "few suggestive",
+        "sheet": "Row E"
       }
     },
     {
@@ -8550,7 +8797,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "prints, pins, stickers"
+        "merch": "prints, pins, stickers",
+        "sheet": "Row H"
       }
     },
     {
@@ -8588,7 +8836,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -8622,7 +8871,8 @@
             "label": "OC / other",
             "value": "fish"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -8642,7 +8892,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "prints"
+        "merch": "prints",
+        "sheet": "Row B"
       }
     },
     {
@@ -8677,7 +8928,8 @@
             "value": "DnD themed BL comic, miscellaneous OC art"
           }
         ],
-        "adultContent": "18+/suggestive"
+        "adultContent": "18+/suggestive",
+        "sheet": "Row D"
       }
     },
     {
@@ -8702,7 +8954,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -8745,7 +8998,8 @@
             "value": "OC cat boys, other OCs"
           }
         ],
-        "adultContent": "No"
+        "adultContent": "No",
+        "sheet": "Row B"
       }
     },
     {
@@ -8787,7 +9041,8 @@
             "label": "Misc media",
             "value": "Kpop Demon Hunters"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -8821,7 +9076,8 @@
             "label": "OC / other",
             "value": "OC merch"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -8840,7 +9096,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "carrd"
+        "socials": "carrd",
+        "sheet": "Row G"
       }
     },
     {
@@ -8870,7 +9127,8 @@
             "label": "OC / other",
             "value": "moths, bugs, queer rebellious vibes"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -8933,7 +9191,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -8953,7 +9212,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "shirts, prints, pins, sticker sheets, tote bags, charms"
+        "merch": "shirts, prints, pins, sticker sheets, tote bags, charms",
+        "sheet": "Row H"
       }
     },
     {
@@ -9000,7 +9260,8 @@
             "value": "\"Depressing Diner Yaoi OCs\""
           }
         ],
-        "adultContent": "suggestive/18+"
+        "adultContent": "suggestive/18+",
+        "sheet": "Row E"
       }
     },
     {
@@ -9047,7 +9308,8 @@
             "value": "\"A pastel pink vampire boy & my FFXIV OC\""
           }
         ],
-        "adultContent": "suggestive"
+        "adultContent": "suggestive",
+        "sheet": "Row C"
       }
     },
     {
@@ -9067,7 +9329,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "inoleum+woodblock relief prints"
+        "merch": "inoleum+woodblock relief prints",
+        "sheet": "Row H"
       }
     },
     {
@@ -9105,7 +9368,8 @@
             "label": "OC / other",
             "value": "Original Clown core themed goods; Puertorican themed merch"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -9139,7 +9403,8 @@
             "label": "OC / other",
             "value": "decora, cute, colorful, silly illustrations+designs"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -9182,7 +9447,8 @@
             "value": "Heated Rivalry, Kpop Demon Hunters"
           }
         ],
-        "adultContent": "slightly suggestive"
+        "adultContent": "slightly suggestive",
+        "sheet": "Row F"
       }
     },
     {
@@ -9224,7 +9490,8 @@
             "label": "OC / other",
             "value": "90s vaporwave, crypids, OC furry/kemonomimi"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -9283,7 +9550,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -9318,7 +9586,8 @@
             "value": "OC merch"
           }
         ],
-        "adultContent": "\"mostly in the artistic nudity sense\""
+        "adultContent": "\"mostly in the artistic nudity sense\"",
+        "sheet": "Row D"
       }
     },
     {
@@ -9352,7 +9621,8 @@
             "label": "OC / other",
             "value": "OC merch"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -9378,7 +9648,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -9416,7 +9687,8 @@
             "label": "Misc media",
             "value": "Pixar/Dreamworks/Disney"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -9450,7 +9722,8 @@
             "label": "OC / other",
             "value": "animals"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -9484,7 +9757,8 @@
             "label": "OC / other",
             "value": "clowns, fairies, mermaids, centaurs, animals, unicorns, horses, aliens"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -9503,7 +9777,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "linktree"
+        "socials": "linktree",
+        "sheet": "Row A"
       }
     },
     {
@@ -9541,7 +9816,8 @@
             "label": "OC / other",
             "value": "frogs"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -9583,7 +9859,8 @@
             "label": "OC / other",
             "value": "OC prints for an upcoming project, cats, misc creatures"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -9608,7 +9885,8 @@
             "name": "koi",
             "socials": "carrd"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -9664,7 +9942,8 @@
             ],
             "adultContent": "slightly suggestive (Mr. A Farm)"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -9698,7 +9977,8 @@
             "label": "OC / other",
             "value": "OC character Lil Guy"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -9724,7 +10004,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -9754,7 +10035,8 @@
             "label": "OC / other",
             "value": "Herpetology (reptiles and amphibians), Food, LGBTQ+, Gothic/macabre"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -9792,7 +10074,8 @@
             "label": "OC / other",
             "value": "OC - official Teenage Mutant Ninja Turtles+\nDarkwing Duck works; OC manga Monsterous: a Transracial Adoption Story"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -9822,7 +10105,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -9841,7 +10125,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row H"
       }
     },
     {
@@ -9860,7 +10145,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row A"
       }
     },
     {
@@ -9880,7 +10166,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "prints"
+        "merch": "prints",
+        "sheet": "Row H"
       }
     },
     {
@@ -9899,7 +10186,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row D"
       }
     },
     {
@@ -9918,7 +10206,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row C"
       }
     },
     {
@@ -9938,7 +10227,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "facebook",
-        "merch": "ribbons, trinkets"
+        "merch": "ribbons, trinkets",
+        "sheet": "Row D"
       }
     },
     {
@@ -9984,7 +10274,8 @@
             "label": "OC / other",
             "value": "OC - original dark fairytale/dark magical girl inspired series, original MBTI cats, original sticker sheets"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -10003,7 +10294,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row H"
       }
     },
     {
@@ -10033,7 +10325,8 @@
             "label": "Video Games",
             "value": "Love and Deepspace"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -10067,7 +10360,8 @@
             "label": "OC / other",
             "value": "cats, witches, Zodiacs, magical girls"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -10109,7 +10403,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -10147,7 +10442,8 @@
             "label": "OC / other",
             "value": "OC - merch of OC characters"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -10167,7 +10463,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "facebook",
-        "merch": "DnD accessories"
+        "merch": "DnD accessories",
+        "sheet": "Row A"
       }
     },
     {
@@ -10197,7 +10494,8 @@
             "label": "Vtubers / Vocaloid",
             "value": "Vocaloid"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -10235,7 +10533,8 @@
             "label": "Misc media",
             "value": "Gideon the Ninth (stickers and print)"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -10261,7 +10560,8 @@
             "label": "OC / other",
             "value": "horror, black/white"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -10280,7 +10580,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row B"
       }
     },
     {
@@ -10324,7 +10625,8 @@
             "name": "pikalinstudios",
             "socials": "carrd"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -10351,7 +10653,8 @@
             "value": "Animal Crossing"
           }
         ],
-        "adultContent": "18+/suggestive"
+        "adultContent": "18+/suggestive",
+        "sheet": "Row B"
       }
     },
     {
@@ -10397,7 +10700,8 @@
             "label": "OC / other",
             "value": "OC/personal series"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -10440,7 +10744,8 @@
             "value": "furry+general OCs"
           }
         ],
-        "adultContent": "18+/suggestive"
+        "adultContent": "18+/suggestive",
+        "sheet": "Row G"
       }
     },
     {
@@ -10479,7 +10784,8 @@
             "value": "OC art; zines, witchy art"
           }
         ],
-        "adultContent": "Can take 18+ commissions with ID"
+        "adultContent": "Can take 18+ commissions with ID",
+        "sheet": "Row B"
       }
     },
     {
@@ -10525,7 +10831,8 @@
             "label": "OC / other",
             "value": "fox, cat, rat, dog, tiger, horse, Boogie the Rat"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -10580,7 +10887,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -10618,7 +10926,8 @@
             "label": "OC / other",
             "value": "Meme cats/tik tok animals (meowl, alien cats, propellor hat dog, etc); cottagecore animals/ children's book style animals"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -10638,7 +10947,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "linktree",
-        "merch": "stickers, doodles"
+        "merch": "stickers, doodles",
+        "sheet": "Row G"
       }
     },
     {
@@ -10657,7 +10967,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "linktree"
+        "socials": "linktree",
+        "sheet": "Row B"
       }
     },
     {
@@ -10677,7 +10988,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "instagram",
-        "merch": "plushies"
+        "merch": "plushies",
+        "sheet": "Row D"
       }
     },
     {
@@ -10727,7 +11039,8 @@
             "label": "OC / other",
             "value": "cat shirts, Capybara enamel pins, Boba Bears"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -10765,7 +11078,8 @@
             "label": "OC / other",
             "value": "memes; Original digital Y2K aesthetic girls and pixel art"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -10804,7 +11118,8 @@
             "value": "OC"
           }
         ],
-        "adultContent": "suggestive"
+        "adultContent": "suggestive",
+        "sheet": "Row C"
       }
     },
     {
@@ -10830,7 +11145,8 @@
             "label": "Video Games",
             "value": "Pokemon"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -10850,7 +11166,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "crochet figures"
+        "merch": "crochet figures",
+        "sheet": "Row D"
       }
     },
     {
@@ -10869,7 +11186,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "carrd"
+        "socials": "carrd",
+        "sheet": "Row B"
       }
     },
     {
@@ -10888,7 +11206,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row C"
       }
     },
     {
@@ -10907,7 +11226,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "linktree"
+        "socials": "linktree",
+        "sheet": "Row B"
       }
     },
     {
@@ -10933,7 +11253,8 @@
             "label": "Video Games",
             "value": "Hoyoverse, Love & Deepspace"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -10963,7 +11284,8 @@
             "label": "OC / other",
             "value": "OC plushies"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -10989,7 +11311,8 @@
             "label": "Video Games",
             "value": "Pokemon"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -11056,7 +11379,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -11075,7 +11399,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row D"
       }
     },
     {
@@ -11105,7 +11430,8 @@
             "label": "OC / other",
             "value": "cute, cats"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -11139,7 +11465,8 @@
             "label": "OC / other",
             "value": "cute"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -11181,7 +11508,8 @@
             "label": "OC / other",
             "value": "Yakudoshi (monster pins), Chinese Zodiacs, misc animals"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -11215,7 +11543,8 @@
             "label": "Manhua / Manhwa / CJK media",
             "value": "Alien Stage, Link Click, Little Mushroom"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -11245,7 +11574,8 @@
             "label": "Misc media",
             "value": "Spongebob, Gravity Falls, Kpop Demon Hunters"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -11283,7 +11613,8 @@
             "label": "OC / other",
             "value": "dragons, nature, animals"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -11346,7 +11677,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -11388,7 +11720,8 @@
             "label": "OC / other",
             "value": "cryptids, cats, ferrets, birds, fish, LGBTQIA+, Pride,"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -11408,7 +11741,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "instagram",
-        "merch": "handmade+plus size friendly EGL clothing, accessories, hair accessories, jewelry"
+        "merch": "handmade+plus size friendly EGL clothing, accessories, hair accessories, jewelry",
+        "sheet": "Row B"
       }
     },
     {
@@ -11427,7 +11761,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "carrd"
+        "socials": "carrd",
+        "sheet": "Row D"
       }
     },
     {
@@ -11446,7 +11781,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row G"
       }
     },
     {
@@ -11488,7 +11824,8 @@
             "label": "OC / other",
             "value": "cute+spooky OC"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -11559,7 +11896,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -11589,7 +11927,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -11623,7 +11962,8 @@
             "label": "Vtubers / Vocaloid",
             "value": "Hatsune Miku, Kagamine Rin"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -11661,7 +12001,8 @@
             "label": "OC / other",
             "value": "OC, Dynamite Comics (covers)"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -11680,7 +12021,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row A"
       }
     },
     {
@@ -11706,7 +12048,8 @@
             "label": "OC / other",
             "value": "frogs, nature"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -11744,7 +12087,8 @@
             "label": "OC / other",
             "value": "cute ghosts"
           }
-        ]
+        ],
+        "sheet": "Row D"
       }
     },
     {
@@ -11774,7 +12118,8 @@
             "label": "OC / other",
             "value": "Cute animals; frogs, dogs, cats, raccoons, chihuahuas"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -11816,7 +12161,8 @@
             "label": "OC / other",
             "value": "OC merch of fantasy D&D party animals"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -11836,7 +12182,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "carrd",
-        "merch": "prints, standees, stickers, sticker sheets"
+        "merch": "prints, standees, stickers, sticker sheets",
+        "sheet": "Row E"
       }
     },
     {
@@ -11866,7 +12213,8 @@
             "label": "Vtubers / Vocaloid",
             "value": "Hatsune Miku"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -11904,7 +12252,8 @@
             "label": "OC / other",
             "value": "OC designs; corgis, dinosaurs, food, science stickers, other nerdy x cutesy x punny designs"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -11924,7 +12273,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "website",
-        "merch": "charms, keychains, fidget toy, pins, stickers, misc"
+        "merch": "charms, keychains, fidget toy, pins, stickers, misc",
+        "sheet": "Row B"
       }
     },
     {
@@ -11950,7 +12300,8 @@
             "label": "OC / other",
             "value": "Hero: Tales of the Tomb"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -12001,7 +12352,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -12020,7 +12372,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row H"
       }
     },
     {
@@ -12050,7 +12403,8 @@
             "label": "OC / other",
             "value": "furry, general"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -12096,7 +12450,8 @@
             "label": "OC / other",
             "value": "OC merch -  plant girl, fairies, animals"
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -12137,7 +12492,8 @@
             "socials": "carrd",
             "merch": "prints, keychains, stickers, photocards"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -12171,7 +12527,8 @@
             "label": "Manhua / Manhwa / CJK media",
             "value": "Mo Dao Zu Shi, Heaven Officials Blessing, Scum Villain, Husky and his White Cat Shizun, Thousand Autumns , QJJ Ballad of Sword and Wine, Little Mushroom, Link Click, Omniscient Reader’s Viewpoint"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -12205,7 +12562,8 @@
             "label": "OC / other",
             "value": "bears, cute animals"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -12251,7 +12609,8 @@
             "label": "OC / other",
             "value": "OC - Eli, the Cute but Deadly Duck; Sweet Treat Bun Blind Box"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -12270,7 +12629,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row A"
       }
     },
     {
@@ -12296,7 +12656,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -12338,7 +12699,8 @@
             "label": "OC / other",
             "value": "OC - cat"
           }
-        ]
+        ],
+        "sheet": "Row A"
       }
     },
     {
@@ -12364,7 +12726,8 @@
             "label": "OC / other",
             "value": "scenary, cute animals"
           }
-        ]
+        ],
+        "sheet": "Row C"
       }
     },
     {
@@ -12432,7 +12795,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row G"
       }
     },
     {
@@ -12462,7 +12826,8 @@
             "label": "Video Games",
             "value": "Undertale/Deltarune, Pokemon, Splatoon"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -12482,7 +12847,8 @@
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
         "socials": "instagram",
-        "merch": "prints"
+        "merch": "prints",
+        "sheet": "Row B"
       }
     },
     {
@@ -12501,7 +12867,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "instagram"
+        "socials": "instagram",
+        "sheet": "Row E"
       }
     },
     {
@@ -12527,7 +12894,8 @@
             "label": "OC / other",
             "value": "gothic and dark surreal illustrations made in ink pen"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -12569,7 +12937,8 @@
             "label": "OC / other",
             "value": "Treats-themed mini bags, totes, hairclips, heart purses, y2k-themed coasters"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -12595,7 +12964,8 @@
             "label": "Video Games",
             "value": "Cult of the Lamb"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -12644,7 +13014,8 @@
             "name": "monwinvo",
             "socials": "instagram"
           }
-        ]
+        ],
+        "sheet": "Row E"
       }
     },
     {
@@ -12686,7 +13057,8 @@
             "label": "OC / other",
             "value": "mythical creatures, goth, animals, ravens, aquatic animals, endangered species, fables, fairytales, skulls"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -12724,7 +13096,8 @@
             "label": "OC / other",
             "value": "nature, food, cutesy"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -12762,7 +13135,8 @@
             "label": "OC / other",
             "value": "OC"
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -12808,7 +13182,8 @@
             "label": "OC / other",
             "value": "Koinobori, Inu Hariko, food pins, Kei Truck"
           }
-        ]
+        ],
+        "sheet": "Row H"
       }
     },
     {
@@ -12851,7 +13226,8 @@
             "value": "OC comics, keychains, tote bags, etc."
           }
         ],
-        "adultContent": "18+ doujin"
+        "adultContent": "18+ doujin",
+        "sheet": "Row D"
       }
     },
     {
@@ -12885,7 +13261,8 @@
             "label": "Manhua / Manhwa / CJK media",
             "value": "To Be Hero X"
           }
-        ]
+        ],
+        "sheet": "Row F"
       }
     },
     {
@@ -12948,7 +13325,8 @@
               }
             ]
           }
-        ]
+        ],
+        "sheet": "Row B"
       }
     },
     {
@@ -12983,7 +13361,8 @@
             "value": "Vocaloid (mostly Hatsune Miku)"
           }
         ],
-        "adultContent": "suggestive/18+"
+        "adultContent": "suggestive/18+",
+        "sheet": "Row E"
       }
     },
     {
@@ -13002,7 +13381,8 @@
       "catalogInfo": {
         "source": "unofficial Otakon AA masterlist 2026",
         "sourceUrl": "https://docs.google.com/spreadsheets/d/1DVBjS7l8N7LNCQO67wh502dI9iNJdar2s8LwXrsX4OE/htmlview",
-        "socials": "website"
+        "socials": "website",
+        "sheet": "Row F"
       }
     }
   ]

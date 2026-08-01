@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.10'
+export const APP_VERSION = '0.3.11'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.11',
+    date: '2026-08-01',
+    highlights: [
+      'Full AA + Dealers sheet data offline',
+      'Masterlists stored in catalog DB',
+    ],
+    notes: [
+      'Entire unofficial AA and Dealers Hall sheets ship in the shared catalog (Postgres + device sync)',
+      'Booth info shows sheet columns: socials, merch, fandoms, 18+, tablemates',
+      'PWA caches sample/masterlist JSON for offline; sampleRevision 9',
+    ],
+  },
   {
     version: '0.3.10',
     date: '2026-08-01',

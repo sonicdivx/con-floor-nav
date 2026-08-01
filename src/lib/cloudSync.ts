@@ -3,7 +3,12 @@
  * Preserves per-device visitStatus / notes / photos when booth keys match.
  */
 import { db, getStoredFloorMapId, setActiveFloorMapId } from '../db/schema'
-import type { Rect, VendorCatalogInfo, VisitStatus } from '../db/types'
+import type {
+  CatalogMasterlist,
+  Rect,
+  VendorCatalogInfo,
+  VisitStatus,
+} from '../db/types'
 
 export type CatalogBooth = {
   boothKey: string
@@ -36,6 +41,10 @@ export type CatalogBundle = {
   sampleRevision?: number
   updatedAt: number
   events: CatalogEvent[]
+  masterlists?: {
+    artistAlley?: CatalogMasterlist
+    dealers?: CatalogMasterlist
+  }
 }
 
 export type SyncResult =
@@ -283,14 +292,48 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
   return eventId
 }
 
+function masterlistRowToInfo(
+  row: CatalogMasterlist['booths'][number],
+  master: CatalogMasterlist,
+): VendorCatalogInfo {
+  return {
+    source: master.source,
+    sourceUrl: master.sourceUrl,
+    ...(row.sheet ? { sheet: row.sheet } : {}),
+    ...(row.socials ? { socials: row.socials } : {}),
+    ...(row.merch ? { merch: row.merch } : {}),
+    ...(row.categories?.length ? { categories: row.categories } : {}),
+    ...(row.adultContent ? { adultContent: row.adultContent } : {}),
+    ...(row.tablemates?.length ? { tablemates: row.tablemates } : {}),
+    ...(row.multiBooth?.length ? { multiBooth: row.multiBooth } : {}),
+  }
+}
+
 /** Stamp catalogInfo onto all local booths/vendors that share a boothKey. */
 async function applyCatalogInfoByBoothKey(bundle: CatalogBundle): Promise<void> {
   const byKey = new Map<string, VendorCatalogInfo>()
   const nameByKey = new Map<string, string>()
+  // Prefer full sheet dumps when present (complete column set + tablemates).
+  for (const master of [
+    bundle.masterlists?.dealers,
+    bundle.masterlists?.artistAlley,
+  ]) {
+    if (!master) continue
+    for (const row of master.booths) {
+      byKey.set(row.booth, masterlistRowToInfo(row, master))
+      if (row.name?.trim()) nameByKey.set(row.booth, row.name.trim())
+      for (const extra of row.multiBooth ?? []) {
+        byKey.set(extra, masterlistRowToInfo(row, master))
+        if (row.name?.trim()) nameByKey.set(extra, row.name.trim())
+      }
+    }
+  }
   for (const ev of bundle.events) {
     for (const map of ev.maps) {
       for (const b of map.booths) {
-        if (b.catalogInfo) byKey.set(b.boothKey, b.catalogInfo)
+        if (b.catalogInfo && !byKey.has(b.boothKey)) {
+          byKey.set(b.boothKey, b.catalogInfo)
+        }
         if (b.name?.trim()) nameByKey.set(b.boothKey, b.name.trim())
       }
     }

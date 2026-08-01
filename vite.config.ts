@@ -42,7 +42,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // Include sample JSON (maps + masterlists) so Booth info works offline.
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,json}'],
         navigateFallback: '/index.html',
         runtimeCaching: [
           {

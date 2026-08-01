@@ -59,6 +59,8 @@ export interface FloorMapRecord {
 export type VendorCatalogInfo = {
   source?: string
   sourceUrl?: string
+  /** Sheet tab name (e.g. "Row A", "100s", "1-36 (NSFW)"). */
+  sheet?: string
   socials?: string
   merch?: string
   categories?: Array<{ label: string; value: string }>
@@ -71,6 +73,23 @@ export type VendorCatalogInfo = {
     merch?: string
     categories?: Array<{ label: string; value: string }>
     adultContent?: string
+  }>
+}
+
+/** Full unofficial sheet dump (also stamped onto each booth as catalogInfo). */
+export type CatalogMasterlist = {
+  source: string
+  sourceUrl?: string
+  booths: Array<{
+    booth: string
+    sheet?: string
+    name?: string
+    socials?: string
+    merch?: string
+    categories?: Array<{ label: string; value: string }>
+    adultContent?: string
+    multiBooth?: string[]
+    tablemates?: VendorCatalogInfo['tablemates']
   }>
 }
 

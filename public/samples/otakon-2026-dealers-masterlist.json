@@ -1,0 +1,1944 @@
+{
+  "source": "unofficial Otakon Dealers Hall masterlist 2026",
+  "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+  "booths": [
+    {
+      "booth": "1",
+      "sheet": "1-36 (NSFW)",
+      "name": "Fragmented Nostalgia",
+      "socials": "website",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "2",
+      "sheet": "1-36 (NSFW)",
+      "name": "Fierre Storm",
+      "socials": "website",
+      "merch": "shirts, prints, keychains, stickers",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "monster girls"
+        }
+      ],
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "3",
+      "sheet": "1-36 (NSFW)",
+      "name": "Tenga",
+      "socials": "website",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "5",
+      "sheet": "1-36 (NSFW)",
+      "name": "Absolute Territory Inc.",
+      "socials": "website",
+      "merch": "accessories, clothing, patches, stickers",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "6",
+      "sheet": "1-36 (NSFW)",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "7",
+      "sheet": "1-36 (NSFW)",
+      "name": "The Jetty Jet Show",
+      "socials": "linktree",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "14",
+      "sheet": "1-36 (NSFW)",
+      "name": "Buki Pins",
+      "socials": "website",
+      "merch": "pins, shirts, jet tags, prints",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "15",
+      "sheet": "1-36 (NSFW)",
+      "name": "BISIEPRO STUDIO",
+      "socials": "website",
+      "merch": "dakimakura, prints, charms, standees, sticker sheets",
+      "categories": [
+        {
+          "label": "Anime/Manga",
+          "value": "Demon Slayer"
+        },
+        {
+          "label": "Video Games",
+          "value": "NU: Carnival, Zenless Zone Zero, Twisted Wonderland, Dramatical Murder"
+        },
+        {
+          "label": "Misc media",
+          "value": "Kpop Demon Hunters, OC"
+        }
+      ],
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "17",
+      "sheet": "1-36 (NSFW)",
+      "name": "Kazukoto",
+      "socials": "carrd",
+      "merch": "prints, art books, decals",
+      "categories": [
+        {
+          "label": "Anime/Manga",
+          "value": "Konosuba, Roshidere"
+        },
+        {
+          "label": "Video Games",
+          "value": "Nikke, Blue Archive, Fate/Grand Order"
+        },
+        {
+          "label": "Vtubers / Vocaloid",
+          "value": "Hololive, Indie vtubers, Vocaloid (Miku, Teto)"
+        }
+      ],
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "18",
+      "sheet": "1-36 (NSFW)",
+      "name": "Eroyouchan",
+      "socials": "linktree",
+      "merch": "prints(NSFW+SFW), keychain, decals, books, limited slot shikishi commissions",
+      "categories": [
+        {
+          "label": "Anime/Manga",
+          "value": "Nikke, Hoyoverse, Blue Archive"
+        },
+        {
+          "label": "Vtubers / Vocaloid",
+          "value": "Hololive, Phase Connect, Luminaria Productions, Indietubers"
+        },
+        {
+          "label": "Misc media",
+          "value": "OC prints + keychain"
+        }
+      ],
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "19",
+      "sheet": "1-36 (NSFW)",
+      "name": "Rowdy Ranch",
+      "socials": "website",
+      "merch": "prints, blind bags",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "20",
+      "sheet": "1-36 (NSFW)",
+      "name": "HyperPlanar",
+      "socials": "linktree",
+      "merch": "bags, beanies, magnets, skate decks, keychains, prints, shirts, socks, standees, stickers",
+      "categories": [
+        {
+          "label": "Vtubers / Vocaloid",
+          "value": "Vtuber (Aries)"
+        }
+      ],
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "21",
+      "sheet": "1-36 (NSFW)",
+      "name": "Otakon 18+ Manga Library",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "22",
+      "sheet": "1-36 (NSFW)",
+      "name": "Cyanide Candy",
+      "socials": "instagram",
+      "merch": "stickers, apparel, prints, accessories",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "horror"
+        }
+      ],
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "23",
+      "sheet": "1-36 (NSFW)",
+      "name": "Hen Da Ne! Inc",
+      "socials": "website",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "26",
+      "sheet": "1-36 (NSFW)",
+      "name": "Ototobo",
+      "socials": "linktree",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "27",
+      "sheet": "1-36 (NSFW)",
+      "name": "NekomimiPUNKS",
+      "socials": "linktree",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "28",
+      "sheet": "1-36 (NSFW)",
+      "name": "Media Blasters",
+      "socials": "website",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "30",
+      "sheet": "1-36 (NSFW)",
+      "name": "Send Calamity",
+      "socials": "linktree",
+      "merch": "decals, prints",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "34",
+      "sheet": "1-36 (NSFW)",
+      "name": "Toms Hentai Doujinshi",
+      "socials": "website",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "35",
+      "sheet": "1-36 (NSFW)",
+      "name": "Low Standards Designs",
+      "socials": "website",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "36",
+      "sheet": "1-36 (NSFW)",
+      "name": "GB Arts",
+      "socials": "website",
+      "merch": "body pillows",
+      "adultContent": "18+ area (NSFW hall)"
+    },
+    {
+      "booth": "101",
+      "sheet": "100s",
+      "name": "egg atelier",
+      "socials": "website",
+      "merch": "crochet toys, keychains, assessories, jewelry"
+    },
+    {
+      "booth": "102",
+      "sheet": "100s",
+      "name": "Katsucon",
+      "socials": "website"
+    },
+    {
+      "booth": "105",
+      "sheet": "100s",
+      "name": "Copper Coast Confections",
+      "socials": "website",
+      "merch": "confections"
+    },
+    {
+      "booth": "106",
+      "sheet": "100s",
+      "name": "Magfest",
+      "socials": "website"
+    },
+    {
+      "booth": "108",
+      "sheet": "100s",
+      "name": "Zenkaikon",
+      "socials": "website"
+    },
+    {
+      "booth": "110",
+      "sheet": "100s",
+      "name": "Kogaracon",
+      "socials": "website"
+    },
+    {
+      "booth": "111",
+      "sheet": "100s",
+      "name": "Cartridges Galore Video Games",
+      "socials": "website"
+    },
+    {
+      "booth": "112",
+      "sheet": "100s",
+      "name": "AnimeNorth",
+      "socials": "website"
+    },
+    {
+      "booth": "120",
+      "sheet": "100s",
+      "name": "Anime Boston",
+      "socials": "website"
+    },
+    {
+      "booth": "121",
+      "sheet": "100s",
+      "name": "The Next Level Games",
+      "socials": "website"
+    },
+    {
+      "booth": "122",
+      "sheet": "100s",
+      "name": "Tekko",
+      "socials": "website"
+    },
+    {
+      "booth": "124",
+      "sheet": "100s",
+      "name": "AnimeNYC",
+      "socials": "website"
+    },
+    {
+      "booth": "125",
+      "sheet": "100s",
+      "name": "Throwback Therapy, Inc",
+      "socials": "website"
+    },
+    {
+      "booth": "126",
+      "sheet": "100s",
+      "name": "Derpycon",
+      "socials": "website"
+    },
+    {
+      "booth": "128",
+      "sheet": "100s",
+      "name": "Nekocon",
+      "socials": "website"
+    },
+    {
+      "booth": "129",
+      "sheet": "100s",
+      "name": "Nerd Elysium",
+      "socials": "instagram"
+    },
+    {
+      "booth": "130",
+      "sheet": "100s",
+      "name": "ColossalCon",
+      "socials": "website"
+    },
+    {
+      "booth": "138",
+      "sheet": "100s",
+      "name": "Miryokucon",
+      "socials": "website"
+    },
+    {
+      "booth": "139",
+      "sheet": "100s",
+      "name": "Itasha Coffee Co",
+      "socials": "website",
+      "merch": "coffee, apparel, stickers"
+    },
+    {
+      "booth": "140",
+      "sheet": "100s",
+      "name": "Risucon",
+      "socials": "website"
+    },
+    {
+      "booth": "141",
+      "sheet": "100s",
+      "name": "NTRVL Apparel",
+      "socials": "website",
+      "merch": "apparel, posters"
+    },
+    {
+      "booth": "142",
+      "sheet": "100s",
+      "name": "MoComCon",
+      "socials": "2026 event page"
+    },
+    {
+      "booth": "143",
+      "sheet": "100s",
+      "name": "Blerdcon",
+      "socials": "website"
+    },
+    {
+      "booth": "203",
+      "sheet": "200s",
+      "name": "Geek World Games",
+      "socials": "website",
+      "merch": "Dice, pins, stickers"
+    },
+    {
+      "booth": "204",
+      "sheet": "200s",
+      "name": "Devious Drawing",
+      "socials": "linktree",
+      "merch": "apparel, car accessories, home decor, keychains, stationary, misc",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "OC monster girls+other OCs"
+        }
+      ],
+      "adultContent": "18+/suggestive"
+    },
+    {
+      "booth": "206",
+      "sheet": "200s",
+      "name": "Fluffy Tori",
+      "socials": "website",
+      "merch": "pins, shoes, accessories, lolita clothing"
+    },
+    {
+      "booth": "207",
+      "sheet": "200s",
+      "name": "HayaTati",
+      "socials": "website",
+      "merch": "embroidered sweatpants, knitted cardigans, knitted pullovers, zippered totebags, embroidered tshirts, woven flight tags, mircofiber clothes, socks, aryclic phone charms, satin lined buckets",
+      "categories": [
+        {
+          "label": "Video Games",
+          "value": "Digimon"
+        },
+        {
+          "label": "Misc media",
+          "value": "OC - original characters; cute/cozy vibes"
+        }
+      ]
+    },
+    {
+      "booth": "208",
+      "sheet": "200s",
+      "name": "spooky sparkle party",
+      "socials": "website",
+      "merch": "plus size lolita clothing+accessories"
+    },
+    {
+      "booth": "209",
+      "sheet": "200s",
+      "name": "oh my gifts shop",
+      "socials": "website",
+      "merch": "prints, plush, stickers, pins, misc trinkets"
+    },
+    {
+      "booth": "211",
+      "sheet": "200s",
+      "name": "Triforce Cutlery",
+      "socials": "website",
+      "merch": "cosplay weapons"
+    },
+    {
+      "booth": "220",
+      "sheet": "200s",
+      "name": "Atlantis Games & Comics",
+      "socials": "website"
+    },
+    {
+      "booth": "221",
+      "sheet": "200s",
+      "name": "Glitchgear.com",
+      "socials": "website"
+    },
+    {
+      "booth": "225",
+      "sheet": "200s",
+      "name": "Obi Wan Kimono",
+      "socials": "facebook",
+      "merch": "imported/handmade kimonos, various Asian apparel"
+    },
+    {
+      "booth": "226",
+      "sheet": "200s",
+      "name": "DC United",
+      "socials": "website (we think)"
+    },
+    {
+      "booth": "227",
+      "sheet": "200s",
+      "name": "Zenjumps Chainmaille",
+      "socials": "website",
+      "merch": "chainmail jewelry, apparel, trinkets, etc"
+    },
+    {
+      "booth": "228",
+      "sheet": "200s",
+      "name": "Sunlit Buds",
+      "socials": "website",
+      "merch": "jewlrey, press-on nails"
+    },
+    {
+      "booth": "229",
+      "sheet": "200s",
+      "name": "Aoho Anime",
+      "socials": "website"
+    },
+    {
+      "booth": "238",
+      "sheet": "200s",
+      "name": "In My Parents Basement",
+      "socials": "website"
+    },
+    {
+      "booth": "239",
+      "sheet": "200s",
+      "name": "SnarkFish T-Shirts",
+      "socials": "website",
+      "merch": "apparel, prints, pins, 3D printed wares, finger puppets, figures, dice, cards",
+      "categories": [
+        {
+          "label": "Video Games",
+          "value": "Pokemon"
+        }
+      ]
+    },
+    {
+      "booth": "243",
+      "sheet": "200s",
+      "name": "Anime USA",
+      "socials": "website"
+    },
+    {
+      "booth": "301",
+      "sheet": "300s",
+      "name": "Cartoon Passion",
+      "socials": "google drive"
+    },
+    {
+      "booth": "302",
+      "sheet": "300s",
+      "name": "M8's Warudo",
+      "socials": "website"
+    },
+    {
+      "booth": "305",
+      "sheet": "300s",
+      "name": "anime gift"
+    },
+    {
+      "booth": "306",
+      "sheet": "300s",
+      "name": "Milk Mocha Bear",
+      "socials": "website",
+      "merch": "keychains, plushies, key covers, pins, lanyards, standees, sticker+sticker sheets, misc accessories, bags, apparel, note/stickerbooks, etc",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "Milk and Mocha"
+        }
+      ]
+    },
+    {
+      "booth": "311",
+      "sheet": "300s",
+      "name": "Best Anime Shop",
+      "socials": "website"
+    },
+    {
+      "booth": "320",
+      "sheet": "300s",
+      "name": "AKIBA HQ",
+      "socials": "website"
+    },
+    {
+      "booth": "321",
+      "sheet": "300s",
+      "name": "CUT/SEW",
+      "socials": "website",
+      "merch": "sewing patterns"
+    },
+    {
+      "booth": "324",
+      "sheet": "300s",
+      "name": "Akiba Anime Store",
+      "socials": "website"
+    },
+    {
+      "booth": "325",
+      "sheet": "300s",
+      "name": "jukebox imports",
+      "socials": "facebook"
+    },
+    {
+      "booth": "329",
+      "sheet": "300s",
+      "name": "2-Land Comics",
+      "socials": "website",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "2-Land"
+        }
+      ]
+    },
+    {
+      "booth": "338",
+      "sheet": "300s",
+      "name": "Misty Mountain Gaming",
+      "socials": "website",
+      "merch": "Dice, dice towers, DnD assessories"
+    },
+    {
+      "booth": "343",
+      "sheet": "300s",
+      "name": "Magic and Monsters",
+      "socials": "website"
+    },
+    {
+      "booth": "403",
+      "sheet": "400s",
+      "name": "trilogy shop",
+      "socials": "facebook"
+    },
+    {
+      "booth": "404",
+      "sheet": "400s",
+      "name": "Lil' Thingamajigs",
+      "socials": "website"
+    },
+    {
+      "booth": "408",
+      "sheet": "400s",
+      "name": "Bandage Brigade",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "409",
+      "sheet": "400s",
+      "name": "Colorful Sheep",
+      "socials": "website",
+      "merch": "figures, keychains, bags, hair accessories, crochet figures, misc"
+    },
+    {
+      "booth": "411",
+      "sheet": "400s",
+      "name": "collectors universe and anime",
+      "socials": "website"
+    },
+    {
+      "booth": "420",
+      "sheet": "400s",
+      "name": "Cosplay MooMoo",
+      "socials": "website",
+      "merch": "shirts, hats, masks"
+    },
+    {
+      "booth": "421",
+      "sheet": "400s",
+      "name": "anime palace",
+      "socials": "website"
+    },
+    {
+      "booth": "424",
+      "sheet": "400s",
+      "name": "Hiromi Katayama",
+      "socials": "website",
+      "merch": "prints"
+    },
+    {
+      "booth": "426",
+      "sheet": "400s",
+      "name": "samurai west",
+      "socials": "website",
+      "merch": "cosplay weapons, apparel"
+    },
+    {
+      "booth": "427",
+      "sheet": "400s",
+      "name": "British Otaku",
+      "socials": "website"
+    },
+    {
+      "booth": "429",
+      "sheet": "400s",
+      "name": "toyslogic",
+      "socials": "website"
+    },
+    {
+      "booth": "438",
+      "sheet": "400s",
+      "name": "Peachade LLC",
+      "socials": "website",
+      "merch": "earrings, necklaces, rings"
+    },
+    {
+      "booth": "439",
+      "sheet": "400s",
+      "name": "Verillas",
+      "socials": "website",
+      "merch": "fantasy apparel and accessories"
+    },
+    {
+      "booth": "443",
+      "sheet": "400s",
+      "name": "Cosmic Fluff",
+      "socials": "website"
+    },
+    {
+      "booth": "501",
+      "sheet": "500s",
+      "name": "Longshot Anime",
+      "socials": "website"
+    },
+    {
+      "booth": "508",
+      "sheet": "500s",
+      "name": "PondHQ",
+      "socials": "website",
+      "merch": "plushes, stickers, prints, pins, playmats, magic tokens, gacha bags",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "Magic the Gathering, frogs, cute critters"
+        }
+      ]
+    },
+    {
+      "booth": "510",
+      "sheet": "500s",
+      "name": "Tanpopo House",
+      "socials": "website",
+      "merch": "apparel, accessories, sticker sheets"
+    },
+    {
+      "booth": "520",
+      "sheet": "500s",
+      "name": "IT Cosplay",
+      "socials": "instagram"
+    },
+    {
+      "booth": "521",
+      "sheet": "500s",
+      "name": "Videogamesnewyork",
+      "socials": "website"
+    },
+    {
+      "booth": "524",
+      "sheet": "500s",
+      "name": "Project Saisei",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "525",
+      "sheet": "500s",
+      "name": "Rapid Llama Creations",
+      "socials": "website",
+      "merch": "leather works, apparel"
+    },
+    {
+      "booth": "529",
+      "sheet": "500s",
+      "name": "All Blue Anime",
+      "socials": "website"
+    },
+    {
+      "booth": "538",
+      "sheet": "500s",
+      "name": "Gold Star Anime and Games",
+      "socials": "website"
+    },
+    {
+      "booth": "539",
+      "sheet": "500s",
+      "name": "Gamers4Gamers",
+      "socials": "website"
+    },
+    {
+      "booth": "542",
+      "sheet": "500s",
+      "name": "UUBGEAR",
+      "socials": "website",
+      "merch": "bags+bag accessories"
+    },
+    {
+      "booth": "543",
+      "sheet": "500s",
+      "name": "Horrible Squirral Shirts",
+      "socials": "website",
+      "merch": "shirts",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "horrible squirrals"
+        }
+      ]
+    },
+    {
+      "booth": "602",
+      "sheet": "600s",
+      "name": "Floral Frolic",
+      "socials": "website",
+      "merch": "prints, stickers, ribbons, plush, bags, neon signs, shirts, bookmarks, pins, lanyards, socks, misc"
+    },
+    {
+      "booth": "603",
+      "sheet": "600s",
+      "name": "Collectors Anime LLC",
+      "socials": "website"
+    },
+    {
+      "booth": "606",
+      "sheet": "600s",
+      "name": "Glimmish",
+      "socials": "website",
+      "merch": "hair accessories",
+      "multiBooth": [
+        "606",
+        "609"
+      ]
+    },
+    {
+      "booth": "609",
+      "sheet": "600s",
+      "name": "Glimmish",
+      "socials": "website",
+      "merch": "hair accessories",
+      "multiBooth": [
+        "606",
+        "609"
+      ]
+    },
+    {
+      "booth": "611",
+      "sheet": "600s",
+      "name": "JeanaDraws",
+      "socials": "website",
+      "merch": "power banks, clothing, accessories, stickers, lanyards, stationary, misc",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "Lakko the Otter, misc OC animals"
+        }
+      ]
+    },
+    {
+      "booth": "620",
+      "sheet": "600s",
+      "name": "Toy Mandala",
+      "socials": "website"
+    },
+    {
+      "booth": "621",
+      "sheet": "600s",
+      "name": "168 Dragon Trading Inc",
+      "socials": "website"
+    },
+    {
+      "booth": "626",
+      "sheet": "600s",
+      "name": "Artistsan Studio",
+      "socials": "carrd",
+      "merch": "itabags, pins, badges, jet tags"
+    },
+    {
+      "booth": "627",
+      "sheet": "600s",
+      "name": "Happy Goods",
+      "socials": "website",
+      "merch": "jewlery"
+    },
+    {
+      "booth": "628",
+      "sheet": "600s",
+      "name": "Nerdy Bit",
+      "socials": "website",
+      "merch": "apparel, stickers, prints, charms"
+    },
+    {
+      "booth": "629",
+      "sheet": "600s",
+      "name": "closet geek llc",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "639",
+      "sheet": "600s",
+      "name": "Gasha Nova",
+      "socials": "instagram"
+    },
+    {
+      "booth": "642",
+      "sheet": "600s",
+      "name": "BabyPanda LLC",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "643",
+      "sheet": "600s",
+      "name": "Zen Garden Aromas, LLC",
+      "socials": "website",
+      "merch": "body care"
+    },
+    {
+      "booth": "701",
+      "sheet": "700s",
+      "name": "Cartoon Passion",
+      "socials": "google drive"
+    },
+    {
+      "booth": "705",
+      "sheet": "700s",
+      "name": "Sutoru LLC",
+      "socials": "instagram",
+      "merch": "cosplay apparel"
+    },
+    {
+      "booth": "707",
+      "sheet": "700s",
+      "name": "enchanted dream couture",
+      "socials": "instagram",
+      "merch": "apparel"
+    },
+    {
+      "booth": "708",
+      "sheet": "700s",
+      "name": "Karepango",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "710",
+      "sheet": "700s",
+      "name": "Umvvelt",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "711",
+      "sheet": "700s",
+      "name": "game night arcade",
+      "socials": "website"
+    },
+    {
+      "booth": "720",
+      "sheet": "700s",
+      "name": "Anime Pavilion",
+      "socials": "website"
+    },
+    {
+      "booth": "721",
+      "sheet": "700s",
+      "name": "IT Cosplay",
+      "socials": "instagram"
+    },
+    {
+      "booth": "725",
+      "sheet": "700s",
+      "name": "Akico",
+      "socials": "website"
+    },
+    {
+      "booth": "727",
+      "sheet": "700s",
+      "name": "AKIBA HQ",
+      "socials": "website"
+    },
+    {
+      "booth": "730",
+      "sheet": "700s",
+      "name": "TealTeacup LLC",
+      "socials": "website",
+      "merch": "itabags, tote bags, pins, chars, stickers, misc",
+      "categories": [
+        {
+          "label": "Anime/Manga",
+          "value": "Studio Ghibli"
+        },
+        {
+          "label": "Misc media",
+          "value": "memes"
+        }
+      ]
+    },
+    {
+      "booth": "738",
+      "sheet": "700s",
+      "name": "Dark Cottage",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "803",
+      "sheet": "800s",
+      "name": "Tokullectibles",
+      "socials": "website"
+    },
+    {
+      "booth": "804",
+      "sheet": "800s",
+      "name": "The T House Imports",
+      "socials": "website"
+    },
+    {
+      "booth": "807",
+      "sheet": "800s",
+      "name": "JapanWave",
+      "socials": "website",
+      "merch": "toys, stationary, home goods"
+    },
+    {
+      "booth": "811",
+      "sheet": "800s",
+      "name": "Urban Sheek",
+      "socials": "instagram"
+    },
+    {
+      "booth": "820",
+      "sheet": "800s",
+      "name": "Alicia's Anime",
+      "socials": "website"
+    },
+    {
+      "booth": "821",
+      "sheet": "800s",
+      "name": "AnimeStuffStore",
+      "socials": "website"
+    },
+    {
+      "booth": "825",
+      "sheet": "800s",
+      "name": "Retro Saikou",
+      "socials": "website"
+    },
+    {
+      "booth": "826",
+      "sheet": "800s",
+      "name": "Prism dba JPNTOYS",
+      "socials": "website"
+    },
+    {
+      "booth": "828",
+      "sheet": "800s",
+      "name": "tickle me toys inc",
+      "socials": "website"
+    },
+    {
+      "booth": "838",
+      "sheet": "800s",
+      "name": "Equilibrium USG",
+      "socials": "website",
+      "merch": "apparel, bags"
+    },
+    {
+      "booth": "903",
+      "sheet": "900s",
+      "name": "Anime Sekai LLC",
+      "socials": "website"
+    },
+    {
+      "booth": "906",
+      "sheet": "900s",
+      "name": "Jhouse Rock Entertainment",
+      "socials": "instagram"
+    },
+    {
+      "booth": "907",
+      "sheet": "900s",
+      "name": "Night Whisper",
+      "socials": "website",
+      "merch": "lolita clothing"
+    },
+    {
+      "booth": "909",
+      "sheet": "900s",
+      "name": "Eclipse Pop",
+      "socials": "website"
+    },
+    {
+      "booth": "921",
+      "sheet": "900s",
+      "name": "Otaku Joe's LLC",
+      "socials": "facebook"
+    },
+    {
+      "booth": "925",
+      "sheet": "900s",
+      "name": "rumble and roar wandmakers",
+      "socials": "website",
+      "merch": "custom wands"
+    },
+    {
+      "booth": "927",
+      "sheet": "900s",
+      "name": "SilverWolf Crafts",
+      "socials": "website",
+      "merch": "handmade leather dice+chainmail dice bags"
+    },
+    {
+      "booth": "929",
+      "sheet": "900s",
+      "name": "Ohmonah",
+      "socials": "website",
+      "merch": "apparel, accessories"
+    },
+    {
+      "booth": "938",
+      "sheet": "900s",
+      "name": "czl enterprise llc",
+      "socials": "website"
+    },
+    {
+      "booth": "1003",
+      "sheet": "1000s+1100s",
+      "name": "CloverPuff",
+      "socials": "website",
+      "merch": "plush, apparel, hats, scarves, wallscrolls, pins, lanyards, tarot, omamori, keychain plush",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "OC- animals, cryptids, bugs (plushies)"
+        }
+      ]
+    },
+    {
+      "booth": "1006",
+      "sheet": "1000s+1100s",
+      "name": "Image Anime",
+      "socials": "website"
+    },
+    {
+      "booth": "1007",
+      "sheet": "1000s+1100s",
+      "name": "EGGUINO",
+      "socials": "website",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "OC - cute animals"
+        }
+      ]
+    },
+    {
+      "booth": "1009",
+      "sheet": "1000s+1100s",
+      "name": "Momoko House",
+      "socials": "website"
+    },
+    {
+      "booth": "1021",
+      "sheet": "1000s+1100s",
+      "name": "Cosplay Moomoo",
+      "socials": "website",
+      "merch": "shirts, hats, facemasks, etc"
+    },
+    {
+      "booth": "1024",
+      "sheet": "1000s+1100s",
+      "name": "All Blue Anime",
+      "socials": "website"
+    },
+    {
+      "booth": "1025",
+      "sheet": "1000s+1100s",
+      "name": "Megaroad Toys and Entertainment, LLC.",
+      "socials": "website"
+    },
+    {
+      "booth": "1029",
+      "sheet": "1000s+1100s",
+      "name": "Secrets of Stones",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "1045",
+      "sheet": "1000s+1100s",
+      "name": "Wild Bill's Craft Beverage Co.",
+      "socials": "website",
+      "merch": "craft soda"
+    },
+    {
+      "booth": "1103",
+      "sheet": "1000s+1100s",
+      "name": "Omnihedral",
+      "socials": "website"
+    },
+    {
+      "booth": "1104",
+      "sheet": "1000s+1100s",
+      "name": "tickle me toys inc",
+      "socials": "website"
+    },
+    {
+      "booth": "1109",
+      "sheet": "1000s+1100s",
+      "name": "Super Art Fight",
+      "socials": "website"
+    },
+    {
+      "booth": "1111",
+      "sheet": "1000s+1100s",
+      "name": "Pawsonify LLC",
+      "socials": "website",
+      "merch": "pet assessories",
+      "categories": [
+        {
+          "label": "Anime/Manga",
+          "value": "Demon Slayer, Naruto, One Piece"
+        }
+      ]
+    },
+    {
+      "booth": "1120",
+      "sheet": "1000s+1100s",
+      "name": "mtstar",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1121",
+      "sheet": "1000s+1100s",
+      "name": "Detroit Leather Company",
+      "socials": "carrd",
+      "merch": "leather goods, drinkwere"
+    },
+    {
+      "booth": "1125",
+      "sheet": "1000s+1100s",
+      "name": "bling empire co",
+      "socials": "website",
+      "merch": "hair assessories, press-on nails"
+    },
+    {
+      "booth": "1126",
+      "sheet": "1000s+1100s",
+      "name": "Boomslank",
+      "socials": "website",
+      "merch": "apparel, phone cases, print, accessories, banners"
+    },
+    {
+      "booth": "1129",
+      "sheet": "1000s+1100s",
+      "name": "Matcha Time Gift Shop",
+      "socials": "website"
+    },
+    {
+      "booth": "1139",
+      "sheet": "1000s+1100s",
+      "name": "Radical Cosplay Ideology",
+      "socials": "website",
+      "merch": "cosplay"
+    },
+    {
+      "booth": "1143",
+      "sheet": "1000s+1100s",
+      "name": "Enchanted Shire",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1202",
+      "sheet": "1200s+1300s",
+      "name": "BB and B",
+      "socials": "website",
+      "merch": "jewelry"
+    },
+    {
+      "booth": "1203",
+      "sheet": "1200s+1300s",
+      "name": "Lychee Media",
+      "socials": "website"
+    },
+    {
+      "booth": "1208",
+      "sheet": "1200s+1300s",
+      "name": "Forest Girl Clothing",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "1210",
+      "sheet": "1200s+1300s",
+      "name": "Surreal Makeup",
+      "socials": "website",
+      "merch": "makeup"
+    },
+    {
+      "booth": "1211",
+      "sheet": "1200s+1300s",
+      "name": "Dice Dungeons LLC",
+      "socials": "website",
+      "merch": "dice"
+    },
+    {
+      "booth": "1212",
+      "sheet": "1200s+1300s",
+      "name": "Holy Cow Anime",
+      "socials": "website"
+    },
+    {
+      "booth": "1220",
+      "sheet": "1200s+1300s",
+      "name": "anime palace",
+      "socials": "website"
+    },
+    {
+      "booth": "1221",
+      "sheet": "1200s+1300s",
+      "name": "Fragmented Nostalgia",
+      "socials": "website"
+    },
+    {
+      "booth": "1224",
+      "sheet": "1200s+1300s",
+      "name": "Kyrimorut Clan of the Mando Mercs Costume Club",
+      "socials": "website"
+    },
+    {
+      "booth": "1227",
+      "sheet": "1200s+1300s",
+      "name": "Kantoboyz TCG",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1228",
+      "sheet": "1200s+1300s",
+      "name": "Man at Arms",
+      "socials": "(unsure of socials)"
+    },
+    {
+      "booth": "1229",
+      "sheet": "1200s+1300s",
+      "name": "bibisama",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "1238",
+      "sheet": "1200s+1300s",
+      "name": "Ruyikoi",
+      "socials": "website",
+      "merch": "streetwear apparel"
+    },
+    {
+      "booth": "1301",
+      "sheet": "1200s+1300s",
+      "name": "triforce cutlery",
+      "socials": "website",
+      "merch": "cosplay weapons"
+    },
+    {
+      "booth": "1302",
+      "sheet": "1200s+1300s",
+      "name": "Pawstar",
+      "socials": "website",
+      "merch": "apparel, animal ears+tails"
+    },
+    {
+      "booth": "1305",
+      "sheet": "1200s+1300s",
+      "name": "HELMECHA Industries, LLC",
+      "socials": "website",
+      "merch": "apparel, accessories"
+    },
+    {
+      "booth": "1306",
+      "sheet": "1200s+1300s",
+      "name": "Hashtag Gaming Arena",
+      "socials": "website"
+    },
+    {
+      "booth": "1309",
+      "sheet": "1200s+1300s",
+      "name": "YUGAN",
+      "socials": "instagram",
+      "merch": "prints"
+    },
+    {
+      "booth": "1311",
+      "sheet": "1200s+1300s",
+      "name": "samurai west",
+      "socials": "website",
+      "merch": "cosplay weapons"
+    },
+    {
+      "booth": "1321",
+      "sheet": "1200s+1300s",
+      "name": "The Shumi Company",
+      "socials": "website"
+    },
+    {
+      "booth": "1325",
+      "sheet": "1200s+1300s",
+      "name": "PlusHii Kawaii",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "1326",
+      "sheet": "1200s+1300s",
+      "name": "Single Sploot",
+      "socials": "carrd",
+      "merch": "stickers, apparel, plushie keychains, charms, live pet commissions (keychain/print)",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "OC - original corgi character designs"
+        }
+      ]
+    },
+    {
+      "booth": "1327",
+      "sheet": "1200s+1300s",
+      "name": "Bishounen Boutique",
+      "socials": "website"
+    },
+    {
+      "booth": "1328",
+      "sheet": "1200s+1300s",
+      "name": "J&V Anime",
+      "socials": "website",
+      "merch": "bags, clothing, accessories"
+    },
+    {
+      "booth": "1339",
+      "sheet": "1200s+1300s",
+      "name": "closet geek llc",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "1343",
+      "sheet": "1200s+1300s",
+      "name": "Otakon Manga Library"
+    },
+    {
+      "booth": "1345",
+      "sheet": "1200s+1300s",
+      "name": "Magic Circle Collectibles",
+      "socials": "website"
+    },
+    {
+      "booth": "1403",
+      "sheet": "1400s+1500s",
+      "name": "fairyshop",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1404",
+      "sheet": "1400s+1500s",
+      "name": "Miss Candyholic",
+      "socials": "website",
+      "merch": "apparel, bags"
+    },
+    {
+      "booth": "1406",
+      "sheet": "1400s+1500s",
+      "name": "Mythical Fair",
+      "socials": "website",
+      "merch": "jewerly, drinkwere, cosplay props"
+    },
+    {
+      "booth": "1407",
+      "sheet": "1400s+1500s",
+      "name": "Pop Heart Studios",
+      "socials": "instagram",
+      "merch": "handmade fans"
+    },
+    {
+      "booth": "1411",
+      "sheet": "1400s+1500s",
+      "name": "koko kuma",
+      "socials": "website",
+      "merch": "apparel, bags"
+    },
+    {
+      "booth": "1421",
+      "sheet": "1400s+1500s",
+      "name": "The Geek Realms",
+      "socials": "website"
+    },
+    {
+      "booth": "1424",
+      "sheet": "1400s+1500s",
+      "name": "The Gilded Teafling",
+      "socials": "website",
+      "merch": "tea, apparel"
+    },
+    {
+      "booth": "1425",
+      "sheet": "1400s+1500s",
+      "name": "CoffeeSnow LLC",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1426",
+      "sheet": "1400s+1500s",
+      "name": "J&V Anime",
+      "socials": "website",
+      "merch": "bags, itabags, clothing, accessories"
+    },
+    {
+      "booth": "1428",
+      "sheet": "1400s+1500s",
+      "name": "sig toys"
+    },
+    {
+      "booth": "1429",
+      "sheet": "1400s+1500s",
+      "name": "ColorfulSheep",
+      "socials": "website",
+      "merch": "figures, keychains, bags, hair accessories, misc"
+    },
+    {
+      "booth": "1438",
+      "sheet": "1400s+1500s",
+      "name": "Whimsic Alley",
+      "socials": "website"
+    },
+    {
+      "booth": "1439",
+      "sheet": "1400s+1500s",
+      "name": "Senpai Squad",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "1442",
+      "sheet": "1400s+1500s",
+      "name": "Jadeduo Shop LLC",
+      "socials": "website"
+    },
+    {
+      "booth": "1443",
+      "sheet": "1400s+1500s",
+      "name": "Creative Offsets",
+      "socials": "website"
+    },
+    {
+      "booth": "1447",
+      "sheet": "1400s+1500s",
+      "name": "Ultimate Wireless LLC",
+      "socials": "website"
+    },
+    {
+      "booth": "1501",
+      "sheet": "1400s+1500s",
+      "name": "MessyUnicorn",
+      "socials": "website",
+      "merch": "shirts and tank tops",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "animals, LGBTQ+"
+        }
+      ]
+    },
+    {
+      "booth": "1502",
+      "sheet": "1400s+1500s",
+      "name": "chirofish",
+      "socials": "website",
+      "merch": "apparel, pins, jet tags"
+    },
+    {
+      "booth": "1505",
+      "sheet": "1400s+1500s",
+      "name": "Godly Natures Jewelry",
+      "socials": "website",
+      "merch": "custom jewlery"
+    },
+    {
+      "booth": "1506",
+      "sheet": "1400s+1500s",
+      "name": "Anthony Wang Shoes",
+      "socials": "website",
+      "merch": "custom shoes"
+    },
+    {
+      "booth": "1507",
+      "sheet": "1400s+1500s",
+      "name": "Poke Shop COVA",
+      "socials": "linktree"
+    },
+    {
+      "booth": "1508",
+      "sheet": "1400s+1500s",
+      "name": "Unicorn Muscle",
+      "socials": "website",
+      "merch": "fans"
+    },
+    {
+      "booth": "1509",
+      "sheet": "1400s+1500s",
+      "name": "The Crystal Pheonix LLC",
+      "socials": "facebook"
+    },
+    {
+      "booth": "1511",
+      "sheet": "1400s+1500s",
+      "name": "Archangel Games",
+      "socials": "website"
+    },
+    {
+      "booth": "1520",
+      "sheet": "1400s+1500s",
+      "name": "Kopes Kreations",
+      "socials": "website (?)"
+    },
+    {
+      "booth": "1521",
+      "sheet": "1400s+1500s",
+      "name": "Copper Coast Confections",
+      "socials": "website",
+      "merch": "confectionary"
+    },
+    {
+      "booth": "1524",
+      "sheet": "1400s+1500s",
+      "name": "Comfort Kingdom",
+      "socials": "website",
+      "merch": "plush, pins, prints"
+    },
+    {
+      "booth": "1526",
+      "sheet": "1400s+1500s",
+      "name": "Manga Mavericks LLC",
+      "socials": "website"
+    },
+    {
+      "booth": "1527",
+      "sheet": "1400s+1500s",
+      "name": "black flag trading company",
+      "socials": "website"
+    },
+    {
+      "booth": "1528",
+      "sheet": "1400s+1500s",
+      "name": "All Blue LLC"
+    },
+    {
+      "booth": "1529",
+      "sheet": "1400s+1500s",
+      "name": "Milky Tomato LLC",
+      "socials": "website",
+      "merch": "plushies, apparel"
+    },
+    {
+      "booth": "1538",
+      "sheet": "1400s+1500s",
+      "name": "HoloSQ",
+      "socials": "website"
+    },
+    {
+      "booth": "1539",
+      "sheet": "1400s+1500s",
+      "name": "Where the Geek Things Are",
+      "socials": "facebook"
+    },
+    {
+      "booth": "1542",
+      "sheet": "1400s+1500s",
+      "name": "ARMORY QUEST",
+      "socials": "website",
+      "merch": "foam weapons, props"
+    },
+    {
+      "booth": "1543",
+      "sheet": "1400s+1500s",
+      "name": "QueerCraft",
+      "socials": "website"
+    },
+    {
+      "booth": "1545",
+      "sheet": "1400s+1500s",
+      "name": "Talon and Claw",
+      "socials": "website",
+      "merch": "Dice, dice towers, DnD assessories"
+    },
+    {
+      "booth": "1600",
+      "sheet": "1600s+1700s",
+      "name": "Badgeit Inc.",
+      "socials": "website"
+    },
+    {
+      "booth": "1603",
+      "sheet": "1600s+1700s",
+      "name": "Kinokuniya Bookstore",
+      "socials": "website"
+    },
+    {
+      "booth": "1604",
+      "sheet": "1600s+1700s",
+      "name": "Kuroheim Items Shop",
+      "socials": "website",
+      "merch": "dice, D&D accessories"
+    },
+    {
+      "booth": "1606",
+      "sheet": "1600s+1700s",
+      "name": "Game of HAM LLC",
+      "socials": "website",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "Game of Ham"
+        }
+      ]
+    },
+    {
+      "booth": "1607",
+      "sheet": "1600s+1700s",
+      "name": "Lettuce Arm Ewe",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1608",
+      "sheet": "1600s+1700s",
+      "name": "Pomptilius",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1611",
+      "sheet": "1600s+1700s",
+      "name": "Discotec Media",
+      "socials": "website"
+    },
+    {
+      "booth": "1620",
+      "sheet": "1600s+1700s",
+      "name": "chill vibes worldwide",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "1621",
+      "sheet": "1600s+1700s",
+      "name": "Japanime Games",
+      "socials": "website"
+    },
+    {
+      "booth": "1622",
+      "sheet": "1600s+1700s",
+      "name": "Cafe de Yume",
+      "socials": "website",
+      "merch": "enamel pins, accessories, wooden coasters, itabags",
+      "categories": [
+        {
+          "label": "Vtubers / Vocaloid",
+          "value": "Holostars EN"
+        },
+        {
+          "label": "Misc media",
+          "value": "food, cats"
+        }
+      ]
+    },
+    {
+      "booth": "1624",
+      "sheet": "1600s+1700s",
+      "name": "Alpacasews",
+      "socials": "website",
+      "merch": "plushies, stationary"
+    },
+    {
+      "booth": "1625",
+      "sheet": "1600s+1700s",
+      "name": "MOAPIA",
+      "socials": "linktree"
+    },
+    {
+      "booth": "1626",
+      "sheet": "1600s+1700s",
+      "name": "Punkin' Patch",
+      "socials": "instagram",
+      "merch": "stickers, buttons, upcycled apparel, patches, accessories",
+      "categories": [
+        {
+          "label": "Misc media",
+          "value": "Politically charged/queer focused"
+        }
+      ]
+    },
+    {
+      "booth": "1627",
+      "sheet": "1600s+1700s",
+      "name": "Crowded Shelf",
+      "socials": "website",
+      "merch": "indie books"
+    },
+    {
+      "booth": "1628",
+      "sheet": "1600s+1700s",
+      "name": "Valeza LLC",
+      "socials": "website",
+      "merch": "apparel"
+    },
+    {
+      "booth": "1629",
+      "sheet": "1600s+1700s",
+      "name": "True Honey Teas",
+      "socials": "website",
+      "merch": "tea"
+    },
+    {
+      "booth": "1638",
+      "sheet": "1600s+1700s",
+      "name": "Rocktown Games",
+      "socials": "website"
+    },
+    {
+      "booth": "1639",
+      "sheet": "1600s+1700s",
+      "name": "Tabitha's Trinkets and Treasures",
+      "socials": "website",
+      "merch": "DnD accessories, art, trinkets, ribbons"
+    },
+    {
+      "booth": "1641",
+      "sheet": "1600s+1700s",
+      "name": "Shazami's",
+      "socials": "website"
+    },
+    {
+      "booth": "1642",
+      "sheet": "1600s+1700s",
+      "name": "Farpoint Convention / Farpoint Foundation",
+      "socials": "website"
+    },
+    {
+      "booth": "1644",
+      "sheet": "1600s+1700s",
+      "name": "hachikollectibles",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1645",
+      "sheet": "1600s+1700s",
+      "name": "Gamer Supps",
+      "socials": "website"
+    },
+    {
+      "booth": "1646",
+      "sheet": "1600s+1700s",
+      "name": "because science",
+      "socials": "website"
+    },
+    {
+      "booth": "1703",
+      "sheet": "1600s+1700s",
+      "name": "Advanced.gg",
+      "socials": "Advanced.gg"
+    },
+    {
+      "booth": "1706",
+      "sheet": "1600s+1700s",
+      "name": "WEEBBOXES",
+      "socials": "website"
+    },
+    {
+      "booth": "1708",
+      "sheet": "1600s+1700s",
+      "name": "TakensMiniMart",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1721",
+      "sheet": "1600s+1700s",
+      "name": "Embassy of Japan",
+      "socials": "website"
+    },
+    {
+      "booth": "1724",
+      "sheet": "1600s+1700s",
+      "name": "RT Little Akihabara",
+      "socials": "instagram"
+    },
+    {
+      "booth": "1725",
+      "sheet": "1600s+1700s",
+      "name": "Japan-America Society of Washington DC",
+      "socials": "website"
+    },
+    {
+      "booth": "1727",
+      "sheet": "1600s+1700s",
+      "name": "Kochi",
+      "socials": "(unsure of socials)"
+    },
+    {
+      "booth": "1739",
+      "sheet": "1600s+1700s",
+      "name": "super cosplay"
+    },
+    {
+      "booth": "1742",
+      "sheet": "1600s+1700s",
+      "name": "DAWGPOUND",
+      "socials": "twitter",
+      "merch": "apparel"
+    },
+    {
+      "booth": "1820",
+      "sheet": "1800s Guests",
+      "name": "Alejandro Saab",
+      "socials": "website"
+    },
+    {
+      "booth": "1822",
+      "sheet": "1800s Guests",
+      "name": "Hayden Daviau",
+      "socials": "website"
+    },
+    {
+      "booth": "1824",
+      "sheet": "1800s Guests",
+      "name": "Sam Slade",
+      "socials": "website"
+    },
+    {
+      "booth": "1826",
+      "sheet": "1800s Guests",
+      "name": "Jordan Dash Cruz",
+      "socials": "website"
+    },
+    {
+      "booth": "1828",
+      "sheet": "1800s Guests",
+      "name": "Courtney Lin",
+      "socials": "website"
+    },
+    {
+      "booth": "1830",
+      "sheet": "1800s Guests",
+      "name": "GR Ops"
+    },
+    {
+      "booth": "1838",
+      "sheet": "1800s Guests",
+      "name": "Cassandra Lee Morris",
+      "socials": "website"
+    },
+    {
+      "booth": "1840",
+      "sheet": "1800s Guests",
+      "name": "Crystal Lee",
+      "socials": "website"
+    },
+    {
+      "booth": "1842",
+      "sheet": "1800s Guests",
+      "name": "Trina Deuhart",
+      "socials": "carrd"
+    },
+    {
+      "booth": "1844",
+      "sheet": "1800s Guests",
+      "name": "Xanthe Huynh",
+      "socials": "website"
+    },
+    {
+      "booth": "1846",
+      "sheet": "1800s Guests",
+      "name": "Ray Chase",
+      "socials": "website"
+    }
+  ]
+}
