@@ -211,8 +211,18 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
             nameOverride: b.name,
             rect: b.rect,
             floorMapId,
+            catalogInfo: b.catalogInfo,
           })
           boothId = existing.id
+          // Dexie skips undefined keys in update — clear stale catalogInfo explicitly.
+          if (!b.catalogInfo) {
+            await db.booths
+              .where('id')
+              .equals(boothId)
+              .modify((row) => {
+                delete row.catalogInfo
+              })
+          }
         } else {
           boothId = (await db.booths.add({
             eventId,
@@ -221,6 +231,7 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
             label: b.label,
             nameOverride: b.name,
             rect: b.rect,
+            ...(b.catalogInfo ? { catalogInfo: b.catalogInfo } : {}),
           })) as number
         }
 
@@ -232,8 +243,16 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
             tags: b.tags ?? vendor.tags,
             visitStatus: prev?.visitStatus ?? vendor.visitStatus,
             notes: prev?.notes ?? vendor.notes,
-            catalogInfo: b.catalogInfo,
+            ...(b.catalogInfo ? { catalogInfo: b.catalogInfo } : {}),
           })
+          if (!b.catalogInfo && vendor.catalogInfo) {
+            await db.vendors
+              .where('id')
+              .equals(vendor.id)
+              .modify((row) => {
+                delete row.catalogInfo
+              })
+          }
         } else {
           await db.vendors.add({
             eventId,
@@ -242,7 +261,7 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
             tags: b.tags ?? [],
             visitStatus: prev?.visitStatus ?? 'none',
             notes: prev?.notes,
-            catalogInfo: b.catalogInfo,
+            ...(b.catalogInfo ? { catalogInfo: b.catalogInfo } : {}),
           })
         }
       }
@@ -287,16 +306,29 @@ export async function syncCatalogFromCloud(options?: {
     const lastRev = lastCatalogSampleRevision()
     const bundleRev = bundle.sampleRevision ?? 0
     const mapCount = bundle.events.reduce((n, ev) => n + (ev.maps?.length ?? 0), 0)
+    const catalogInfoCount = bundle.events.reduce(
+      (n, ev) =>
+        n +
+        ev.maps.reduce(
+          (mn, m) => mn + m.booths.filter((b) => b.catalogInfo).length,
+          0,
+        ),
+      0,
+    )
     const localMapCount = await db.floorMaps.count()
+    const localInfoCount = await db.vendors
+      .filter((v) => Boolean(v.catalogInfo))
+      .count()
     // Re-pull when catalog content revision changes (e.g. Artist Alley added),
-    // not only when updatedAt advances. Also re-pull if local maps are short.
+    // not only when updatedAt advances. Also re-pull if local maps/info lag.
     if (
       !options?.force &&
       last != null &&
       last >= bundle.updatedAt &&
       lastRev != null &&
       lastRev === bundleRev &&
-      localMapCount >= mapCount
+      localMapCount >= mapCount &&
+      localInfoCount >= Math.floor(catalogInfoCount * 0.5)
     ) {
       return {
         ok: true,

@@ -12,7 +12,7 @@ import path from 'node:path'
 import { ensureDb, getPool, hasDatabaseUrl } from './db.ts'
 
 /** Bump when public/samples catalog content changes (forces DB reseed). */
-export const SAMPLE_REVISION = 6
+export const SAMPLE_REVISION = 7
 
 export type CatalogInfo = {
   source?: string

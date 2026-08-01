@@ -55,17 +55,6 @@ export interface FloorMapRecord {
   createdAt: number
 }
 
-export interface BoothRecord {
-  id?: number
-  eventId: number
-  /** Which floor map this booth belongs to (required for multi-map events). */
-  floorMapId?: number
-  boothKey: string
-  label: string
-  nameOverride?: string
-  rect: Rect
-}
-
 /** Shared catalog extras (fan masterlists) — not personal notes. */
 export type VendorCatalogInfo = {
   source?: string
@@ -83,6 +72,19 @@ export type VendorCatalogInfo = {
     categories?: Array<{ label: string; value: string }>
     adultContent?: string
   }>
+}
+
+export interface BoothRecord {
+  id?: number
+  eventId: number
+  /** Which floor map this booth belongs to (required for multi-map events). */
+  floorMapId?: number
+  boothKey: string
+  label: string
+  nameOverride?: string
+  rect: Rect
+  /** Fan/catalog profile mirrored from sync (fallback for vendor details). */
+  catalogInfo?: VendorCatalogInfo
 }
 
 export interface VendorRecord {

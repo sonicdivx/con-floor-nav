@@ -206,6 +206,7 @@ export async function applyBoothImport(
           nameOverride: b.name,
           rect: b.rect,
           ...(floorMapId != null ? { floorMapId } : {}),
+          ...(b.catalogInfo ? { catalogInfo: b.catalogInfo } : {}),
         })
         boothId = existing.id
       } else {
@@ -216,6 +217,7 @@ export async function applyBoothImport(
           label: b.label ?? b.id,
           nameOverride: b.name,
           rect: b.rect,
+          ...(b.catalogInfo ? { catalogInfo: b.catalogInfo } : {}),
         })) as number
         boothCount++
       }

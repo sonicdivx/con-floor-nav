@@ -45,6 +45,11 @@ export function VendorPanel({
         : [],
     [vendor.id],
   )
+  const booth = useLiveQuery(
+    () => db.booths.get(vendor.boothId),
+    [vendor.boothId],
+  )
+  const catalogInfo = vendor.catalogInfo ?? booth?.catalogInfo
   const allVendors = useLiveQuery(
     () => db.vendors.where('eventId').equals(vendor.eventId).toArray(),
     [vendor.eventId],
@@ -215,14 +220,14 @@ export function VendorPanel({
         />
       </section>
 
-      {vendor.catalogInfo && hasCatalogInfo(vendor.catalogInfo) ? (
+      {catalogInfo && hasCatalogInfo(catalogInfo) ? (
         <section className="panel-section catalog-info-section">
           <NavCollapsible
             title="Booth info"
-            summary={catalogInfoSummary(vendor.catalogInfo)}
-            defaultOpen={false}
+            summary={catalogInfoSummary(catalogInfo)}
+            defaultOpen
           >
-            <CatalogInfoBody info={vendor.catalogInfo} />
+            <CatalogInfoBody info={catalogInfo} />
           </NavCollapsible>
         </section>
       ) : null}

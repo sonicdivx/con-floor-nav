@@ -224,9 +224,17 @@ export async function ensureVendorForBooth(
   boothId: number,
 ): Promise<VendorRecord> {
   const existing = await db.vendors.where('boothId').equals(boothId).first()
-  if (existing && existing.eventId === eventId) return existing
-
   const booth = await db.booths.get(boothId)
+
+  if (existing && existing.eventId === eventId) {
+    // Backfill catalogInfo from booth when vendor row predates masterlist sync.
+    if (!existing.catalogInfo && booth?.catalogInfo) {
+      await db.vendors.update(existing.id!, { catalogInfo: booth.catalogInfo })
+      return { ...existing, catalogInfo: booth.catalogInfo }
+    }
+    return existing
+  }
+
   const name =
     booth?.nameOverride?.trim() ||
     (booth?.label ? `Booth ${booth.label}` : `Booth ${boothId}`)
@@ -236,6 +244,7 @@ export async function ensureVendorForBooth(
     name,
     tags: [],
     visitStatus: 'none',
+    ...(booth?.catalogInfo ? { catalogInfo: booth.catalogInfo } : {}),
   }
   const id = await db.vendors.add(record)
   return { ...record, id: id as number }
