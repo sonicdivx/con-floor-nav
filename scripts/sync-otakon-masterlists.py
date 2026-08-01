@@ -79,21 +79,33 @@ def artist_from_vals(vals, *, nsfw_tab=False, has_oc=True):
         if nsfw_tab and not adult:
             adult = "18+ area (NSFW hall)"
 
+    # Keep every sheet column (empty string when blank) so Booth info can
+    # render the full row offline after Google Sheets is unavailable.
     cats = []
     for i, label in enumerate(labels):
         idx = media_idxs[i]
         val = clean(vals[idx] if idx < len(vals) else None)
-        if val:
-            cats.append({"label": label, "value": val})
+        cats.append({"label": label, "value": val or ""})
 
     out = {
-        "name": clean(vals[1] if len(vals) > 1 else None),
-        "socials": clean(vals[2] if len(vals) > 2 else None),
-        "merch": clean(vals[3] if len(vals) > 3 else None),
-        "categories": cats or None,
-        "adultContent": adult,
+        "name": clean(vals[1] if len(vals) > 1 else None) or "",
+        "socials": clean(vals[2] if len(vals) > 2 else None) or "",
+        "merch": clean(vals[3] if len(vals) > 3 else None) or "",
+        "categories": cats,
+        "adultContent": adult or "",
     }
-    return {k: v for k, v in out.items() if v is not None}
+    # Drop entirely-empty artist rows (no name/socials/merch/cats/adult).
+    if not any(
+        [
+            out["name"],
+            out["socials"],
+            out["merch"],
+            out["adultContent"],
+            any(c["value"] for c in cats),
+        ]
+    ):
+        return {}
+    return out
 
 
 def download(sid: str, dest: Path) -> None:
@@ -115,9 +127,7 @@ def extract_aa(path: Path) -> dict:
                 continue
             keys = booth_keys(vals[0])
             artist = artist_from_vals(vals, has_oc=True)
-            if not any(
-                artist.get(k) for k in ("name", "merch", "categories", "adultContent", "socials")
-            ):
+            if not artist:
                 continue
             if keys:
                 for k in keys:
@@ -128,7 +138,7 @@ def extract_aa(path: Path) -> dict:
                 current = keys
             elif current:
                 mate = dict(artist)
-                if mate.get("name"):
+                if (mate.get("name") or "").strip():
                     for k in current:
                         by[k].setdefault("tablemates", []).append(mate)
     for e in by.values():
@@ -165,9 +175,7 @@ def extract_dh(path: Path) -> dict:
                 continue
             keys = booth_keys(vals[0])
             artist = artist_from_vals(vals, nsfw_tab=nsfw, has_oc=has_oc)
-            if not any(
-                artist.get(k) for k in ("name", "merch", "categories", "adultContent", "socials")
-            ):
+            if not artist:
                 continue
             if keys:
                 for k in keys:
@@ -178,7 +186,7 @@ def extract_dh(path: Path) -> dict:
                 current = keys
             elif current:
                 mate = dict(artist)
-                if mate.get("name"):
+                if (mate.get("name") or "").strip():
                     for k in current:
                         by[k].setdefault("tablemates", []).append(mate)
     for e in by.values():
@@ -214,18 +222,20 @@ def enrich_sample(sample_path: Path, master: dict) -> tuple[int, int]:
         ci = {
             "source": master["source"],
             "sourceUrl": master["sourceUrl"],
+            "socials": info.get("socials") or "",
+            "merch": info.get("merch") or "",
+            "categories": info.get("categories") or [],
+            "adultContent": info.get("adultContent") or "",
         }
-        for key in (
-            "socials",
-            "merch",
-            "categories",
-            "adultContent",
-            "tablemates",
-            "multiBooth",
-            "sheet",
-        ):
-            if info.get(key):
-                ci[key] = info[key]
+        if info.get("sheet"):
+            ci["sheet"] = info["sheet"]
+        if info.get("tablemates"):
+            ci["tablemates"] = info["tablemates"]
+        if info.get("multiBooth"):
+            ci["multiBooth"] = info["multiBooth"]
+        # Keep display name even when other fields are blank.
+        if info.get("name"):
+            ci["name"] = info["name"]
         b["catalogInfo"] = ci
     sample_path.write_text(json.dumps(sample, indent=2, ensure_ascii=False) + "\n")
     return matched, len(sample["booths"])

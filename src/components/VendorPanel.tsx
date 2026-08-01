@@ -309,7 +309,10 @@ function PhotoThumb({ blob }: { blob: Blob }) {
 
 function hasCatalogInfo(info: VendorCatalogInfo): boolean {
   return Boolean(
-    info.merch ||
+    info.source ||
+      info.sheet ||
+      info.name ||
+      info.merch ||
       info.socials ||
       info.adultContent ||
       (info.categories && info.categories.length > 0) ||
@@ -318,16 +321,68 @@ function hasCatalogInfo(info: VendorCatalogInfo): boolean {
 }
 
 function catalogInfoSummary(info: VendorCatalogInfo): string | undefined {
+  const filledCats = (info.categories ?? []).filter((c) => c.value.trim()).length
   const bits: string[] = []
-  if (info.merch) bits.push('merch')
-  if (info.categories?.length) bits.push(`${info.categories.length} fandoms`)
+  if (info.merch?.trim()) bits.push('merch')
+  if (filledCats) bits.push(`${filledCats} fandoms`)
   if (info.tablemates?.length) {
     bits.push(
       `${info.tablemates.length} tablemate${info.tablemates.length === 1 ? '' : 's'}`,
     )
   }
-  if (info.adultContent) bits.push('18+ note')
-  return bits.length ? bits.join(' · ') : undefined
+  if (info.adultContent?.trim()) bits.push('18+ note')
+  return bits.length ? bits.join(' · ') : 'full sheet row'
+}
+
+function sheetValue(value: string | undefined): string {
+  const v = value?.trim()
+  return v ? v : '—'
+}
+
+function CatalogInfoFields({
+  info,
+  name,
+}: {
+  info: Pick<
+    VendorCatalogInfo,
+    'socials' | 'merch' | 'categories' | 'adultContent' | 'multiBooth'
+  >
+  name?: string
+}) {
+  return (
+    <>
+      {info.multiBooth && info.multiBooth.length > 1 ? (
+        <p className="catalog-info-row">
+          <span className="catalog-info-label">Booths</span>
+          <span>{info.multiBooth.join(' + ')}</span>
+        </p>
+      ) : null}
+      <p className="catalog-info-row">
+        <span className="catalog-info-label">Name</span>
+        <span>{sheetValue(name)}</span>
+      </p>
+      <p className="catalog-info-row">
+        <span className="catalog-info-label">Socials</span>
+        <span>{sheetValue(info.socials)}</span>
+      </p>
+      <p className="catalog-info-row">
+        <span className="catalog-info-label">Type of merch</span>
+        <span>{sheetValue(info.merch)}</span>
+      </p>
+      {(info.categories ?? []).map((c) => (
+        <p key={c.label} className="catalog-info-row">
+          <span className="catalog-info-label">{c.label}</span>
+          <span>{sheetValue(c.value)}</span>
+        </p>
+      ))}
+      <p
+        className={`catalog-info-row${info.adultContent?.trim() ? ' catalog-info-nsfw' : ''}`}
+      >
+        <span className="catalog-info-label">18+ content</span>
+        <span>{sheetValue(info.adultContent)}</span>
+      </p>
+    </>
+  )
 }
 
 function CatalogInfoBody({ info }: { info: VendorCatalogInfo }) {
@@ -339,78 +394,24 @@ function CatalogInfoBody({ info }: { info: VendorCatalogInfo }) {
           <span>{info.sheet}</span>
         </p>
       ) : null}
-      {info.multiBooth && info.multiBooth.length > 1 ? (
-        <p className="catalog-info-row">
-          <span className="catalog-info-label">Booths</span>
-          <span>{info.multiBooth.join(' + ')}</span>
-        </p>
-      ) : null}
-      {info.socials ? (
-        <p className="catalog-info-row">
-          <span className="catalog-info-label">Socials</span>
-          <span>{info.socials}</span>
-        </p>
-      ) : null}
-      {info.merch ? (
-        <p className="catalog-info-row">
-          <span className="catalog-info-label">Type of merch</span>
-          <span>{info.merch}</span>
-        </p>
-      ) : null}
-      {(info.categories ?? []).map((c) => (
-        <p key={c.label} className="catalog-info-row">
-          <span className="catalog-info-label">{c.label}</span>
-          <span>{c.value}</span>
-        </p>
-      ))}
-      {info.adultContent ? (
-        <p className="catalog-info-row catalog-info-nsfw">
-          <span className="catalog-info-label">18+ content</span>
-          <span>{info.adultContent}</span>
-        </p>
-      ) : null}
+      <CatalogInfoFields info={info} name={info.name} />
       {(info.tablemates ?? []).map((mate, i) => (
         <div key={`${mate.name}-${i}`} className="catalog-info-tablemate">
-          <p className="catalog-info-tablemate-name">
-            Tablemate · {mate.name}
-          </p>
-          {mate.socials ? (
-            <p className="catalog-info-row">
-              <span className="catalog-info-label">Socials</span>
-              <span>{mate.socials}</span>
-            </p>
-          ) : null}
-          {mate.merch ? (
-            <p className="catalog-info-row">
-              <span className="catalog-info-label">Merch</span>
-              <span>{mate.merch}</span>
-            </p>
-          ) : null}
-          {(mate.categories ?? []).map((c) => (
-            <p key={`${mate.name}-${c.label}`} className="catalog-info-row">
-              <span className="catalog-info-label">{c.label}</span>
-              <span>{c.value}</span>
-            </p>
-          ))}
-          {mate.adultContent ? (
-            <p className="catalog-info-row catalog-info-nsfw">
-              <span className="catalog-info-label">18+</span>
-              <span>{mate.adultContent}</span>
-            </p>
-          ) : null}
+          <p className="catalog-info-tablemate-name">Tablemate</p>
+          <CatalogInfoFields info={mate} name={mate.name} />
         </div>
       ))}
-      {info.source ? (
-        <p className="muted sm catalog-info-source">
-          {info.sourceUrl ? (
-            <a href={info.sourceUrl} target="_blank" rel="noreferrer">
-              {info.source}
-            </a>
-          ) : (
-            info.source
-          )}
-        </p>
-      ) : null}
+      <p className="muted sm catalog-info-source">
+        {info.sourceUrl ? (
+          <a href={info.sourceUrl} target="_blank" rel="noreferrer">
+            {info.source ?? 'Sheet source'}
+          </a>
+        ) : (
+          (info.source ?? 'Cached sheet row — works offline')
+        )}
+        {' · '}
+        stored on device / catalog DB
+      </p>
     </div>
   )
 }

@@ -61,8 +61,14 @@ export type VendorCatalogInfo = {
   sourceUrl?: string
   /** Sheet tab name (e.g. "Row A", "100s", "1-36 (NSFW)"). */
   sheet?: string
+  /** Display name from the sheet (mirrors Name column). */
+  name?: string
   socials?: string
   merch?: string
+  /**
+   * Full fandom/media columns from the sheet. Empty cells are stored as ""
+   * so Booth info can still show every column offline.
+   */
   categories?: Array<{ label: string; value: string }>
   adultContent?: string
   /** When one listing spans multiple booth numbers (e.g. 606+609). */
@@ -86,6 +92,7 @@ export type CatalogMasterlist = {
     name?: string
     socials?: string
     merch?: string
+    /** Includes blank columns as value: "" for offline full-row display. */
     categories?: Array<{ label: string; value: string }>
     adultContent?: string
     multiBooth?: string[]

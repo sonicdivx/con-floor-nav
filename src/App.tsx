@@ -125,9 +125,9 @@ function App() {
       // One-shot force after Booth-info releases so stale IndexedDB picks up masterlists.
       let shouldForce = force
       try {
-        if (!force && localStorage.getItem('cfn-force-catalog-v9') !== '1') {
+        if (!force && localStorage.getItem('cfn-force-catalog-v10') !== '1') {
           shouldForce = true
-          localStorage.setItem('cfn-force-catalog-v9', '1')
+          localStorage.setItem('cfn-force-catalog-v10', '1')
         }
       } catch {
         /* ignore */

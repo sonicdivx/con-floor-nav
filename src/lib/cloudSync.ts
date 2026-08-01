@@ -299,11 +299,12 @@ function masterlistRowToInfo(
   return {
     source: master.source,
     sourceUrl: master.sourceUrl,
-    ...(row.sheet ? { sheet: row.sheet } : {}),
-    ...(row.socials ? { socials: row.socials } : {}),
-    ...(row.merch ? { merch: row.merch } : {}),
-    ...(row.categories?.length ? { categories: row.categories } : {}),
-    ...(row.adultContent ? { adultContent: row.adultContent } : {}),
+    sheet: row.sheet,
+    name: row.name ?? '',
+    socials: row.socials ?? '',
+    merch: row.merch ?? '',
+    categories: row.categories ?? [],
+    adultContent: row.adultContent ?? '',
     ...(row.tablemates?.length ? { tablemates: row.tablemates } : {}),
     ...(row.multiBooth?.length ? { multiBooth: row.multiBooth } : {}),
   }

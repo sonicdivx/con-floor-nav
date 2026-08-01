@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.11'
+export const APP_VERSION = '0.3.12'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.12',
+    date: '2026-08-01',
+    highlights: [
+      'Every sheet column in Booth info',
+      'Works if Google Sheets goes offline',
+    ],
+    notes: [
+      'Booth info always lists Name, Socials, Merch, all fandom columns, and 18+ (blank cells as —)',
+      'Full column set cached in catalog DB + on-device sync — no live Google dependency',
+      'sampleRevision 10',
+    ],
+  },
   {
     version: '0.3.11',
     date: '2026-08-01',

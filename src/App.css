@@ -1263,6 +1263,11 @@ img {
   color: var(--text-muted);
 }
 
+.catalog-info-row span:last-child {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .catalog-info-nsfw span:last-child {
   color: color-mix(in srgb, #f0a0a0 80%, var(--text));
 }

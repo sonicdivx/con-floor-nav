@@ -12,12 +12,13 @@ import path from 'node:path'
 import { ensureDb, getPool, hasDatabaseUrl } from './db.ts'
 
 /** Bump when public/samples catalog content changes (forces DB reseed). */
-export const SAMPLE_REVISION = 9
+export const SAMPLE_REVISION = 10
 
 export type CatalogInfo = {
   source?: string
   sourceUrl?: string
   sheet?: string
+  name?: string
   socials?: string
   merch?: string
   categories?: Array<{ label: string; value: string }>
@@ -41,6 +42,7 @@ export type CatalogMasterlist = {
     name?: string
     socials?: string
     merch?: string
+    /** Blank cells kept as "" so clients can show every sheet column offline. */
     categories?: Array<{ label: string; value: string }>
     adultContent?: string
     multiBooth?: string[]
