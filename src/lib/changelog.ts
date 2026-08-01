@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.1'
+export const APP_VERSION = '0.3.2'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.2',
+    date: '2026-08-01',
+    highlights: [
+      'Otakon Artist Alley map',
+      '381 artist booths + names',
+    ],
+    notes: [
+      'New Artist Alley floor map from Conference Harvester (EventKey PREDZGII)',
+      'Dealers map unchanged — switch halls with the map chips',
+      'Cloud sync / Settings → Import → Add Artist Alley',
+    ],
+  },
   {
     version: '0.3.1',
     date: '2026-07-31',

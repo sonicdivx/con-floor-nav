@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { applyBoothImport, parseBoothCsv, parseBoothImportJson } from '../lib/import'
 import {
+  loadOtakon2026ArtistAlleySample,
   loadOtakon2026DealersSample,
+  OTAKON_2026_ARTIST_ALLEY_SAMPLE,
   OTAKON_2026_DEALERS_SAMPLE,
   saveFloorMapBlob,
 } from '../lib/sampleData'
@@ -61,7 +63,7 @@ export function ImportPanel({ eventId, floorMapId, onDone }: Props) {
     }
   }
 
-  const loadSample = async () => {
+  const loadDealersSample = async () => {
     setError(null)
     setMessage(null)
     setSampleBusy(true)
@@ -69,6 +71,23 @@ export function ImportPanel({ eventId, floorMapId, onDone }: Props) {
       const result = await loadOtakon2026DealersSample(eventId, { replace: true })
       setMessage(
         `Loaded ${OTAKON_2026_DEALERS_SAMPLE.label}: ${result.totalBooths} booths, ${result.obstacles} pillars, map ${result.width}×${result.height} (cached offline).`,
+      )
+      onDone()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e))
+    } finally {
+      setSampleBusy(false)
+    }
+  }
+
+  const loadArtistAlleySample = async () => {
+    setError(null)
+    setMessage(null)
+    setSampleBusy(true)
+    try {
+      const result = await loadOtakon2026ArtistAlleySample(eventId)
+      setMessage(
+        `Added ${OTAKON_2026_ARTIST_ALLEY_SAMPLE.label}: ${result.totalBooths} booths, map ${result.width}×${result.height}. Dealers map left as-is.`,
       )
       onDone()
     } catch (e) {
@@ -95,20 +114,27 @@ export function ImportPanel({ eventId, floorMapId, onDone }: Props) {
       <section className="panel-section">
         <h3>Sample data</h3>
         <p className="muted sm">
-          Loads the Otakon 2026 Dealers floor map, booths, and pillars into{' '}
-          <strong>this event</strong> (replaces maps/booths on this event). Use Settings → Events to
-          create a separate con first if you want to keep other data.
+          Dealers replaces maps on this event. Artist Alley adds a second floor map and leaves
+          Dealers alone. Online clients also get both from Cloud sync.
         </p>
-        <button
-          type="button"
-          className="btn primary"
-          disabled={sampleBusy}
-          onClick={() => void loadSample()}
-        >
-          {sampleBusy
-            ? 'Loading sample…'
-            : `Load ${OTAKON_2026_DEALERS_SAMPLE.label} sample`}
-        </button>
+        <div className="chip-row wrap">
+          <button
+            type="button"
+            className="btn secondary"
+            disabled={sampleBusy}
+            onClick={() => void loadDealersSample()}
+          >
+            {sampleBusy ? 'Loading…' : `Load ${OTAKON_2026_DEALERS_SAMPLE.label}`}
+          </button>
+          <button
+            type="button"
+            className="btn primary"
+            disabled={sampleBusy}
+            onClick={() => void loadArtistAlleySample()}
+          >
+            {sampleBusy ? 'Loading…' : `Add ${OTAKON_2026_ARTIST_ALLEY_SAMPLE.label}`}
+          </button>
+        </div>
       </section>
 
       <section className="panel-section">
