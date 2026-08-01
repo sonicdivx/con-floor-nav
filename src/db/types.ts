@@ -66,7 +66,7 @@ export interface BoothRecord {
   rect: Rect
 }
 
-/** Shared catalog extras (e.g. Artist Alley masterlist) — not personal notes. */
+/** Shared catalog extras (fan masterlists) — not personal notes. */
 export type VendorCatalogInfo = {
   source?: string
   sourceUrl?: string
@@ -74,6 +74,8 @@ export type VendorCatalogInfo = {
   merch?: string
   categories?: Array<{ label: string; value: string }>
   adultContent?: string
+  /** When one listing spans multiple booth numbers (e.g. 606+609). */
+  multiBooth?: string[]
   tablemates?: Array<{
     name: string
     socials?: string

@@ -12,7 +12,7 @@ import path from 'node:path'
 import { ensureDb, getPool, hasDatabaseUrl } from './db.ts'
 
 /** Bump when public/samples catalog content changes (forces DB reseed). */
-export const SAMPLE_REVISION = 5
+export const SAMPLE_REVISION = 6
 
 export type CatalogInfo = {
   source?: string
@@ -21,6 +21,7 @@ export type CatalogInfo = {
   merch?: string
   categories?: Array<{ label: string; value: string }>
   adultContent?: string
+  multiBooth?: string[]
   tablemates?: Array<{
     name: string
     socials?: string

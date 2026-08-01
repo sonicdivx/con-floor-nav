@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.7'
+export const APP_VERSION = '0.3.8'
 
 export type ChangelogEntry = {
   version: string
@@ -13,6 +13,19 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.8',
+    date: '2026-08-01',
+    highlights: [
+      'Dealers Hall masterlist info',
+      'Booth info for both halls',
+    ],
+    notes: [
+      'Imported unofficial Otakon Dealers Hall masterlist (merch, fandoms, 18+, guests)',
+      'Vendor details collapsible renamed to Booth info (Dealers + Artist Alley)',
+      'Catalog sampleRevision 6',
+    ],
+  },
+  {
     version: '0.3.7',
     date: '2026-08-01',
     highlights: [
@@ -21,7 +34,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     ],
     notes: [
       'Imported unofficial Otakon AA masterlist (merch, fandoms, 18+, tablemates)',
-      'Vendor details: Artist info section above photos (collapsed by default)',
+      'Vendor details: Booth info section above photos (collapsed by default)',
       'Catalog sampleRevision 5 so sync pulls the new fields',
     ],
   },

@@ -218,7 +218,7 @@ export function VendorPanel({
       {vendor.catalogInfo && hasCatalogInfo(vendor.catalogInfo) ? (
         <section className="panel-section catalog-info-section">
           <NavCollapsible
-            title="Artist info"
+            title="Booth info"
             summary={catalogInfoSummary(vendor.catalogInfo)}
             defaultOpen={false}
           >
@@ -321,6 +321,12 @@ function catalogInfoSummary(info: VendorCatalogInfo): string | undefined {
 function CatalogInfoBody({ info }: { info: VendorCatalogInfo }) {
   return (
     <div className="catalog-info">
+      {info.multiBooth && info.multiBooth.length > 1 ? (
+        <p className="catalog-info-row">
+          <span className="catalog-info-label">Booths</span>
+          <span>{info.multiBooth.join(' + ')}</span>
+        </p>
+      ) : null}
       {info.socials ? (
         <p className="catalog-info-row">
           <span className="catalog-info-label">Socials</span>

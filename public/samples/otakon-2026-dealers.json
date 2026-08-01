@@ -247,7 +247,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Fragmented Nostalgia"
+      "name": "Fragmented Nostalgia",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "2",
@@ -258,7 +264,20 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Sanguis Divini Art"
+      "name": "Fierre Storm",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "shirts, prints, keychains, stickers",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "monster girls"
+          }
+        ],
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "3",
@@ -269,7 +288,13 @@
         "w": 0.018144,
         "h": 0.013971
       },
-      "name": "TENGA"
+      "name": "Tenga",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "5",
@@ -280,7 +305,14 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Absolute Territory Inc."
+      "name": "Absolute Territory Inc.",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "accessories, clothing, patches, stickers",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "6",
@@ -291,7 +323,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Fierre Storm"
+      "name": "Fierre Storm",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "7",
@@ -302,7 +339,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "The Jetty Jet Show"
+      "name": "The Jetty Jet Show",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "linktree",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "14",
@@ -313,7 +356,14 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Buki Pins"
+      "name": "Buki Pins",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "pins, shirts, jet tags, prints",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "15",
@@ -324,7 +374,28 @@
         "w": 0.018144,
         "h": 0.013971
       },
-      "name": "BISHIEPRO STUDIO"
+      "name": "BISIEPRO STUDIO",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "dakimakura, prints, charms, standees, sticker sheets",
+        "categories": [
+          {
+            "label": "Anime/Manga",
+            "value": "Demon Slayer"
+          },
+          {
+            "label": "Video Games",
+            "value": "NU: Carnival, Zenless Zone Zero, Twisted Wonderland, Dramatical Murder"
+          },
+          {
+            "label": "Misc media",
+            "value": "Kpop Demon Hunters, OC"
+          }
+        ],
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "17",
@@ -335,7 +406,28 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Kazukoto"
+      "name": "Kazukoto",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "carrd",
+        "merch": "prints, art books, decals",
+        "categories": [
+          {
+            "label": "Anime/Manga",
+            "value": "Konosuba, Roshidere"
+          },
+          {
+            "label": "Video Games",
+            "value": "Nikke, Blue Archive, Fate/Grand Order"
+          },
+          {
+            "label": "Vtubers / Vocaloid",
+            "value": "Hololive, Indie vtubers, Vocaloid (Miku, Teto)"
+          }
+        ],
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "18",
@@ -346,7 +438,28 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Eroyouchan"
+      "name": "Eroyouchan",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "linktree",
+        "merch": "prints(NSFW+SFW), keychain, decals, books, limited slot shikishi commissions",
+        "categories": [
+          {
+            "label": "Anime/Manga",
+            "value": "Nikke, Hoyoverse, Blue Archive"
+          },
+          {
+            "label": "Vtubers / Vocaloid",
+            "value": "Hololive, Phase Connect, Luminaria Productions, Indietubers"
+          },
+          {
+            "label": "Misc media",
+            "value": "OC prints + keychain"
+          }
+        ],
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "19",
@@ -357,7 +470,14 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "rowdy ranch"
+      "name": "Rowdy Ranch",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "prints, blind bags",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "20",
@@ -368,7 +488,20 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "HyperPlanar"
+      "name": "HyperPlanar",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "linktree",
+        "merch": "bags, beanies, magnets, skate decks, keychains, prints, shirts, socks, standees, stickers",
+        "categories": [
+          {
+            "label": "Vtubers / Vocaloid",
+            "value": "Vtuber (Aries)"
+          }
+        ],
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "21",
@@ -379,7 +512,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Otakon 18+ Manga Library"
+      "name": "Otakon 18+ Manga Library",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "22",
@@ -390,7 +528,20 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Cyanide Candy"
+      "name": "Cyanide Candy",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram",
+        "merch": "stickers, apparel, prints, accessories",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "horror"
+          }
+        ],
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "23",
@@ -401,7 +552,13 @@
         "w": 0.027215,
         "h": 0.013971
       },
-      "name": "Hen Da Ne! Inc."
+      "name": "Hen Da Ne! Inc",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "26",
@@ -412,7 +569,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Ototobo"
+      "name": "Ototobo",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "linktree",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "27",
@@ -423,7 +586,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "NekomimiPUNKS"
+      "name": "NekomimiPUNKS",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "linktree",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "28",
@@ -434,7 +603,13 @@
         "w": 0.018144,
         "h": 0.013971
       },
-      "name": "Media Blasters"
+      "name": "Media Blasters",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "30",
@@ -445,7 +620,14 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Send Calamity"
+      "name": "Send Calamity",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "linktree",
+        "merch": "decals, prints",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "34",
@@ -456,7 +638,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Toms Hentai Doujinshi"
+      "name": "Toms Hentai Doujinshi",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "35",
@@ -467,7 +655,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Low Standards Designs"
+      "name": "Low Standards Designs",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "36",
@@ -478,7 +672,14 @@
         "w": 0.018144,
         "h": 0.013971
       },
-      "name": "GB Arts"
+      "name": "GB Arts",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "body pillows",
+        "adultContent": "18+ area (NSFW hall)"
+      }
     },
     {
       "id": "101",
@@ -489,7 +690,13 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "egg atelier"
+      "name": "egg atelier",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "crochet toys, keychains, assessories, jewelry"
+      }
     },
     {
       "id": "102",
@@ -500,7 +707,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Katsucon"
+      "name": "Katsucon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "105",
@@ -511,7 +723,13 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Copper Coast Confections"
+      "name": "Copper Coast Confections",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "confections"
+      }
     },
     {
       "id": "106",
@@ -522,7 +740,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "MagFest"
+      "name": "Magfest",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "108",
@@ -533,7 +756,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Zenkaicon"
+      "name": "Zenkaikon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "110",
@@ -544,7 +772,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Kogaracon"
+      "name": "Kogaracon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "111",
@@ -555,7 +788,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Cartridges Galore Video Games"
+      "name": "Cartridges Galore Video Games",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "112",
@@ -566,7 +804,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "AnimeNorth"
+      "name": "AnimeNorth",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "120",
@@ -577,7 +820,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Farpoint Convention / Farpoint Foundation"
+      "name": "Anime Boston",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "121",
@@ -588,7 +836,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "The Next Level Games"
+      "name": "The Next Level Games",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "122",
@@ -599,7 +852,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Tekko"
+      "name": "Tekko",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "124",
@@ -610,7 +868,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "AnimeNYC"
+      "name": "AnimeNYC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "125",
@@ -621,7 +884,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Throwback Therapy, Inc"
+      "name": "Throwback Therapy, Inc",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "126",
@@ -632,7 +900,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "DerpyCon"
+      "name": "Derpycon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "128",
@@ -643,7 +916,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Nekocon"
+      "name": "Nekocon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "129",
@@ -654,7 +932,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Nerd Elysium"
+      "name": "Nerd Elysium",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "130",
@@ -665,7 +948,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "ColossalCon"
+      "name": "ColossalCon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "138",
@@ -676,7 +964,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Miryokucon"
+      "name": "Miryokucon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "139",
@@ -687,7 +980,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Itasha Coffee Co"
+      "name": "Itasha Coffee Co",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "coffee, apparel, stickers"
+      }
     },
     {
       "id": "140",
@@ -698,7 +997,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Risucon"
+      "name": "Risucon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "141",
@@ -709,7 +1013,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "NTRVL Apparel"
+      "name": "NTRVL Apparel",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, posters"
+      }
     },
     {
       "id": "142",
@@ -720,7 +1030,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "MoComCon"
+      "name": "MoComCon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "2026 event page"
+      }
     },
     {
       "id": "143",
@@ -731,7 +1046,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Blerdcon"
+      "name": "Blerdcon",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "203",
@@ -742,7 +1062,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Geek World Games"
+      "name": "Geek World Games",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "Dice, pins, stickers"
+      }
     },
     {
       "id": "204",
@@ -753,7 +1079,20 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Devious Drawing"
+      "name": "Devious Drawing",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "linktree",
+        "merch": "apparel, car accessories, home decor, keychains, stationary, misc",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "OC monster girls+other OCs"
+          }
+        ],
+        "adultContent": "18+/suggestive"
+      }
     },
     {
       "id": "206",
@@ -764,7 +1103,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Fluffy Tori"
+      "name": "Fluffy Tori",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "pins, shoes, accessories, lolita clothing"
+      }
     },
     {
       "id": "207",
@@ -775,7 +1120,23 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "HiyaTati"
+      "name": "HayaTati",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "embroidered sweatpants, knitted cardigans, knitted pullovers, zippered totebags, embroidered tshirts, woven flight tags, mircofiber clothes, socks, aryclic phone charms, satin lined buckets",
+        "categories": [
+          {
+            "label": "Video Games",
+            "value": "Digimon"
+          },
+          {
+            "label": "Misc media",
+            "value": "OC - original characters; cute/cozy vibes"
+          }
+        ]
+      }
     },
     {
       "id": "208",
@@ -786,7 +1147,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Spooky Sparkle Party"
+      "name": "spooky sparkle party",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "plus size lolita clothing+accessories"
+      }
     },
     {
       "id": "209",
@@ -797,7 +1164,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "oh my gifts shop"
+      "name": "oh my gifts shop",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "prints, plush, stickers, pins, misc trinkets"
+      }
     },
     {
       "id": "211",
@@ -808,7 +1181,13 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "triforce cutlery"
+      "name": "Triforce Cutlery",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "cosplay weapons"
+      }
     },
     {
       "id": "220",
@@ -819,7 +1198,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Atlantis Games & Comics"
+      "name": "Atlantis Games & Comics",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "221",
@@ -830,7 +1214,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Glitchgear.com"
+      "name": "Glitchgear.com",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "225",
@@ -841,7 +1230,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Obi Wan Kimono"
+      "name": "Obi Wan Kimono",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "facebook",
+        "merch": "imported/handmade kimonos, various Asian apparel"
+      }
     },
     {
       "id": "226",
@@ -852,7 +1247,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "DC United"
+      "name": "DC United",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website (we think)"
+      }
     },
     {
       "id": "227",
@@ -863,7 +1263,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "ZenJumps Chainmaille"
+      "name": "Zenjumps Chainmaille",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "chainmail jewelry, apparel, trinkets, etc"
+      }
     },
     {
       "id": "228",
@@ -874,7 +1280,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Sunlit Buds"
+      "name": "Sunlit Buds",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "jewlrey, press-on nails"
+      }
     },
     {
       "id": "229",
@@ -885,7 +1297,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Aoho Anime"
+      "name": "Aoho Anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "238",
@@ -896,7 +1313,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "In My Parents Basement"
+      "name": "In My Parents Basement",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "239",
@@ -907,7 +1329,19 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "SnarkFish T-Shirts"
+      "name": "SnarkFish T-Shirts",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, prints, pins, 3D printed wares, finger puppets, figures, dice, cards",
+        "categories": [
+          {
+            "label": "Video Games",
+            "value": "Pokemon"
+          }
+        ]
+      }
     },
     {
       "id": "243",
@@ -918,7 +1352,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Anime USA"
+      "name": "Anime USA",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "301",
@@ -929,7 +1368,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Cartoon Passion"
+      "name": "Cartoon Passion",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "google drive"
+      }
     },
     {
       "id": "302",
@@ -940,7 +1384,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "M8's Warudo"
+      "name": "M8's Warudo",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "305",
@@ -951,7 +1400,11 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "anime gift"
+      "name": "anime gift",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview"
+      }
     },
     {
       "id": "306",
@@ -962,7 +1415,19 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Milk Mocha Bear"
+      "name": "Milk Mocha Bear",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "keychains, plushies, key covers, pins, lanyards, standees, sticker+sticker sheets, misc accessories, bags, apparel, note/stickerbooks, etc",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "Milk and Mocha"
+          }
+        ]
+      }
     },
     {
       "id": "311",
@@ -973,7 +1438,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Best Anime Shop"
+      "name": "Best Anime Shop",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "320",
@@ -984,7 +1454,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "AKIBA HQ"
+      "name": "AKIBA HQ",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "321",
@@ -995,7 +1470,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "CUT/SEW"
+      "name": "CUT/SEW",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "sewing patterns"
+      }
     },
     {
       "id": "324",
@@ -1006,7 +1487,12 @@
         "w": 0.009072,
         "h": 0.055884
       },
-      "name": "Akiba Anime Store"
+      "name": "Akiba Anime Store",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "325",
@@ -1017,7 +1503,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "jukebox imports"
+      "name": "jukebox imports",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "facebook"
+      }
     },
     {
       "id": "329",
@@ -1028,7 +1519,18 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "2-Land Comics"
+      "name": "2-Land Comics",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "2-Land"
+          }
+        ]
+      }
     },
     {
       "id": "338",
@@ -1039,7 +1541,13 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Misty Mountain Gaming"
+      "name": "Misty Mountain Gaming",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "Dice, dice towers, DnD assessories"
+      }
     },
     {
       "id": "339",
@@ -1061,7 +1569,12 @@
         "w": 0.018144,
         "h": 0.013971
       },
-      "name": "Magic and Monsters"
+      "name": "Magic and Monsters",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "403",
@@ -1072,7 +1585,12 @@
         "w": 0.018144,
         "h": 0.041913
       },
-      "name": "trilogy shop"
+      "name": "trilogy shop",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "facebook"
+      }
     },
     {
       "id": "404",
@@ -1083,7 +1601,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Lil' Thingamajigs"
+      "name": "Lil' Thingamajigs",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "408",
@@ -1094,7 +1617,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Bandage Brigade"
+      "name": "Bandage Brigade",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "409",
@@ -1105,7 +1634,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "ColorfulSheep"
+      "name": "Colorful Sheep",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "figures, keychains, bags, hair accessories, crochet figures, misc"
+      }
     },
     {
       "id": "411",
@@ -1116,7 +1651,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "collectors universe and anime"
+      "name": "collectors universe and anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "420",
@@ -1127,7 +1667,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Cosplay Moomoo"
+      "name": "Cosplay MooMoo",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "shirts, hats, masks"
+      }
     },
     {
       "id": "421",
@@ -1138,7 +1684,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "anime palace"
+      "name": "anime palace",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "424",
@@ -1149,7 +1700,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Hiromi Katayama"
+      "name": "Hiromi Katayama",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "prints"
+      }
     },
     {
       "id": "426",
@@ -1160,7 +1717,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "samurai west"
+      "name": "samurai west",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "cosplay weapons, apparel"
+      }
     },
     {
       "id": "426a",
@@ -1182,7 +1745,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "British Otaku"
+      "name": "British Otaku",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "429",
@@ -1193,7 +1761,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "toyslogic"
+      "name": "toyslogic",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "438",
@@ -1204,7 +1777,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Peachade LLC"
+      "name": "Peachade LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "earrings, necklaces, rings"
+      }
     },
     {
       "id": "439",
@@ -1215,7 +1794,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Verillas"
+      "name": "Verillas",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "fantasy apparel and accessories"
+      }
     },
     {
       "id": "443",
@@ -1226,7 +1811,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Cosmic Fluff"
+      "name": "Cosmic Fluff",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "501",
@@ -1237,7 +1827,12 @@
         "w": 0.009072,
         "h": 0.097797
       },
-      "name": "Longshot Anime"
+      "name": "Longshot Anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "501a",
@@ -1270,7 +1865,19 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "PondHQ"
+      "name": "PondHQ",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "plushes, stickers, prints, pins, playmats, magic tokens, gacha bags",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "Magic the Gathering, frogs, cute critters"
+          }
+        ]
+      }
     },
     {
       "id": "510",
@@ -1281,7 +1888,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Tanpopo House"
+      "name": "Tanpopo House",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, accessories, sticker sheets"
+      }
     },
     {
       "id": "520",
@@ -1292,7 +1905,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "IT Cosplay"
+      "name": "IT Cosplay",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "521",
@@ -1303,7 +1921,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Videogamesnewyork"
+      "name": "Videogamesnewyork",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "524",
@@ -1314,7 +1937,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Project Saisei"
+      "name": "Project Saisei",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "525",
@@ -1325,7 +1954,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Rabid Llama Creations"
+      "name": "Rapid Llama Creations",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "leather works, apparel"
+      }
     },
     {
       "id": "529",
@@ -1336,7 +1971,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "All Blue Anime"
+      "name": "All Blue Anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "538",
@@ -1347,7 +1987,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Gold Star Anime and Games"
+      "name": "Gold Star Anime and Games",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "539",
@@ -1358,7 +2003,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Gamers4Gamers"
+      "name": "Gamers4Gamers",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "542",
@@ -1369,7 +2019,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "UUBGEAR"
+      "name": "UUBGEAR",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "bags+bag accessories"
+      }
     },
     {
       "id": "543",
@@ -1380,7 +2036,19 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Horrible Squirrel Shirts"
+      "name": "Horrible Squirral Shirts",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "shirts",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "horrible squirrals"
+          }
+        ]
+      }
     },
     {
       "id": "602",
@@ -1391,7 +2059,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Floral Frolic"
+      "name": "Floral Frolic",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "prints, stickers, ribbons, plush, bags, neon signs, shirts, bookmarks, pins, lanyards, socks, misc"
+      }
     },
     {
       "id": "603",
@@ -1402,7 +2076,12 @@
         "w": 0.018144,
         "h": 0.041913
       },
-      "name": "Collectors Anime LLC"
+      "name": "Collectors Anime LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "606",
@@ -1413,7 +2092,17 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Glimmish"
+      "name": "Glimmish",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "hair accessories",
+        "multiBooth": [
+          "606",
+          "609"
+        ]
+      }
     },
     {
       "id": "609",
@@ -1424,7 +2113,17 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Glimmish"
+      "name": "Glimmish",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "hair accessories",
+        "multiBooth": [
+          "606",
+          "609"
+        ]
+      }
     },
     {
       "id": "611",
@@ -1435,7 +2134,19 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "JeanaDraws"
+      "name": "JeanaDraws",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "power banks, clothing, accessories, stickers, lanyards, stationary, misc",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "Lakko the Otter, misc OC animals"
+          }
+        ]
+      }
     },
     {
       "id": "620",
@@ -1446,7 +2157,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Toy Mandala"
+      "name": "Toy Mandala",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "621",
@@ -1457,7 +2173,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "168 Dragon Trading Inc"
+      "name": "168 Dragon Trading Inc",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "626",
@@ -1468,7 +2189,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Artistsan Studio"
+      "name": "Artistsan Studio",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "carrd",
+        "merch": "itabags, pins, badges, jet tags"
+      }
     },
     {
       "id": "627",
@@ -1479,7 +2206,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Happy Goods"
+      "name": "Happy Goods",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "jewlery"
+      }
     },
     {
       "id": "628",
@@ -1490,7 +2223,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Nerdy Bit"
+      "name": "Nerdy Bit",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, stickers, prints, charms"
+      }
     },
     {
       "id": "629",
@@ -1501,7 +2240,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "closet geek llc"
+      "name": "closet geek llc",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "639",
@@ -1512,7 +2257,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Gasha Nova"
+      "name": "Gasha Nova",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "642",
@@ -1523,7 +2273,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "BabyPanda LLC"
+      "name": "BabyPanda LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "643",
@@ -1534,7 +2290,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Zen Garden Aromas, LLC"
+      "name": "Zen Garden Aromas, LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "body care"
+      }
     },
     {
       "id": "701",
@@ -1545,7 +2307,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Cartoon Passion"
+      "name": "Cartoon Passion",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "google drive"
+      }
     },
     {
       "id": "705",
@@ -1556,7 +2323,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Sutoru LLC"
+      "name": "Sutoru LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram",
+        "merch": "cosplay apparel"
+      }
     },
     {
       "id": "707",
@@ -1567,7 +2340,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "enchanted dream couture"
+      "name": "enchanted dream couture",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram",
+        "merch": "apparel"
+      }
     },
     {
       "id": "708",
@@ -1578,7 +2357,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Karepango"
+      "name": "Karepango",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "710",
@@ -1589,7 +2374,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Umvvelt"
+      "name": "Umvvelt",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "711",
@@ -1600,7 +2391,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "game night arcade"
+      "name": "game night arcade",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "720",
@@ -1611,7 +2407,12 @@
         "w": 0.009072,
         "h": 0.069855
       },
-      "name": "Anime Pavilion"
+      "name": "Anime Pavilion",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "721",
@@ -1622,7 +2423,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "IT Cosplay"
+      "name": "IT Cosplay",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "725",
@@ -1633,7 +2439,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Akico"
+      "name": "Akico",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "727",
@@ -1644,7 +2455,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "AKIBA HQ"
+      "name": "AKIBA HQ",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "730",
@@ -1655,7 +2471,23 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "TealTeacup LLC"
+      "name": "TealTeacup LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "itabags, tote bags, pins, chars, stickers, misc",
+        "categories": [
+          {
+            "label": "Anime/Manga",
+            "value": "Studio Ghibli"
+          },
+          {
+            "label": "Misc media",
+            "value": "memes"
+          }
+        ]
+      }
     },
     {
       "id": "738",
@@ -1666,7 +2498,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Dark Cottage"
+      "name": "Dark Cottage",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "742",
@@ -1687,7 +2525,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Tokullectibles"
+      "name": "Tokullectibles",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "804",
@@ -1698,7 +2541,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "The T House Imports"
+      "name": "The T House Imports",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "807",
@@ -1709,7 +2557,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Japanwave"
+      "name": "JapanWave",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "toys, stationary, home goods"
+      }
     },
     {
       "id": "811",
@@ -1720,7 +2574,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Urban Sheek"
+      "name": "Urban Sheek",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "820",
@@ -1731,7 +2590,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Alicia's Anime"
+      "name": "Alicia's Anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "821",
@@ -1742,7 +2606,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Purple Plum Inc dba AnimeStuffStore.com"
+      "name": "AnimeStuffStore",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "825",
@@ -1753,7 +2622,12 @@
         "w": 0.018144,
         "h": 0.055884
       },
-      "name": "Retro Saikou"
+      "name": "Retro Saikou",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "826",
@@ -1764,7 +2638,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Prism dba JPNTOYS"
+      "name": "Prism dba JPNTOYS",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "828",
@@ -1775,7 +2654,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "tickle me toys inc"
+      "name": "tickle me toys inc",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "838",
@@ -1786,7 +2670,13 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Equilibrium USG"
+      "name": "Equilibrium USG",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, bags"
+      }
     },
     {
       "id": "903",
@@ -1797,7 +2687,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Anime Sekai LLC"
+      "name": "Anime Sekai LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "906",
@@ -1808,7 +2703,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Jhouse Rock Entertainment"
+      "name": "Jhouse Rock Entertainment",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "907",
@@ -1819,7 +2719,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Night Whisper"
+      "name": "Night Whisper",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "lolita clothing"
+      }
     },
     {
       "id": "909",
@@ -1830,7 +2736,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Eclipse Pop"
+      "name": "Eclipse Pop",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "921",
@@ -1841,7 +2752,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Otaku Joe's LLC"
+      "name": "Otaku Joe's LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "facebook"
+      }
     },
     {
       "id": "925",
@@ -1852,7 +2768,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "rumble and roar wandmakers"
+      "name": "rumble and roar wandmakers",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "custom wands"
+      }
     },
     {
       "id": "927",
@@ -1863,7 +2785,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "SilverWolf Crafts"
+      "name": "SilverWolf Crafts",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "handmade leather dice+chainmail dice bags"
+      }
     },
     {
       "id": "929",
@@ -1874,7 +2802,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Ohmonah"
+      "name": "Ohmonah",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, accessories"
+      }
     },
     {
       "id": "938",
@@ -1885,7 +2819,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "czl enterprise llc"
+      "name": "czl enterprise llc",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1003",
@@ -1896,7 +2835,19 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "CloverPuff"
+      "name": "CloverPuff",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "plush, apparel, hats, scarves, wallscrolls, pins, lanyards, tarot, omamori, keychain plush",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "OC- animals, cryptids, bugs (plushies)"
+          }
+        ]
+      }
     },
     {
       "id": "1006",
@@ -1907,7 +2858,12 @@
         "w": 0.009072,
         "h": 0.055884
       },
-      "name": "Image Anime"
+      "name": "Image Anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1007",
@@ -1918,7 +2874,18 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "EGGUINO"
+      "name": "EGGUINO",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "OC - cute animals"
+          }
+        ]
+      }
     },
     {
       "id": "1009",
@@ -1929,7 +2896,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Momoko House"
+      "name": "Momoko House",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1021",
@@ -1940,7 +2912,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Cosplay Moomoo"
+      "name": "Cosplay Moomoo",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "shirts, hats, facemasks, etc"
+      }
     },
     {
       "id": "1024",
@@ -1951,7 +2929,12 @@
         "w": 0.009072,
         "h": 0.055884
       },
-      "name": "All Blue Anime"
+      "name": "All Blue Anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1025",
@@ -1962,7 +2945,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Megaroad Toys and Entertainment, LLC."
+      "name": "Megaroad Toys and Entertainment, LLC.",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1029",
@@ -1973,7 +2961,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Secrets of Stones"
+      "name": "Secrets of Stones",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "1045 - WB",
@@ -1984,7 +2978,13 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Wild Bill's Craft Beverage Co."
+      "name": "Wild Bill's Craft Beverage Co.",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "craft soda"
+      }
     },
     {
       "id": "1103",
@@ -1995,7 +2995,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Omnihedral"
+      "name": "Omnihedral",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1104",
@@ -2006,7 +3011,12 @@
         "w": 0.009072,
         "h": 0.069855
       },
-      "name": "tickle me toys inc"
+      "name": "tickle me toys inc",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1104a",
@@ -2028,7 +3038,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Super Art Fight"
+      "name": "Super Art Fight",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1111",
@@ -2039,7 +3054,19 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Pawsonify LLC"
+      "name": "Pawsonify LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "pet assessories",
+        "categories": [
+          {
+            "label": "Anime/Manga",
+            "value": "Demon Slayer, Naruto, One Piece"
+          }
+        ]
+      }
     },
     {
       "id": "1120",
@@ -2050,7 +3077,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "mtstar"
+      "name": "mtstar",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "1121",
@@ -2061,7 +3093,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Detroit Leather Company"
+      "name": "Detroit Leather Company",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "carrd",
+        "merch": "leather goods, drinkwere"
+      }
     },
     {
       "id": "1125",
@@ -2072,7 +3110,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "bling empire co"
+      "name": "bling empire co",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "hair assessories, press-on nails"
+      }
     },
     {
       "id": "1126",
@@ -2083,7 +3127,13 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Boomslank"
+      "name": "Boomslank",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, phone cases, print, accessories, banners"
+      }
     },
     {
       "id": "1129",
@@ -2094,7 +3144,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Matcha Time Gift Shop"
+      "name": "Matcha Time Gift Shop",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1139",
@@ -2105,7 +3160,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Radical Cosplay Ideology"
+      "name": "Radical Cosplay Ideology",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "cosplay"
+      }
     },
     {
       "id": "1143",
@@ -2116,7 +3177,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Enchanted Shire"
+      "name": "Enchanted Shire",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "1202",
@@ -2127,7 +3193,13 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "BB and B"
+      "name": "BB and B",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "jewelry"
+      }
     },
     {
       "id": "1203",
@@ -2138,7 +3210,12 @@
         "w": 0.009072,
         "h": 0.055884
       },
-      "name": "Lychee Media"
+      "name": "Lychee Media",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1208",
@@ -2149,7 +3226,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Forest Girl Clothing"
+      "name": "Forest Girl Clothing",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "1210",
@@ -2160,7 +3243,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Surreal Makeup"
+      "name": "Surreal Makeup",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "makeup"
+      }
     },
     {
       "id": "1211",
@@ -2171,7 +3260,13 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Dice Dungeons LLC"
+      "name": "Dice Dungeons LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "dice"
+      }
     },
     {
       "id": "1212",
@@ -2182,7 +3277,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Holy Cow Anime"
+      "name": "Holy Cow Anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1220",
@@ -2193,7 +3293,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "anime palace"
+      "name": "anime palace",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1221",
@@ -2204,7 +3309,12 @@
         "w": 0.018144,
         "h": 0.041913
       },
-      "name": "Fragmented Nostalgia"
+      "name": "Fragmented Nostalgia",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1224",
@@ -2215,7 +3325,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Kyrimorut Clan of the Mando Mercs Costume Club"
+      "name": "Kyrimorut Clan of the Mando Mercs Costume Club",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1227",
@@ -2226,7 +3341,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Kantoboyz TCG"
+      "name": "Kantoboyz TCG",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "1228",
@@ -2237,7 +3357,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Man at Arms"
+      "name": "Man at Arms",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "(unsure of socials)"
+      }
     },
     {
       "id": "1229",
@@ -2248,7 +3373,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Bibisama"
+      "name": "bibisama",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "1238",
@@ -2259,7 +3390,13 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Ruyikoi"
+      "name": "Ruyikoi",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "streetwear apparel"
+      }
     },
     {
       "id": "1301",
@@ -2270,7 +3407,13 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "triforce cutlery"
+      "name": "triforce cutlery",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "cosplay weapons"
+      }
     },
     {
       "id": "1302",
@@ -2281,7 +3424,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Pawstar"
+      "name": "Pawstar",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, animal ears+tails"
+      }
     },
     {
       "id": "1305",
@@ -2292,7 +3441,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "HELMECHA Industries, LLC"
+      "name": "HELMECHA Industries, LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, accessories"
+      }
     },
     {
       "id": "1306",
@@ -2303,7 +3458,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Hashtag Gaming Arena"
+      "name": "Hashtag Gaming Arena",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1309",
@@ -2314,7 +3474,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "YUGAN"
+      "name": "YUGAN",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram",
+        "merch": "prints"
+      }
     },
     {
       "id": "1311",
@@ -2325,7 +3491,13 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "samurai west"
+      "name": "samurai west",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "cosplay weapons"
+      }
     },
     {
       "id": "1321",
@@ -2336,7 +3508,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "The Shumi Company"
+      "name": "The Shumi Company",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1325",
@@ -2347,7 +3524,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "PlusHii Kawaii"
+      "name": "PlusHii Kawaii",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "1326",
@@ -2358,7 +3541,19 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Single Sploot"
+      "name": "Single Sploot",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "carrd",
+        "merch": "stickers, apparel, plushie keychains, charms, live pet commissions (keychain/print)",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "OC - original corgi character designs"
+          }
+        ]
+      }
     },
     {
       "id": "1327",
@@ -2369,7 +3564,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Bishounen Boutique"
+      "name": "Bishounen Boutique",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1328",
@@ -2380,7 +3580,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "J&V Anime"
+      "name": "J&V Anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "bags, clothing, accessories"
+      }
     },
     {
       "id": "1339",
@@ -2391,7 +3597,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "closet geek llc"
+      "name": "closet geek llc",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "1343",
@@ -2402,7 +3614,11 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Otakon Manga Library"
+      "name": "Otakon Manga Library",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview"
+      }
     },
     {
       "id": "1345",
@@ -2413,7 +3629,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Magic Circle Collectibles"
+      "name": "Magic Circle Collectibles",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1403",
@@ -2424,7 +3645,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "fairyshop"
+      "name": "fairyshop",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "1404",
@@ -2435,7 +3661,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Miss Candyholic"
+      "name": "Miss Candyholic",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, bags"
+      }
     },
     {
       "id": "1406",
@@ -2446,7 +3678,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Mythical Fair"
+      "name": "Mythical Fair",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "jewerly, drinkwere, cosplay props"
+      }
     },
     {
       "id": "1407",
@@ -2457,7 +3695,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Pop Heart Studios"
+      "name": "Pop Heart Studios",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram",
+        "merch": "handmade fans"
+      }
     },
     {
       "id": "1411",
@@ -2468,7 +3712,13 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "koko kuma"
+      "name": "koko kuma",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, bags"
+      }
     },
     {
       "id": "1421",
@@ -2479,7 +3729,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "The Geek Realms"
+      "name": "The Geek Realms",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1424",
@@ -2490,7 +3745,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "The Gilded Teafling"
+      "name": "The Gilded Teafling",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "tea, apparel"
+      }
     },
     {
       "id": "1425",
@@ -2501,7 +3762,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "CoffeeSnow LLC"
+      "name": "CoffeeSnow LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "1426",
@@ -2512,7 +3778,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "J&V Anime"
+      "name": "J&V Anime",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "bags, itabags, clothing, accessories"
+      }
     },
     {
       "id": "1428",
@@ -2523,7 +3795,11 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "sig toys"
+      "name": "sig toys",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview"
+      }
     },
     {
       "id": "1429",
@@ -2534,7 +3810,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "ColorfulSheep"
+      "name": "ColorfulSheep",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "figures, keychains, bags, hair accessories, misc"
+      }
     },
     {
       "id": "1438",
@@ -2545,7 +3827,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Whimsic Alley"
+      "name": "Whimsic Alley",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1439",
@@ -2556,7 +3843,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Senpai Squad"
+      "name": "Senpai Squad",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "1442",
@@ -2567,7 +3860,12 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Jadeduo Shop LLC"
+      "name": "Jadeduo Shop LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1443",
@@ -2578,7 +3876,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Creative Offsets"
+      "name": "Creative Offsets",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1447",
@@ -2589,7 +3892,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Ultimate Wireless LLC"
+      "name": "Ultimate Wireless LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1501",
@@ -2600,7 +3908,19 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "MessyUnicorn (Teeturtle merchandise)"
+      "name": "MessyUnicorn",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "shirts and tank tops",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "animals, LGBTQ+"
+          }
+        ]
+      }
     },
     {
       "id": "1502",
@@ -2611,7 +3931,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "chirofish"
+      "name": "chirofish",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel, pins, jet tags"
+      }
     },
     {
       "id": "1505",
@@ -2622,7 +3948,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Godly Natures Jewelry"
+      "name": "Godly Natures Jewelry",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "custom jewlery"
+      }
     },
     {
       "id": "1506",
@@ -2633,7 +3965,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Anthony Wang Shoes"
+      "name": "Anthony Wang Shoes",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "custom shoes"
+      }
     },
     {
       "id": "1507",
@@ -2644,7 +3982,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Poke Shop COVA"
+      "name": "Poke Shop COVA",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "linktree"
+      }
     },
     {
       "id": "1508",
@@ -2655,7 +3998,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Unicorn Muscle"
+      "name": "Unicorn Muscle",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "fans"
+      }
     },
     {
       "id": "1509",
@@ -2666,7 +4015,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "The Crystal Phoenix llc"
+      "name": "The Crystal Pheonix LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "facebook"
+      }
     },
     {
       "id": "1511",
@@ -2677,7 +4031,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Archangel Games"
+      "name": "Archangel Games",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1520",
@@ -2688,7 +4047,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Kopes Kreations"
+      "name": "Kopes Kreations",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website (?)"
+      }
     },
     {
       "id": "1521",
@@ -2699,7 +4063,13 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "Copper Coast Confections"
+      "name": "Copper Coast Confections",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "confectionary"
+      }
     },
     {
       "id": "1524",
@@ -2710,7 +4080,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Comfort Kingdom"
+      "name": "Comfort Kingdom",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "plush, pins, prints"
+      }
     },
     {
       "id": "1526",
@@ -2721,7 +4097,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Manga Mavericks LLC"
+      "name": "Manga Mavericks LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1527",
@@ -2731,6 +4112,12 @@
         "y": 0.525136,
         "w": 0.009072,
         "h": 0.013971
+      },
+      "name": "black flag trading company",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
       }
     },
     {
@@ -2742,7 +4129,11 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "All Blue LLC"
+      "name": "All Blue LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview"
+      }
     },
     {
       "id": "1529",
@@ -2753,7 +4144,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Milky Tomato LLC"
+      "name": "Milky Tomato LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "plushies, apparel"
+      }
     },
     {
       "id": "1538",
@@ -2764,7 +4161,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "HoloSQ"
+      "name": "HoloSQ",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1539",
@@ -2775,7 +4177,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Where the Geek Things Are"
+      "name": "Where the Geek Things Are",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "facebook"
+      }
     },
     {
       "id": "1542",
@@ -2786,7 +4193,13 @@
         "w": 0.009072,
         "h": 0.041913
       },
-      "name": "ARMORY QUEST"
+      "name": "ARMORY QUEST",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "foam weapons, props"
+      }
     },
     {
       "id": "1543",
@@ -2797,7 +4210,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "QueerCraft"
+      "name": "QueerCraft",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1545",
@@ -2808,7 +4226,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Lettuce Arm Ewe"
+      "name": "Talon and Claw",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "Dice, dice towers, DnD assessories"
+      }
     },
     {
       "id": "1600",
@@ -2819,7 +4243,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Badgeit Inc."
+      "name": "Badgeit Inc.",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1603",
@@ -2830,7 +4259,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Kinokuniya Bookstore"
+      "name": "Kinokuniya Bookstore",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1604",
@@ -2841,7 +4275,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Kuroheim Items Shop"
+      "name": "Kuroheim Items Shop",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "dice, D&D accessories"
+      }
     },
     {
       "id": "1606",
@@ -2852,7 +4292,18 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Game of HAM LLC"
+      "name": "Game of HAM LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "Game of Ham"
+          }
+        ]
+      }
     },
     {
       "id": "1607",
@@ -2862,6 +4313,12 @@
         "y": 0.66476,
         "w": 0.009072,
         "h": 0.013971
+      },
+      "name": "Lettuce Arm Ewe",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
       }
     },
     {
@@ -2873,7 +4330,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Pomptilius"
+      "name": "Pomptilius",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "1609",
@@ -2894,7 +4356,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Discotek Media"
+      "name": "Discotec Media",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1620",
@@ -2905,7 +4372,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "chill vibes worldwide"
+      "name": "chill vibes worldwide",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "1621",
@@ -2916,7 +4389,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Japanime Games"
+      "name": "Japanime Games",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1622",
@@ -2927,7 +4405,23 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Cafe de Yume"
+      "name": "Cafe de Yume",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "enamel pins, accessories, wooden coasters, itabags",
+        "categories": [
+          {
+            "label": "Vtubers / Vocaloid",
+            "value": "Holostars EN"
+          },
+          {
+            "label": "Misc media",
+            "value": "food, cats"
+          }
+        ]
+      }
     },
     {
       "id": "1624",
@@ -2938,7 +4432,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Alpacasews"
+      "name": "Alpacasews",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "plushies, stationary"
+      }
     },
     {
       "id": "1625",
@@ -2949,7 +4449,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "MOAPIA"
+      "name": "MOAPIA",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "linktree"
+      }
     },
     {
       "id": "1626",
@@ -2960,7 +4465,19 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Punkin' Patch"
+      "name": "Punkin' Patch",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram",
+        "merch": "stickers, buttons, upcycled apparel, patches, accessories",
+        "categories": [
+          {
+            "label": "Misc media",
+            "value": "Politically charged/queer focused"
+          }
+        ]
+      }
     },
     {
       "id": "1627",
@@ -2971,7 +4488,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Crowded Shelf"
+      "name": "Crowded Shelf",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "indie books"
+      }
     },
     {
       "id": "1628",
@@ -2982,7 +4505,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Valeza LLC"
+      "name": "Valeza LLC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "apparel"
+      }
     },
     {
       "id": "1629",
@@ -2993,7 +4522,13 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "True Honey Teas"
+      "name": "True Honey Teas",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "tea"
+      }
     },
     {
       "id": "1638",
@@ -3004,7 +4539,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Rocktown Games"
+      "name": "Rocktown Games",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1639",
@@ -3015,7 +4555,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Tabitha's Trinkets and Treasures"
+      "name": "Tabitha's Trinkets and Treasures",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website",
+        "merch": "DnD accessories, art, trinkets, ribbons"
+      }
     },
     {
       "id": "1641",
@@ -3026,7 +4572,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Shazami's"
+      "name": "Shazami's",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1642",
@@ -3036,6 +4587,12 @@
         "y": 0.413684,
         "w": 0.009072,
         "h": 0.013971
+      },
+      "name": "Farpoint Convention / Farpoint Foundation",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
       }
     },
     {
@@ -3047,7 +4604,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Hachikollectibles"
+      "name": "hachikollectibles",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "1645",
@@ -3058,7 +4620,12 @@
         "w": 0.018144,
         "h": 0.027942
       },
-      "name": "Gamer Supps"
+      "name": "Gamer Supps",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1646",
@@ -3069,7 +4636,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "because science"
+      "name": "because science",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1706",
@@ -3080,7 +4652,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "WEEBBOXES"
+      "name": "WEEBBOXES",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1708",
@@ -3091,7 +4668,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "TakensMiniMart"
+      "name": "TakensMiniMart",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
+      }
     },
     {
       "id": "1721",
@@ -3102,7 +4684,12 @@
         "w": 0.009072,
         "h": 0.027942
       },
-      "name": "Embassy of Japan"
+      "name": "Embassy of Japan",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1724",
@@ -3112,6 +4699,12 @@
         "y": 0.539106,
         "w": 0.009072,
         "h": 0.013971
+      },
+      "name": "RT Little Akihabara",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "instagram"
       }
     },
     {
@@ -3123,7 +4716,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Japan-America Society of Washington DC"
+      "name": "Japan-America Society of Washington DC",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1726",
@@ -3144,7 +4742,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Kochi"
+      "name": "Kochi",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "(unsure of socials)"
+      }
     },
     {
       "id": "1728",
@@ -3188,7 +4791,13 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "DAWGPOUND"
+      "name": "DAWGPOUND",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "twitter",
+        "merch": "apparel"
+      }
     },
     {
       "id": "1820",
@@ -3199,7 +4808,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Alejandro Saab"
+      "name": "Alejandro Saab",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1822",
@@ -3210,7 +4824,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Hayden Daviau"
+      "name": "Hayden Daviau",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1824",
@@ -3221,7 +4840,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Sam Slade"
+      "name": "Sam Slade",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1826",
@@ -3232,7 +4856,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Jordan Dash Cruz"
+      "name": "Jordan Dash Cruz",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1828",
@@ -3243,7 +4872,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Courtney Lin"
+      "name": "Courtney Lin",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1838",
@@ -3254,7 +4888,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Cassandra Lee Morris"
+      "name": "Cassandra Lee Morris",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1840",
@@ -3265,7 +4904,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Crystal Lee"
+      "name": "Crystal Lee",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1842",
@@ -3276,7 +4920,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Trina Deuhart"
+      "name": "Trina Deuhart",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "carrd"
+      }
     },
     {
       "id": "1844",
@@ -3287,7 +4936,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Xanthe Huynh"
+      "name": "Xanthe Huynh",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "1846",
@@ -3298,7 +4952,12 @@
         "w": 0.009072,
         "h": 0.013971
       },
-      "name": "Ray Chase"
+      "name": "Ray Chase",
+      "catalogInfo": {
+        "source": "unofficial Otakon Dealers Hall masterlist 2026",
+        "sourceUrl": "https://docs.google.com/spreadsheets/d/1MvZBm7FoOcmXYzgV-rUyGDzmQAIKnhF9FlbV0mM7MLs/htmlview",
+        "socials": "website"
+      }
     },
     {
       "id": "DRLP HQ 1",
