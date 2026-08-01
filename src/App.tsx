@@ -5,6 +5,7 @@ import {
   ensureVendorForBooth,
   getActiveEventId,
   getOrCreateUserLocation,
+  getStoredFloorMapId,
   resolveActiveFloorMapId,
   setActiveFloorMapId,
 } from './db/schema'
@@ -132,8 +133,28 @@ function App() {
           setSyncMsg(
             `Synced ${result.events} event${result.events === 1 ? '' : 's'} from cloud${mapPart}.`,
           )
+          // Keep the user's active map; only resolve when nothing is selected yet.
           if (eventId != null) {
-            void resolveActiveFloorMapId(eventId).then(setFloorMapId)
+            void (async () => {
+              const maps = await db.floorMaps
+                .where('eventId')
+                .equals(eventId)
+                .toArray()
+              const ids = new Set(
+                maps.map((m) => m.id).filter((id): id is number => id != null),
+              )
+              setFloorMapId((current) => {
+                if (current != null && ids.has(current)) return current
+                const stored = getStoredFloorMapId(eventId)
+                if (stored != null && ids.has(stored)) return stored
+                return current
+              })
+              const stored = getStoredFloorMapId(eventId)
+              if (stored == null || !ids.has(stored)) {
+                const next = await resolveActiveFloorMapId(eventId)
+                if (next != null) setFloorMapId(next)
+              }
+            })()
           }
         }
       } else if (
@@ -574,17 +595,23 @@ function App() {
             <span className="muted sm">{event?.venueNotes}</span>
           </div>
         </div>
-        {(floorMaps?.length ?? 0) > 0 && (tab === 'map' || tab === 'nav') && (
-          <label className="map-switcher">
-            <span className="map-switcher-label">Map</span>
+        <nav className="tabs" aria-label="Main">
+          {(floorMaps?.length ?? 0) > 1 ? (
             <select
-              className="map-switcher-select"
-              aria-label="Switch floor map"
+              className={`tab tab-map-select${tab === 'map' ? ' active' : ''}`}
+              aria-label="Floor map"
               value={floorMapId ?? ''}
-              disabled={(floorMaps?.length ?? 0) < 2}
+              onFocus={() => {
+                if (tab !== 'map') setAppTab('map')
+              }}
+              onClick={() => {
+                if (tab !== 'map') setAppTab('map')
+              }}
               onChange={(e) => {
                 const id = Number(e.target.value)
-                if (Number.isFinite(id)) switchFloorMap(id)
+                if (!Number.isFinite(id)) return
+                if (id !== floorMapId) switchFloorMap(id)
+                setAppTab('map')
               }}
             >
               {(floorMaps ?? []).map((m) =>
@@ -595,33 +622,17 @@ function App() {
                 ) : null,
               )}
             </select>
-          </label>
-        )}
-        {tab === 'map' && (
-          <div className="topbar-map-actions">
+          ) : (
             <button
               type="button"
-              className="icon-btn map-menu-toggle"
-              aria-label="Map filters and modes"
-              aria-expanded={mapMenuOpen}
-              aria-controls="map-toolbar"
-              onClick={() => setMapMenuOpen((open) => !open)}
+              className={`tab${tab === 'map' ? ' active' : ''}`}
+              onClick={() => setAppTab('map')}
             >
-              <span className="hamburger-icon" aria-hidden="true" />
+              Map
             </button>
-            <button
-              type="button"
-              className="btn secondary sm map-expand-btn"
-              onClick={enterMapFullscreen}
-            >
-              Full map
-            </button>
-          </div>
-        )}
-        <nav className="tabs" aria-label="Main">
+          )}
           {(
             [
-              ['map', 'Map'],
               ['nav', 'Go'],
               ['gallery', 'Photos'],
               ['settings', 'Settings'],
@@ -631,13 +642,36 @@ function App() {
             <button
               key={id}
               type="button"
-              className={`tab ${tab === id ? 'active' : ''}`}
+              className={`tab${tab === id ? ' active' : ''}`}
               onClick={() => setAppTab(id)}
             >
               {label}
             </button>
           ))}
         </nav>
+        <div className="topbar-map-actions">
+          <button
+            type="button"
+            className="icon-btn map-menu-toggle"
+            aria-label="Map filters and modes"
+            aria-expanded={mapMenuOpen}
+            aria-controls="map-toolbar"
+            onClick={() => {
+              if (tab !== 'map') setAppTab('map')
+              setMapMenuOpen((open) => !open)
+            }}
+          >
+            <span className="hamburger-icon" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="btn secondary sm map-expand-btn"
+            hidden={tab !== 'map'}
+            onClick={enterMapFullscreen}
+          >
+            Full map
+          </button>
+        </div>
       </header>
 
       {tab === 'map' && (
@@ -699,29 +733,6 @@ function App() {
               <p className="muted sm gps-msg">
                 Tap the map to drop your pin. Press and hold the pin to drag it.
               </p>
-            )}
-            {(floorMaps?.length ?? 0) > 0 && (
-              <label className="map-floor-select-label">
-                Floor map
-                <select
-                  className="map-floor-select"
-                  aria-label="Floor map"
-                  value={floorMapId ?? ''}
-                  disabled={(floorMaps?.length ?? 0) < 2}
-                  onChange={(e) => {
-                    const id = Number(e.target.value)
-                    if (Number.isFinite(id)) switchFloorMap(id)
-                  }}
-                >
-                  {(floorMaps ?? []).map((m) =>
-                    m.id != null ? (
-                      <option key={m.id} value={m.id}>
-                        {m.name?.trim() || 'Floor map'}
-                      </option>
-                    ) : null,
-                  )}
-                </select>
-              </label>
             )}
             <div className="chip-row wrap">
               <button

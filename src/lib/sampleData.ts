@@ -90,7 +90,11 @@ export async function saveFloorMapBlob(
         obstacles: options.obstacles,
         createdAt: Date.now(),
       })) as number
-      setActiveFloorMapId(eventId, id)
+      // Don't steal the active map when adding another hall.
+      const storedRaw = localStorage.getItem(`cfn-active-map:${eventId}`)
+      if (storedRaw == null || storedRaw === '') {
+        setActiveFloorMapId(eventId, id)
+      }
       return id
     }
 
@@ -232,12 +236,22 @@ export async function loadOtakon2026ArtistAlleySample(
   const existing = await db.floorMaps.where('eventId').equals(eventId).toArray()
   const alley = existing.find((m) => /artist|alley/i.test(m.name ?? ''))
   if (alley?.id != null) {
+    // Update Artist Alley in place without changing the user's active map.
+    const storedRaw = localStorage.getItem(`cfn-active-map:${eventId}`)
+    const prevActive = storedRaw
     setActiveFloorMapId(eventId, alley.id)
-    return loadSampleMap(eventId, OTAKON_2026_ARTIST_ALLEY_SAMPLE, {
-      replace: true,
-      mode: 'replace-active',
-      inflightKey: 'artist-alley',
-    })
+    try {
+      return await loadSampleMap(eventId, OTAKON_2026_ARTIST_ALLEY_SAMPLE, {
+        replace: true,
+        mode: 'replace-active',
+        inflightKey: 'artist-alley',
+      })
+    } finally {
+      if (prevActive != null && prevActive !== '') {
+        const prevId = Number(prevActive)
+        if (Number.isFinite(prevId)) setActiveFloorMapId(eventId, prevId)
+      }
+    }
   }
   return loadSampleMap(eventId, OTAKON_2026_ARTIST_ALLEY_SAMPLE, {
     replace: true,

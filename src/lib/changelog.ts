@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.4'
+export const APP_VERSION = '0.3.5'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.5',
+    date: '2026-08-01',
+    highlights: [
+      'Map tab is the floor-map dropdown',
+      'Active map stays until you switch',
+    ],
+    notes: [
+      'Map tab shows Dealers / Artist Alley when multiple maps are loaded',
+      'Hamburger stays fixed at the end of the top bar',
+      'Catalog sync / adding a hall no longer steals the active map',
+    ],
+  },
   {
     version: '0.3.4',
     date: '2026-08-01',

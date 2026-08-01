@@ -156,83 +156,12 @@ img {
 .topbar-map-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.4rem;
-  margin-left: auto;
-}
-
-.map-switcher {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  min-width: 0;
-  margin-left: auto;
-}
-
-.map-switcher-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
   flex-shrink: 0;
-}
-
-.map-switcher-select {
-  min-width: 8.5rem;
-  max-width: min(14rem, 42vw);
-  font-size: 16px;
-  padding: 0.4rem 1.75rem 0.4rem 0.55rem;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--bg-panel);
-  color: var(--text);
-  appearance: none;
-  background-image:
-    linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
-    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
-  background-position:
-    calc(100% - 14px) 55%,
-    calc(100% - 9px) 55%;
-  background-size:
-    5px 5px,
-    5px 5px;
-  background-repeat: no-repeat;
-}
-
-.map-switcher-select:disabled {
-  opacity: 0.75;
-}
-
-.map-floor-select-label {
-  display: grid;
-  gap: 0.3rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--muted);
-}
-
-.map-floor-select {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface-2);
-  color: var(--text);
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.5rem 0.65rem;
-}
-
-.map-floor-select:disabled {
-  opacity: 0.7;
-}
-
-.topbar-map-actions .map-switcher,
-.topbar .map-switcher + .topbar-map-actions {
-  margin-left: 0;
-}
-
-.topbar .map-switcher + .tabs {
-  margin-left: 0;
+  /* Reserve hamburger slot so the icon never shifts when tabs change width. */
+  min-width: 2.25rem;
+  min-height: 2.25rem;
 }
 
 .tabs {
@@ -241,10 +170,7 @@ img {
   margin-left: auto;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-}
-
-.topbar-map-actions + .tabs {
-  margin-left: 0;
+  min-width: 0;
 }
 
 .icon-btn {
@@ -310,12 +236,45 @@ img {
   padding: 0.4rem 0.7rem;
   border-radius: 999px;
   white-space: nowrap;
+  font: inherit;
 }
 
 .tab.active {
   color: var(--text);
   background: var(--bg-panel);
   border-color: var(--border);
+}
+
+/* Map tab doubles as the floor-map dropdown when multiple maps exist. */
+.tab.tab-map-select {
+  appearance: none;
+  max-width: min(11rem, 38vw);
+  padding-right: 1.55rem;
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 12px) 55%,
+    calc(100% - 7px) 55%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+}
+
+.tab.tab-map-select.active {
+  background-color: var(--bg-panel);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--text) 50%),
+    linear-gradient(135deg, var(--text) 50%, transparent 50%);
+  background-position:
+    calc(100% - 12px) 55%,
+    calc(100% - 7px) 55%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
 }
 
 .map-layout {
@@ -1104,8 +1063,9 @@ img {
     display: inline-grid;
   }
 
-  .map-expand-btn {
-    display: none;
+  .map-expand-btn,
+  .map-expand-btn[hidden] {
+    display: none !important;
   }
 
   .map-toolbar-header {

@@ -176,10 +176,8 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
 
     if (floorMap?.id == null) continue
     const floorMapId = floorMap.id
-    // Don't steal the active map on every sync pass — only set when unset.
-    if (getStoredFloorMapId(eventId) == null) {
-      setActiveFloorMapId(eventId, floorMapId)
-    }
+    // Active map is sticky: only seed it once when the event has none yet.
+    // Never change it while merging additional halls (e.g. Artist Alley).
 
     // Snapshot personal overlays before rewriting catalog rows.
     const oldBooths = await db.booths
@@ -307,7 +305,13 @@ export async function syncCatalogFromCloud(options?: {
     }
 
     for (const ev of bundle.events) {
-      await mergeEvent(ev)
+      const eventId = await mergeEvent(ev)
+      if (eventId != null && getStoredFloorMapId(eventId) == null) {
+        const maps = await db.floorMaps.where('eventId').equals(eventId).sortBy('createdAt')
+        const prefer =
+          maps.find((m) => /dealer/i.test(m.name ?? '')) ?? maps[0]
+        if (prefer?.id != null) setActiveFloorMapId(eventId, prefer.id)
+      }
     }
 
     try {
