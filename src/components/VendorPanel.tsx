@@ -69,15 +69,22 @@ export function VendorPanel({
     await db.vendors.update(vendor.id, { tags: normalized })
   }
 
-  const addPhoto = async (file: File) => {
+  const addPhotos = async (files: FileList | File[]) => {
     if (vendor.id == null) return
-    await db.itemPhotos.add({
-      eventId: vendor.eventId,
-      vendorId: vendor.id,
-      imageBlob: file,
-      note: note.trim() || undefined,
-      createdAt: Date.now(),
-    })
+    const list = Array.from(files).filter((f) => f.type.startsWith('image/'))
+    if (list.length === 0) return
+    const sharedNote = note.trim() || undefined
+    const now = Date.now()
+    await db.itemPhotos.bulkAdd(
+      list.map((file, i) => ({
+        eventId: vendor.eventId,
+        vendorId: vendor.id!,
+        imageBlob: file,
+        note: sharedNote,
+        // Slight offset so reverse(createdAt) keeps selection order.
+        createdAt: now + i,
+      })),
+    )
     setNote('')
   }
 
@@ -109,7 +116,7 @@ export function VendorPanel({
             hidden
             onChange={(e) => {
               const f = e.target.files?.[0]
-              if (f) void addPhoto(f)
+              if (f) void addPhotos([f])
               e.target.value = ''
             }}
           />
@@ -225,7 +232,7 @@ export function VendorPanel({
               hidden
               onChange={(e) => {
                 const f = e.target.files?.[0]
-                if (f) void addPhoto(f)
+                if (f) void addPhotos([f])
                 e.target.value = ''
               }}
             />
@@ -235,10 +242,11 @@ export function VendorPanel({
             <input
               type="file"
               accept="image/*"
+              multiple
               hidden
               onChange={(e) => {
-                const f = e.target.files?.[0]
-                if (f) void addPhoto(f)
+                const files = e.target.files
+                if (files?.length) void addPhotos(files)
                 e.target.value = ''
               }}
             />

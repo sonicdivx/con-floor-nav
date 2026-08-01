@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.5'
+export const APP_VERSION = '0.3.6'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,15 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.6',
+    date: '2026-08-01',
+    highlights: ['Library photo multi-select'],
+    notes: [
+      'Vendor details → Library lets you pick multiple photos at once',
+      'Optional note applies to every photo in that batch',
+    ],
+  },
   {
     version: '0.3.5',
     date: '2026-08-01',
