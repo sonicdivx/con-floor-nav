@@ -19,7 +19,8 @@ Cursor project rules (committed): `.cursor/rules/*.mdc`.
 - Prefer small, focused changes that match existing patterns in `src/`.
 - Do not commit secrets, API keys, or `.env` files. AI keys live in `localStorage` only.
 - Do not force-push `main`. Feature work is typically on `cursor/*` branches; Render auto-deploys `cursor/con-floor-nav-pwa`.
-- Only commit when the user asks. When committing, follow the repo’s recent message style.
+- **Always merge after finishing a change:** fast-forward the feature branch into `cursor/con-floor-nav-pwa`, `cursor/phase2-3-backup`, and `main`, then push all three (do not leave work only on a feature branch).
+- Only commit when the user asks (or when finishing cloud-agent work that must land). When committing, follow the repo’s recent message style.
 - Do not add unsolicited markdown docs; this `docs/` set is intentional project context.
 
 ## Quick map of the codebase
@@ -46,6 +47,7 @@ Clone from GitHub, check out the active branch, `npm install`, open the folder i
 
 Standard scripts live in `package.json` / `README.md`. Non-obvious notes for cloud agents:
 
+- **Merge policy (Kevin):** After every completed change set, merge + push to `cursor/con-floor-nav-pwa` (Render deploy), `cursor/phase2-3-backup`, and `main` before ending the turn. Do not wait to be asked.
 - Core UI/dev loop: `npm run dev` → `http://localhost:5173/` (Vite binds `0.0.0.0:5173`, `strictPort`). Lint: `npm run lint` (oxlint). Build: `npm run build`. Preview: `npm run preview` (port 4173). Production/static + Live party + catalog sync API: `npm start` / `npm run party-server` (serves `dist/` + `/party` WS + `/api/sync/catalog`).
 - Local live party + sync against the Node server: `VITE_PARTY_WS_URL=http://localhost:8787 npm run dev` (also enables catalog pull from that host). Without it, Vite skips cloud sync and hides Live party.
 - Durable overnight parties require `DATABASE_URL` (Render Postgres from `render.yaml`). Without it, party codes are memory-only and die on process restart.
