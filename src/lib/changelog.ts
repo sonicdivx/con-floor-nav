@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.9'
+export const APP_VERSION = '0.3.10'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.10',
+    date: '2026-08-01',
+    highlights: [
+      'Booth info visible under View details',
+      'Merch teaser in details header',
+    ],
+    notes: [
+      'Booth info moved to top of details; sheet expands when guide data exists',
+      'Masterlist fields apply to all local events with matching booth numbers',
+      'One-time forced catalog re-sync + sampleRevision 8',
+    ],
+  },
   {
     version: '0.3.9',
     date: '2026-08-01',

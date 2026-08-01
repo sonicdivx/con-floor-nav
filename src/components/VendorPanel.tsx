@@ -129,6 +129,13 @@ export function VendorPanel({
           <div>
             <p className="eyebrow">Booth {boothLabel}</p>
             <h2>{vendor.name}</h2>
+            {catalogInfo?.merch ? (
+              <p className="muted sm catalog-info-teaser">{catalogInfo.merch}</p>
+            ) : catalogInfo && hasCatalogInfo(catalogInfo) ? (
+              <p className="muted sm catalog-info-teaser">
+                {catalogInfoSummary(catalogInfo) ?? 'Booth guide available'}
+              </p>
+            ) : null}
           </div>
         </div>
         <div className="panel-header-actions">
@@ -173,6 +180,18 @@ export function VendorPanel({
           </button>
         </div>
       </header>
+
+      {catalogInfo && hasCatalogInfo(catalogInfo) ? (
+        <section className="panel-section catalog-info-section">
+          <NavCollapsible
+            title="Booth info"
+            summary={catalogInfoSummary(catalogInfo)}
+            defaultOpen
+          >
+            <CatalogInfoBody info={catalogInfo} />
+          </NavCollapsible>
+        </section>
+      ) : null}
 
       <section className="panel-section">
         <h3>Visit status</h3>
@@ -219,18 +238,6 @@ export function VendorPanel({
           onChange={(tags) => void setTags(tags)}
         />
       </section>
-
-      {catalogInfo && hasCatalogInfo(catalogInfo) ? (
-        <section className="panel-section catalog-info-section">
-          <NavCollapsible
-            title="Booth info"
-            summary={catalogInfoSummary(catalogInfo)}
-            defaultOpen
-          >
-            <CatalogInfoBody info={catalogInfo} />
-          </NavCollapsible>
-        </section>
-      ) : null}
 
       <section className="panel-section">
         <h3>Item photos</h3>

@@ -122,7 +122,17 @@ function App() {
   useEffect(() => {
     let cancelled = false
     const run = async (force = false) => {
-      const result = await syncCatalogFromCloud({ force })
+      // One-shot force after Booth-info releases so stale IndexedDB picks up masterlists.
+      let shouldForce = force
+      try {
+        if (!force && localStorage.getItem('cfn-force-catalog-v8') !== '1') {
+          shouldForce = true
+          localStorage.setItem('cfn-force-catalog-v8', '1')
+        }
+      } catch {
+        /* ignore */
+      }
+      const result = await syncCatalogFromCloud({ force: shouldForce })
       if (cancelled) return
       if (result.ok) {
         if (!result.skipped) {
@@ -475,6 +485,10 @@ function App() {
     // Keep pin state: fill means “keep open while browsing,” not “this booth.”
     setSelectedBoothId(boothId)
     setTab('map')
+    // Expand sheet when masterlist info exists so Booth info isn't clipped.
+    void db.booths.get(boothId).then((b) => {
+      if (b?.catalogInfo) setDetailsExpanded(true)
+    })
     if (eventId != null) {
       void ensureVendorForBooth(eventId, boothId).catch((err) => {
         console.warn('ensureVendorForBooth failed', err)
@@ -484,6 +498,11 @@ function App() {
 
   const selectBoothForDetails = (boothId: number | null) => {
     setSelectedBoothId(boothId)
+    if (boothId != null) {
+      void db.booths.get(boothId).then((b) => {
+        if (b?.catalogInfo) setDetailsExpanded(true)
+      })
+    }
     if (boothId != null && eventId != null) {
       void ensureVendorForBooth(eventId, boothId).catch((err) => {
         console.warn('ensureVendorForBooth failed', err)

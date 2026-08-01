@@ -283,6 +283,42 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
   return eventId
 }
 
+/** Stamp catalogInfo onto all local booths/vendors that share a boothKey. */
+async function applyCatalogInfoByBoothKey(bundle: CatalogBundle): Promise<void> {
+  const byKey = new Map<string, VendorCatalogInfo>()
+  const nameByKey = new Map<string, string>()
+  for (const ev of bundle.events) {
+    for (const map of ev.maps) {
+      for (const b of map.booths) {
+        if (b.catalogInfo) byKey.set(b.boothKey, b.catalogInfo)
+        if (b.name?.trim()) nameByKey.set(b.boothKey, b.name.trim())
+      }
+    }
+  }
+  if (byKey.size === 0) return
+
+  const booths = await db.booths.toArray()
+  await db.transaction('rw', db.booths, db.vendors, async () => {
+    for (const booth of booths) {
+      if (booth.id == null) continue
+      const info = byKey.get(booth.boothKey)
+      if (!info) continue
+      const name = nameByKey.get(booth.boothKey)
+      await db.booths.update(booth.id, {
+        catalogInfo: info,
+        ...(name ? { nameOverride: name } : {}),
+      })
+      const vendor = await db.vendors.where('boothId').equals(booth.id).first()
+      if (vendor?.id != null) {
+        await db.vendors.update(vendor.id, {
+          catalogInfo: info,
+          ...(name ? { name } : {}),
+        })
+      }
+    }
+  })
+}
+
 export async function syncCatalogFromCloud(options?: {
   force?: boolean
 }): Promise<SyncResult> {
@@ -348,6 +384,10 @@ export async function syncCatalogFromCloud(options?: {
         if (prefer?.id != null) setActiveFloorMapId(eventId, prefer.id)
       }
     }
+
+    // Copy masterlist fields onto every local booth/vendor with a matching
+    // boothKey (covers duplicate/test Otakon events that mergeEvent skipped).
+    await applyCatalogInfoByBoothKey(bundle)
 
     try {
       localStorage.setItem(LAST_SYNC_KEY, String(bundle.updatedAt))
