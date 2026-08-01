@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.3'
+export const APP_VERSION = '0.3.4'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.4',
+    date: '2026-08-01',
+    highlights: [
+      'Map dropdown in top bar + map menu',
+      'Force catalog re-sync for Artist Alley',
+    ],
+    notes: [
+      'Map dropdown on Map/Go tabs and in the map options menu',
+      'Catalog sampleRevision bumped so clients pull Dealers + Artist Alley',
+      'Sync also re-pulls when local map count is behind the catalog',
+    ],
+  },
   {
     version: '0.3.3',
     date: '2026-08-01',

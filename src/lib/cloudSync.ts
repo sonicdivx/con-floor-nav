@@ -286,14 +286,16 @@ export async function syncCatalogFromCloud(options?: {
     const lastRev = lastCatalogSampleRevision()
     const bundleRev = bundle.sampleRevision ?? 0
     const mapCount = bundle.events.reduce((n, ev) => n + (ev.maps?.length ?? 0), 0)
+    const localMapCount = await db.floorMaps.count()
     // Re-pull when catalog content revision changes (e.g. Artist Alley added),
-    // not only when updatedAt advances.
+    // not only when updatedAt advances. Also re-pull if local maps are short.
     if (
       !options?.force &&
       last != null &&
       last >= bundle.updatedAt &&
       lastRev != null &&
-      lastRev === bundleRev
+      lastRev === bundleRev &&
+      localMapCount >= mapCount
     ) {
       return {
         ok: true,

@@ -700,23 +700,30 @@ function App() {
                 Tap the map to drop your pin. Press and hold the pin to drag it.
               </p>
             )}
-            <div className="chip-row wrap">
-              {(floorMaps?.length ?? 0) > 1 && (
-                <>
+            {(floorMaps?.length ?? 0) > 0 && (
+              <label className="map-floor-select-label">
+                Floor map
+                <select
+                  className="map-floor-select"
+                  aria-label="Floor map"
+                  value={floorMapId ?? ''}
+                  disabled={(floorMaps?.length ?? 0) < 2}
+                  onChange={(e) => {
+                    const id = Number(e.target.value)
+                    if (Number.isFinite(id)) switchFloorMap(id)
+                  }}
+                >
                   {(floorMaps ?? []).map((m) =>
                     m.id != null ? (
-                      <button
-                        key={m.id}
-                        type="button"
-                        className={`chip ${floorMapId === m.id ? 'active' : ''}`}
-                        onClick={() => switchFloorMap(m.id!)}
-                      >
+                      <option key={m.id} value={m.id}>
                         {m.name?.trim() || 'Floor map'}
-                      </button>
+                      </option>
                     ) : null,
                   )}
-                </>
-              )}
+                </select>
+              </label>
+            )}
+            <div className="chip-row wrap">
               <button
                 type="button"
                 className={`chip ${tagFilter == null ? 'active' : ''}`}
