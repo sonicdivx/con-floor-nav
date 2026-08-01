@@ -1349,12 +1349,17 @@ label.btn.disabled,
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 0.5rem;
   margin-top: 0.65rem;
+  width: 100%;
 }
 
-/* Details card: exactly 3 thumbs per row, filling the panel width. */
+/* Details card: exactly 3 thumbs per row, each cell fills 1/3 of the panel. */
 .vendor-panel .photo-grid {
+  display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-items: stretch;
+  align-items: start;
   gap: 0.4rem;
+  width: 100%;
   max-height: none;
   overflow: visible;
 }
@@ -1368,6 +1373,24 @@ label.btn.disabled,
   padding: 0;
   text-align: left;
   min-width: 0;
+  width: 100%;
+  margin: 0;
+}
+
+.vendor-panel .photo-thumb {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.vendor-panel .photo-thumb-media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--bg);
+  overflow: hidden;
 }
 
 .photo-thumb img,
@@ -1375,12 +1398,22 @@ label.btn.disabled,
   aspect-ratio: 1;
   object-fit: cover;
   width: 100%;
+  height: auto;
+  display: block;
+}
+
+.vendor-panel .photo-thumb-media img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
   display: block;
 }
 
 .vendor-panel .photo-thumb .btn {
   width: 100%;
   border-radius: 0;
+  flex-shrink: 0;
 }
 
 .photo-thumb figcaption,
