@@ -50,7 +50,7 @@ flowchart TB
 
 ## Cloud sync
 
-- **Source of truth (shared):** events, floor maps, booths, dealer names/tags via `GET /api/sync/catalog`.
+- **Source of truth (shared):** events, floor maps, booths, dealer/artist names/tags via `GET /api/sync/catalog` (Otakon 2026: Dealers + Artist Alley). `sampleRevision` in the bundle forces Postgres reseed when samples change.
 - **Device-local:** visitStatus, notes, photos, pin, custom tags, AI keys.
 - **Device login (optional):** Settings → Device login — unique code (no password) stores personal overlays via `POST/GET /api/sync/device` (`device_backups` in Postgres). Use to open another browser / recover after a hung tab.
 - Client: `src/lib/cloudSync.ts` pulls catalog on launch + `online`; `src/lib/personalSync.ts` for device codes. Settings → Sync now / Device login.

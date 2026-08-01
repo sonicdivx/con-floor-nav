@@ -2,7 +2,7 @@
  * Pull shared catalog from the cloud (server = source of truth) into Dexie.
  * Preserves per-device visitStatus / notes / photos when booth keys match.
  */
-import { db, setActiveFloorMapId } from '../db/schema'
+import { db, getStoredFloorMapId, setActiveFloorMapId } from '../db/schema'
 import type { Rect, VisitStatus } from '../db/types'
 
 export type CatalogBooth = {
@@ -85,9 +85,28 @@ async function fetchImageBlob(imageUrl: string): Promise<Blob> {
 /**
  * Merge one cloud event into Dexie. Keeps local visitStatus/notes/photos keyed by boothKey+mapKey.
  */
+function mapNameMatches(existingName: string | undefined, catalogName: string, mapKey: string) {
+  const n = (existingName ?? '').trim().toLowerCase()
+  const want = catalogName.trim().toLowerCase()
+  if (n === want) return true
+  if (mapKey === 'dealers' && n.includes('dealer')) return true
+  if (mapKey === 'artist-alley' && (n.includes('artist') || n.includes('alley'))) {
+    return true
+  }
+  return false
+}
+
 async function mergeEvent(ev: CatalogEvent): Promise<number> {
-  let eventId =
-    (await db.events.filter((e) => e.name === ev.name).first())?.id ?? null
+  let event =
+    (await db.events.filter((e) => e.name === ev.name).first()) ?? null
+
+  // Fold older Otakon local titles into the catalog event name.
+  if (!event && /otakon/i.test(ev.name)) {
+    event =
+      (await db.events.filter((e) => /otakon/i.test(e.name)).first()) ?? null
+  }
+
+  let eventId = event?.id ?? null
 
   if (eventId == null) {
     eventId = (await db.events.add({
@@ -98,6 +117,7 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
     })) as number
   } else {
     await db.events.update(eventId, {
+      name: ev.name,
       venueNotes: ev.venueNotes,
       updatedAt: Date.now(),
     })
@@ -107,9 +127,18 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
     const imageBlob = await fetchImageBlob(map.imageUrl)
     const existingMaps = await db.floorMaps.where('eventId').equals(eventId).toArray()
     let floorMap: (typeof existingMaps)[number] | null =
-      existingMaps.find((m) => (m.name ?? '').trim() === map.name) ??
-      existingMaps[0] ??
-      null
+      existingMaps.find((m) => mapNameMatches(m.name, map.name, map.key)) ?? null
+
+    // Legacy single-map installs: only fall back when syncing Dealers and there
+    // is exactly one map that isn't Artist Alley.
+    if (
+      !floorMap &&
+      map.key === 'dealers' &&
+      existingMaps.length === 1 &&
+      !/artist|alley/i.test(existingMaps[0]?.name ?? '')
+    ) {
+      floorMap = existingMaps[0] ?? null
+    }
 
     if (floorMap?.id != null) {
       await db.floorMaps.update(floorMap.id, {
@@ -134,7 +163,10 @@ async function mergeEvent(ev: CatalogEvent): Promise<number> {
 
     if (floorMap?.id == null) continue
     const floorMapId = floorMap.id
-    setActiveFloorMapId(eventId, floorMapId)
+    // Don't steal the active map on every sync pass — only set when unset.
+    if (getStoredFloorMapId(eventId) == null) {
+      setActiveFloorMapId(eventId, floorMapId)
+    }
 
     // Snapshot personal overlays before rewriting catalog rows.
     const oldBooths = await db.booths

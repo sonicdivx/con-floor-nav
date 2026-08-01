@@ -1,12 +1,14 @@
 export type VisitStatus = 'favorite' | 'look_again' | 'end_of_con' | 'none'
 
 export const DEFAULT_TAGS = [
+  'artist',
   'video',
   'models',
   'toys',
   'kits',
   'prints',
   'apparel',
+  'plush',
   'other',
 ] as const
 

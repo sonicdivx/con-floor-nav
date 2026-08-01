@@ -1,13 +1,22 @@
 import type { Rect } from '../db/types'
-import { db, resolveActiveFloorMapId, setActiveFloorMapId } from '../db/schema'
+import { db, setActiveFloorMapId } from '../db/schema'
 import { applyBoothImport, parseBoothImportJson } from './import'
 import { getOtakon2026DealersObstacles } from './obstacles'
 
 export const OTAKON_2026_DEALERS_SAMPLE = {
   id: 'otakon-2026-dealers',
   label: 'Otakon 2026 Dealers',
+  mapName: 'Dealers',
   imageUrl: '/samples/otakon-2026-dealers-floor.png',
   jsonUrl: '/samples/otakon-2026-dealers.json',
+} as const
+
+export const OTAKON_2026_ARTIST_ALLEY_SAMPLE = {
+  id: 'otakon-2026-artist-alley',
+  label: 'Artist Alley',
+  mapName: 'Artist Alley',
+  imageUrl: '/samples/otakon-2026-artist-alley-floor.png',
+  jsonUrl: '/samples/otakon-2026-artist-alley.json',
 } as const
 
 async function readImageDimensions(
@@ -86,7 +95,14 @@ export async function saveFloorMapBlob(
     }
 
     // replace-active
-    let activeId = await resolveActiveFloorMapId(eventId)
+    const maps = await db.floorMaps.where('eventId').equals(eventId).sortBy('createdAt')
+    const storedRaw = localStorage.getItem(`cfn-active-map:${eventId}`)
+    const stored = storedRaw ? Number(storedRaw) : null
+    let activeId =
+      stored != null && maps.some((m) => m.id === stored)
+        ? stored
+        : (maps[0]?.id ?? null)
+
     if (activeId == null) {
       activeId = (await db.floorMaps.add({
         eventId,
@@ -132,20 +148,28 @@ type SampleLoadResult = {
 }
 
 /** Deduplicate concurrent sample loads (auto-seed + Setup button / Strict Mode). */
-const inflightSampleLoads = new Map<number, Promise<SampleLoadResult>>()
+const inflightSampleLoads = new Map<string, Promise<SampleLoadResult>>()
 const inflightAutoSeeds = new Map<number, Promise<boolean>>()
 
-/** Fetch public sample assets, cache the map image in IndexedDB, import booths/vendors. */
-export async function loadOtakon2026DealersSample(
+async function loadSampleMap(
   eventId: number,
-  options: { replace?: boolean } = {},
+  sample: { mapName: string; imageUrl: string; jsonUrl: string },
+  options: {
+    replace?: boolean
+    mode: SaveFloorMapMode
+    obstaclesFallback?: Rect[]
+    inflightKey: string
+  },
 ): Promise<SampleLoadResult> {
-  const existing = inflightSampleLoads.get(eventId)
+  const key = `${options.inflightKey}:${eventId}`
+  const existing = inflightSampleLoads.get(key)
   if (existing) return existing
 
   const pending = (async (): Promise<SampleLoadResult> => {
-    const { imageUrl, jsonUrl } = OTAKON_2026_DEALERS_SAMPLE
-    const [imageRes, jsonRes] = await Promise.all([fetch(imageUrl), fetch(jsonUrl)])
+    const [imageRes, jsonRes] = await Promise.all([
+      fetch(sample.imageUrl),
+      fetch(sample.jsonUrl),
+    ])
     if (!imageRes.ok) {
       throw new Error(`Failed to fetch sample map (${imageRes.status})`)
     }
@@ -155,12 +179,13 @@ export async function loadOtakon2026DealersSample(
 
     const [imageBlob, text] = await Promise.all([imageRes.blob(), jsonRes.text()])
     const data = parseBoothImportJson(text)
-    const obstacles =
-      data.obstacles?.length ? data.obstacles : getOtakon2026DealersObstacles()
+    const obstacles = data.obstacles?.length
+      ? data.obstacles
+      : (options.obstaclesFallback ?? [])
     const dims = await saveFloorMapBlob(eventId, imageBlob, {
       obstacles,
-      name: OTAKON_2026_DEALERS_SAMPLE.label,
-      mode: 'replace-all',
+      name: sample.mapName,
+      mode: options.mode,
     })
     const result = await applyBoothImport(eventId, data, {
       replace: options.replace ?? true,
@@ -178,15 +203,50 @@ export async function loadOtakon2026DealersSample(
     }
   })()
 
-  inflightSampleLoads.set(eventId, pending)
+  inflightSampleLoads.set(key, pending)
   try {
     return await pending
   } finally {
-    inflightSampleLoads.delete(eventId)
+    inflightSampleLoads.delete(key)
   }
 }
 
-/** Auto-seed sample once if this event has no floor map yet. */
+/** Fetch Dealers sample — replaces all maps on the event (legacy setup). */
+export async function loadOtakon2026DealersSample(
+  eventId: number,
+  options: { replace?: boolean } = {},
+): Promise<SampleLoadResult> {
+  return loadSampleMap(eventId, OTAKON_2026_DEALERS_SAMPLE, {
+    replace: options.replace ?? true,
+    mode: 'replace-all',
+    obstaclesFallback: getOtakon2026DealersObstacles(),
+    inflightKey: 'dealers',
+  })
+}
+
+/** Add Artist Alley as another floor map (does not wipe Dealers). */
+export async function loadOtakon2026ArtistAlleySample(
+  eventId: number,
+): Promise<SampleLoadResult> {
+  // If Artist Alley already exists, replace that map's image/booths in place.
+  const existing = await db.floorMaps.where('eventId').equals(eventId).toArray()
+  const alley = existing.find((m) => /artist|alley/i.test(m.name ?? ''))
+  if (alley?.id != null) {
+    setActiveFloorMapId(eventId, alley.id)
+    return loadSampleMap(eventId, OTAKON_2026_ARTIST_ALLEY_SAMPLE, {
+      replace: true,
+      mode: 'replace-active',
+      inflightKey: 'artist-alley',
+    })
+  }
+  return loadSampleMap(eventId, OTAKON_2026_ARTIST_ALLEY_SAMPLE, {
+    replace: true,
+    mode: 'add',
+    inflightKey: 'artist-alley',
+  })
+}
+
+/** Auto-seed Dealers once if this event has no floor map yet. */
 export async function maybeAutoSeedOtakonSample(eventId: number): Promise<boolean> {
   const existing = inflightAutoSeeds.get(eventId)
   if (existing) return existing
