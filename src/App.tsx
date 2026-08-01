@@ -595,6 +595,29 @@ function App() {
             <span className="muted sm">{event?.venueNotes}</span>
           </div>
         </div>
+        <div className="topbar-map-actions">
+          <button
+            type="button"
+            className="icon-btn map-menu-toggle"
+            aria-label="Map filters and modes"
+            aria-expanded={mapMenuOpen}
+            aria-controls="map-toolbar"
+            onClick={() => {
+              if (tab !== 'map') setAppTab('map')
+              setMapMenuOpen((open) => !open)
+            }}
+          >
+            <span className="hamburger-icon" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="btn secondary sm map-expand-btn"
+            hidden={tab !== 'map'}
+            onClick={enterMapFullscreen}
+          >
+            Full map
+          </button>
+        </div>
         <nav className="tabs" aria-label="Main">
           {(floorMaps?.length ?? 0) > 1 ? (
             <select
@@ -649,29 +672,6 @@ function App() {
             </button>
           ))}
         </nav>
-        <div className="topbar-map-actions">
-          <button
-            type="button"
-            className="icon-btn map-menu-toggle"
-            aria-label="Map filters and modes"
-            aria-expanded={mapMenuOpen}
-            aria-controls="map-toolbar"
-            onClick={() => {
-              if (tab !== 'map') setAppTab('map')
-              setMapMenuOpen((open) => !open)
-            }}
-          >
-            <span className="hamburger-icon" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            className="btn secondary sm map-expand-btn"
-            hidden={tab !== 'map'}
-            onClick={enterMapFullscreen}
-          >
-            Full map
-          </button>
-        </div>
       </header>
 
       {tab === 'map' && (
