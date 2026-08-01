@@ -125,8 +125,12 @@ function App() {
       if (cancelled) return
       if (result.ok) {
         if (!result.skipped) {
+          const mapPart =
+            result.maps != null
+              ? ` · ${result.maps} map${result.maps === 1 ? '' : 's'}`
+              : ''
           setSyncMsg(
-            `Synced ${result.events} event${result.events === 1 ? '' : 's'} from cloud.`,
+            `Synced ${result.events} event${result.events === 1 ? '' : 's'} from cloud${mapPart}.`,
           )
           if (eventId != null) {
             void resolveActiveFloorMapId(eventId).then(setFloorMapId)
@@ -570,6 +574,29 @@ function App() {
             <span className="muted sm">{event?.venueNotes}</span>
           </div>
         </div>
+        {(floorMaps?.length ?? 0) > 0 && (tab === 'map' || tab === 'nav') && (
+          <label className="map-switcher">
+            <span className="map-switcher-label">Map</span>
+            <select
+              className="map-switcher-select"
+              aria-label="Switch floor map"
+              value={floorMapId ?? ''}
+              disabled={(floorMaps?.length ?? 0) < 2}
+              onChange={(e) => {
+                const id = Number(e.target.value)
+                if (Number.isFinite(id)) switchFloorMap(id)
+              }}
+            >
+              {(floorMaps ?? []).map((m) =>
+                m.id != null ? (
+                  <option key={m.id} value={m.id}>
+                    {m.name?.trim() || 'Floor map'}
+                  </option>
+                ) : null,
+              )}
+            </select>
+          </label>
+        )}
         {tab === 'map' && (
           <div className="topbar-map-actions">
             <button

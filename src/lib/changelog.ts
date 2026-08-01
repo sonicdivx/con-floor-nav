@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.2'
+export const APP_VERSION = '0.3.3'
 
 export type ChangelogEntry = {
   version: string
@@ -13,6 +13,18 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '0.3.3',
+    date: '2026-08-01',
+    highlights: [
+      'Map dropdown switcher',
+      'Fix catalog re-sync for Artist Alley',
+    ],
+    notes: [
+      'Top bar Map dropdown to switch Dealers ↔ Artist Alley',
+      'Cloud sync re-pulls when sampleRevision changes so new maps appear',
+    ],
+  },
+  {
     version: '0.3.2',
     date: '2026-08-01',
     highlights: [
@@ -21,7 +33,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     ],
     notes: [
       'New Artist Alley floor map from Conference Harvester (EventKey PREDZGII)',
-      'Dealers map unchanged — switch halls with the map chips',
+      'Dealers map unchanged — switch halls with the Map dropdown',
       'Cloud sync / Settings → Import → Add Artist Alley',
     ],
   },

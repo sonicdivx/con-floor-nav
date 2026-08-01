@@ -32,20 +32,33 @@ export type CatalogEvent = {
 
 export type CatalogBundle = {
   version: 1
+  sampleRevision?: number
   updatedAt: number
   events: CatalogEvent[]
 }
 
 export type SyncResult =
-  | { ok: true; updatedAt: number; events: number; skipped: boolean }
+  | { ok: true; updatedAt: number; events: number; skipped: boolean; maps?: number }
   | { ok: false; error: string }
 
 const LAST_SYNC_KEY = 'cfn-catalog-synced-at'
+const LAST_REV_KEY = 'cfn-catalog-sample-revision'
 
 export function lastCatalogSyncAt(): number | null {
   try {
     const raw = localStorage.getItem(LAST_SYNC_KEY)
     if (!raw) return null
+    const n = Number(raw)
+    return Number.isFinite(n) ? n : null
+  } catch {
+    return null
+  }
+}
+
+function lastCatalogSampleRevision(): number | null {
+  try {
+    const raw = localStorage.getItem(LAST_REV_KEY)
+    if (raw == null || raw === '') return null
     const n = Number(raw)
     return Number.isFinite(n) ? n : null
   } catch {
@@ -270,11 +283,23 @@ export async function syncCatalogFromCloud(options?: {
     }
 
     const last = lastCatalogSyncAt()
-    if (!options?.force && last != null && last >= bundle.updatedAt) {
+    const lastRev = lastCatalogSampleRevision()
+    const bundleRev = bundle.sampleRevision ?? 0
+    const mapCount = bundle.events.reduce((n, ev) => n + (ev.maps?.length ?? 0), 0)
+    // Re-pull when catalog content revision changes (e.g. Artist Alley added),
+    // not only when updatedAt advances.
+    if (
+      !options?.force &&
+      last != null &&
+      last >= bundle.updatedAt &&
+      lastRev != null &&
+      lastRev === bundleRev
+    ) {
       return {
         ok: true,
         updatedAt: bundle.updatedAt,
         events: bundle.events.length,
+        maps: mapCount,
         skipped: true,
       }
     }
@@ -285,6 +310,7 @@ export async function syncCatalogFromCloud(options?: {
 
     try {
       localStorage.setItem(LAST_SYNC_KEY, String(bundle.updatedAt))
+      localStorage.setItem(LAST_REV_KEY, String(bundleRev))
     } catch {
       /* ignore */
     }
@@ -293,6 +319,7 @@ export async function syncCatalogFromCloud(options?: {
       ok: true,
       updatedAt: bundle.updatedAt,
       events: bundle.events.length,
+      maps: mapCount,
       skipped: false,
     }
   } catch (err) {
