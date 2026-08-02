@@ -9,8 +9,8 @@ import {
   resolveActiveFloorMapId,
   setActiveFloorMapId,
 } from './db/schema'
-import type { Rect, VendorRecord } from './db/types'
-import { MapViewer, type MapMode } from './components/MapViewer'
+import type { Rect, VendorRecord, VisitStatus } from './db/types'
+import { MapViewer, type MapMode, type TourStopMarker } from './components/MapViewer'
 import { VendorPanel } from './components/VendorPanel'
 import { ImportPanel } from './components/ImportPanel'
 import { AiExtractPanel } from './components/AiExtractPanel'
@@ -33,7 +33,22 @@ import { peerColor } from './lib/partySocket'
 import { usePartySession } from './hooks/usePartySession'
 import { syncCatalogFromCloud } from './lib/cloudSync'
 import { APP_VERSION } from './lib/changelog'
+import { planTour } from './lib/tourPlan'
+import type { NormPoint } from './lib/pathfinding'
 import './App.css'
+
+const TOUR_STATUS_OPTIONS: Array<Exclude<VisitStatus, 'none'>> = [
+  'favorite',
+  'look_again',
+  'end_of_con',
+]
+
+const TOUR_STATUS_RANK: Record<VisitStatus, number> = {
+  favorite: 0,
+  look_again: 1,
+  end_of_con: 2,
+  none: 3,
+}
 
 type Tab = 'map' | 'settings' | 'ai' | 'gallery' | 'nav' | 'changelog'
 
@@ -58,6 +73,22 @@ function App() {
     x: number
     y: number
   } | null>(null)
+  /** Booth ids in planned tour visit order (active map only). */
+  const [tourStopIds, setTourStopIds] = useState<number[] | null>(null)
+  const [tourPath, setTourPath] = useState<NormPoint[] | null>(null)
+  const [tourStopMarkers, setTourStopMarkers] = useState<TourStopMarker[] | null>(
+    null,
+  )
+  const [tourStatusFilters, setTourStatusFilters] = useState<
+    Record<Exclude<VisitStatus, 'none'>, boolean>
+  >({
+    favorite: true,
+    look_again: true,
+    end_of_con: true,
+  })
+  /** Manually added booth ids for the next / current tour plan. */
+  const [tourExtraBoothIds, setTourExtraBoothIds] = useState<number[]>([])
+  const [tourMsg, setTourMsg] = useState<string | null>(null)
   const [focusRequest, setFocusRequest] = useState<{
     x: number
     y: number
@@ -76,6 +107,13 @@ function App() {
   const lastPinPublish = useRef(0)
   const focusNonce = useRef(0)
 
+  const clearTour = () => {
+    setTourStopIds(null)
+    setTourPath(null)
+    setTourStopMarkers(null)
+    setTourMsg(null)
+  }
+
   const resetMapSession = () => {
     setBoothDrafts({})
     setSelectedBoothId(null)
@@ -83,6 +121,8 @@ function App() {
     setDetailsExpanded(false)
     setNavTargetBoothId(null)
     setNavTargetPoint(null)
+    clearTour()
+    setTourExtraBoothIds([])
     setLocalPin(null)
     setMapMode('navigate')
   }
@@ -285,16 +325,49 @@ function App() {
     const list = (vendors ?? []).filter(
       (v) =>
         boothIds.has(v.boothId) &&
-        (v.visitStatus === 'favorite' || v.visitStatus === 'look_again'),
+        (v.visitStatus === 'favorite' ||
+          v.visitStatus === 'look_again' ||
+          v.visitStatus === 'end_of_con'),
     )
     list.sort((a, b) => {
-      if (a.visitStatus !== b.visitStatus) {
-        return a.visitStatus === 'favorite' ? -1 : 1
-      }
+      const rank =
+        TOUR_STATUS_RANK[a.visitStatus] - TOUR_STATUS_RANK[b.visitStatus]
+      if (rank !== 0) return rank
       return a.name.localeCompare(b.name)
     })
     return list
   }, [vendors, booths])
+
+  const tourCandidateCount = useMemo(() => {
+    const boothIds = new Set(
+      (booths ?? [])
+        .map((b) => b.id)
+        .filter((id): id is number => id != null),
+    )
+    const selected = new Set(
+      TOUR_STATUS_OPTIONS.filter((s) => tourStatusFilters[s]),
+    )
+    let count = 0
+    for (const v of vendors ?? []) {
+      if (!boothIds.has(v.boothId)) continue
+      if (selected.has(v.visitStatus as Exclude<VisitStatus, 'none'>)) count += 1
+    }
+    for (const id of tourExtraBoothIds) {
+      if (!boothIds.has(id)) continue
+      const v = vendorsByBoothId.get(id)
+      if (v && selected.has(v.visitStatus as Exclude<VisitStatus, 'none'>)) {
+        continue
+      }
+      count += 1
+    }
+    return count
+  }, [
+    booths,
+    vendors,
+    vendorsByBoothId,
+    tourStatusFilters,
+    tourExtraBoothIds,
+  ])
 
   const filterTags = useMemo(() => {
     const inUse: string[] = []
@@ -392,6 +465,7 @@ function App() {
   }
 
   const applySharedPin = useCallback(async (p: { x: number; y: number }) => {
+    clearTour()
     setNavTargetBoothId(null)
     setNavTargetPoint(p)
     focusNonce.current += 1
@@ -401,6 +475,7 @@ function App() {
   }, [])
 
   const navigateToPeer = (peer: PartyPeer) => {
+    clearTour()
     setNavTargetBoothId(null)
     setNavTargetPoint({ x: peer.x, y: peer.y })
     focusNonce.current += 1
@@ -411,6 +486,7 @@ function App() {
 
   const navigateToBooth = (boothId: number) => {
     // Set target + pin immediately so the dashed line can render (no live-query lag).
+    clearTour()
     if (!mapPin) setLocalPin({ x: 0.5, y: 0.5 })
     const booth = (booths ?? []).find((b) => b.id === boothId)
     setNavTargetBoothId(boothId)
@@ -449,6 +525,11 @@ function App() {
     return m
   }, [floorMaps])
 
+  const activeMapName =
+    floorMap?.name?.trim() ||
+    (floorMapId != null ? mapNameById.get(floorMapId) : undefined) ||
+    'This map'
+
   /** Search result → switch map if needed, aisle-nav to booth at default fit scale. */
   const navigateToDealer = (hit: DealerHit) => {
     const { booth } = hit
@@ -458,6 +539,8 @@ function App() {
       document.activeElement.blur()
     }
     window.scrollTo(0, 0)
+    clearTour()
+    setTourExtraBoothIds([])
     if (booth.floorMapId != null && booth.floorMapId !== floorMapId) {
       if (eventId != null) setActiveFloorMapId(eventId, booth.floorMapId)
       setFloorMapId(booth.floorMapId)
@@ -477,6 +560,129 @@ function App() {
     setMapFitNonce((n) => n + 1)
     setTab('map')
     setMapMode('navigate')
+    void ensurePin()
+  }
+
+  const addBoothToTour = (hit: DealerHit) => {
+    const { booth, vendor } = hit
+    if (booth.id == null) return
+    if (booth.floorMapId != null && booth.floorMapId !== floorMapId) {
+      const other =
+        booth.floorMapId != null
+          ? mapNameById.get(booth.floorMapId)
+          : undefined
+      setTourMsg(
+        `${vendor.name} is on ${other ?? 'another map'}. Switch maps to tour that hall.`,
+      )
+      return
+    }
+    setTourExtraBoothIds((prev) =>
+      prev.includes(booth.id!) ? prev : [...prev, booth.id!],
+    )
+    setTourMsg(null)
+  }
+
+  const focusTourStop = (boothId: number, x: number, y: number) => {
+    setSelectedBoothId(boothId)
+    focusNonce.current += 1
+    setFocusRequest({ x, y, nonce: focusNonce.current })
+    setTab('map')
+    setMapMode('navigate')
+  }
+
+  const buildTour = () => {
+    const mapBoothList = booths ?? []
+    if (!mapBoothList.length) {
+      setTourMsg('No booths on this map yet.')
+      return
+    }
+
+    const pin = mapPin ?? { x: 0.5, y: 0.5 }
+    if (!mapPin) setLocalPin(pin)
+
+    const selectedStatuses = new Set(
+      TOUR_STATUS_OPTIONS.filter((s) => tourStatusFilters[s]),
+    )
+    const boothById = new Map<number, (typeof mapBoothList)[number]>()
+    for (const b of mapBoothList) {
+      if (b.id != null) boothById.set(b.id, b)
+    }
+
+    const stopIds = new Set<number>()
+    for (const v of vendors ?? []) {
+      if (!selectedStatuses.has(v.visitStatus as Exclude<VisitStatus, 'none'>)) {
+        continue
+      }
+      if (boothById.has(v.boothId)) stopIds.add(v.boothId)
+    }
+    for (const id of tourExtraBoothIds) {
+      if (boothById.has(id)) stopIds.add(id)
+    }
+
+    if (!stopIds.size) {
+      setTourStopIds(null)
+      setTourPath(null)
+      setTourStopMarkers(null)
+      setTourMsg('No matching booths on this map. Mark favorites or add a booth.')
+      return
+    }
+
+    const stops = [...stopIds].map((boothId) => {
+      const booth = boothById.get(boothId)!
+      const vendor = vendorsByBoothId.get(boothId)
+      return {
+        boothId,
+        rect: booth.rect,
+        label: booth.label || booth.boothKey || String(boothId),
+        name: vendor?.name?.trim() || `Booth ${booth.label || boothId}`,
+        visitStatus: vendor?.visitStatus ?? ('none' as const),
+      }
+    })
+
+    const result = planTour({
+      pin,
+      stops,
+      mapWidth: floorMap?.width ?? 1000,
+      mapHeight: floorMap?.height ?? 700,
+      boothRects: mapBoothList.map((b) => b.rect),
+      obstacles: floorMap?.obstacles ?? [],
+    })
+
+    if (!result.orderedStops.length) {
+      setTourStopIds(null)
+      setTourPath(null)
+      setTourStopMarkers(null)
+      setTourMsg('Could not plan a route for those booths.')
+      return
+    }
+
+    setNavTargetBoothId(null)
+    setNavTargetPoint(null)
+    setTourStopIds(result.orderedStops.map((s) => s.boothId))
+    setTourPath(result.path)
+    setTourStopMarkers(
+      result.orderedStops.map((s) => ({
+        boothId: s.boothId,
+        x: s.center.x,
+        y: s.center.y,
+        label: s.label,
+        index: s.index,
+      })),
+    )
+
+    const parts: string[] = [
+      `${result.orderedStops.length} stop${result.orderedStops.length === 1 ? '' : 's'} on ${activeMapName}`,
+    ]
+    if (result.skippedBoothIds.length) {
+      parts.push(`${result.skippedBoothIds.length} skipped`)
+    }
+    if (result.usedStraightFallback) {
+      parts.push('some legs use a straight line')
+    }
+    setTourMsg(parts.join(' · '))
+    setTab('map')
+    setMapMode('navigate')
+    setMapFitNonce((n) => n + 1)
     void ensurePin()
   }
 
@@ -814,6 +1020,8 @@ function App() {
               selectedBoothId={selectedBoothId}
               navTargetBoothId={navTargetBoothId}
               navTargetPoint={navTargetPoint}
+              tourPath={tourPath}
+              tourStops={tourStopMarkers}
               focusRequest={focusRequest}
               fitRequest={mapFitNonce}
               peerPins={peerPins}
@@ -922,7 +1130,7 @@ function App() {
         <div className="stack-panel page">
           <h2>Navigate</h2>
           <p className="muted">
-            Search dealers, quick-pick favorites, or share a live party pin. Routes an aisle path from your pin around booths and pillars.
+            Search dealers, plan a multi-stop tour on this map, or share a live party pin. Routes an aisle path from your pin around booths and pillars.
           </p>
 
           <section className="nav-section">
@@ -934,6 +1142,140 @@ function App() {
               onSelect={navigateToDealer}
               placeholder="Type a dealer or booth…"
             />
+          </section>
+
+          <section className="nav-section">
+            <h3>
+              Plan route
+              <span className="muted sm"> · {activeMapName}</span>
+            </h3>
+            <p className="muted sm">
+              Builds an aisle tour from My pin through booths on this map only
+              (Dealers and Artist Alley stay separate).
+            </p>
+            <div className="tour-status-filters">
+              {TOUR_STATUS_OPTIONS.map((status) => (
+                <label key={status}>
+                  <input
+                    type="checkbox"
+                    checked={tourStatusFilters[status]}
+                    onChange={(e) =>
+                      setTourStatusFilters((prev) => ({
+                        ...prev,
+                        [status]: e.target.checked,
+                      }))
+                    }
+                  />
+                  <span
+                    className="status-dot"
+                    style={{ background: STATUS_COLORS[status] }}
+                  />
+                  {STATUS_LABELS[status]}
+                </label>
+              ))}
+            </div>
+            <p className="muted sm">
+              {tourCandidateCount} matching booth
+              {tourCandidateCount === 1 ? '' : 's'} on this map
+              {tourExtraBoothIds.length
+                ? ` · ${tourExtraBoothIds.length} added`
+                : ''}
+            </p>
+            <DealerSearch
+              vendors={vendors ?? []}
+              booths={booths ?? []}
+              mapNameById={mapNameById}
+              onSelect={addBoothToTour}
+              placeholder="Add booth to tour…"
+            />
+            {tourExtraBoothIds.length > 0 && (
+              <ul className="tour-extra-list">
+                {tourExtraBoothIds.map((id) => {
+                  const booth = (booths ?? []).find((b) => b.id === id)
+                  const vendor = vendorsByBoothId.get(id)
+                  return (
+                    <li key={id} className="tour-extra-chip">
+                      <span>
+                        {vendor?.name ?? `Booth ${booth?.label ?? id}`}
+                      </span>
+                      <button
+                        type="button"
+                        aria-label="Remove from tour"
+                        onClick={() =>
+                          setTourExtraBoothIds((prev) =>
+                            prev.filter((x) => x !== id),
+                          )
+                        }
+                      >
+                        ×
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+            {tourStopIds && tourStopMarkers && tourStopMarkers.length > 0 && (
+              <ul className="nav-list">
+                {tourStopMarkers.map((stop) => {
+                  const vendor =
+                    stop.boothId != null
+                      ? vendorsByBoothId.get(stop.boothId)
+                      : undefined
+                  return (
+                    <li key={`planned-${stop.index}-${stop.boothId}`}>
+                      <button
+                        type="button"
+                        className="nav-item"
+                        onClick={() => {
+                          if (stop.boothId == null) return
+                          focusTourStop(stop.boothId, stop.x, stop.y)
+                        }}
+                      >
+                        <span className="tour-stop-num">{stop.index}</span>
+                        <span
+                          className="status-dot"
+                          style={{
+                            background:
+                              STATUS_COLORS[vendor?.visitStatus ?? 'none'],
+                          }}
+                        />
+                        <span>
+                          <strong>{vendor?.name ?? stop.label}</strong>
+                          <span className="muted sm">
+                            Booth {stop.label}
+                            {vendor
+                              ? ` · ${STATUS_LABELS[vendor.visitStatus]}`
+                              : ''}
+                          </span>
+                        </span>
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+            {tourMsg && <p className="muted sm">{tourMsg}</p>}
+            <div className="tour-actions">
+              <button
+                type="button"
+                className="btn primary"
+                onClick={() => buildTour()}
+              >
+                Plan route on this map
+              </button>
+              {(tourStopIds != null || tourPath != null) && (
+                <button
+                  type="button"
+                  className="btn ghost"
+                  onClick={() => {
+                    clearTour()
+                    setTourExtraBoothIds([])
+                  }}
+                >
+                  Clear tour
+                </button>
+              )}
+            </div>
           </section>
 
           <NavCollapsible
@@ -1001,9 +1343,11 @@ function App() {
           )}
 
           <section className="nav-section">
-            <h3>Favorites & look again</h3>
+            <h3>Favorites, look again & end of con</h3>
             {!quickPick.length && (
-              <p className="muted">Mark vendors as Favorite or Look again first.</p>
+              <p className="muted">
+                Mark vendors as Favorite, Look again, or End of con first.
+              </p>
             )}
             <ul className="nav-list">
               {quickPick.map((v) => {

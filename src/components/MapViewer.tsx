@@ -16,11 +16,19 @@ import {
   formatRowHundredAbbrev,
   shouldAbbreviateRowHundreds,
 } from '../lib/boothLabels'
-import { findAislePath } from '../lib/pathfinding'
+import { findAislePath, type NormPoint } from '../lib/pathfinding'
 import { peerColor, type PartyPeer } from '../lib/partySocket'
 import { STATUS_COLORS } from '../lib/statusColors'
 
 export type MapMode = 'navigate' | 'edit' | 'pin'
+
+export type TourStopMarker = {
+  x: number
+  y: number
+  label: string
+  index: number
+  boothId?: number
+}
 
 interface Props {
   mapUrl: string | null
@@ -35,6 +43,10 @@ interface Props {
   navTargetBoothId: number | null
   /** Navigate to an arbitrary map point (shared pin / peer). */
   navTargetPoint?: { x: number; y: number } | null
+  /** Multi-stop tour polyline (preferred over single-booth nav when set). */
+  tourPath?: NormPoint[] | null
+  /** Numbered tour stop markers */
+  tourStops?: TourStopMarker[] | null
   pin: { x: number; y: number } | null
   mode: MapMode
   /** Other party members (exclude self client-side). */
@@ -65,6 +77,8 @@ export function MapViewer({
   selectedBoothId,
   navTargetBoothId,
   navTargetPoint = null,
+  tourPath = null,
+  tourStops = null,
   pin,
   mode,
   peerPins = [],
@@ -259,9 +273,23 @@ export function MapViewer({
   }, [popoverBooth, tx, ty, scale, mapWidth, mapHeight])
 
   const navPathD = useMemo(() => {
-    if (!pin || mapWidth <= 0 || mapHeight <= 0) {
-      return null
+    if (mapWidth <= 0 || mapHeight <= 0) return null
+
+    const toD = (path: NormPoint[]) =>
+      path
+        .map((p, i) => {
+          const x = p.x * mapWidth
+          const y = p.y * mapHeight
+          return `${i === 0 ? 'M' : 'L'}${x} ${y}`
+        })
+        .join(' ')
+
+    // Multi-stop tour takes precedence over single-booth navigation.
+    if (tourPath && tourPath.length >= 2) {
+      return toD(tourPath)
     }
+
+    if (!pin) return null
     let goal: { x: number; y: number } | null = null
     if (navTargetBoothId != null) {
       const booth = booths.find((b) => b.id === navTargetBoothId)
@@ -287,22 +315,19 @@ export function MapViewer({
     // Always draw something: A* can fail if pin/goal are boxed in; fall back to straight line.
     const path =
       computed && computed.length >= 2 ? computed : [pin, goal]
-    return path
-      .map((p, i) => {
-        const x = p.x * mapWidth
-        const y = p.y * mapHeight
-        return `${i === 0 ? 'M' : 'L'}${x} ${y}`
-      })
-      .join(' ')
+    return toD(path)
   }, [
     pin,
     navTargetBoothId,
     navTargetPoint,
+    tourPath,
     booths,
     obstacles,
     mapWidth,
     mapHeight,
   ])
+
+  const tourActive = Boolean(tourStops && tourStops.length > 0)
 
   const clientToNorm = (clientX: number, clientY: number) => {
     const el = containerRef.current
@@ -1097,6 +1122,34 @@ export function MapViewer({
                 pointerEvents="none"
               />
             )}
+            {tourActive &&
+              tourStops!.map((stop) => {
+                const r = Math.max(10, 12 / scale)
+                return (
+                  <g
+                    key={`tour-stop-${stop.index}-${stop.boothId ?? stop.label}`}
+                    className="tour-stop-marker"
+                    transform={`translate(${stop.x * mapWidth}, ${stop.y * mapHeight})`}
+                    pointerEvents="none"
+                  >
+                    <circle
+                      r={r}
+                      fill="#ff6b4a"
+                      stroke="#fff"
+                      strokeWidth={2 / scale}
+                    />
+                    <text
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fill="#fff"
+                      fontSize={Math.max(10, 11 / scale)}
+                      fontWeight={700}
+                    >
+                      {stop.index}
+                    </text>
+                  </g>
+                )
+              })}
             {peerPins.map((peer) => {
               const color = peerColor(peer.id || peer.name)
               return (
@@ -1293,6 +1346,11 @@ export function MapViewer({
           Fit
         </button>
       </div>
+      {tourActive && (
+        <div className="tour-map-hint" role="status">
+          Tour · {tourStops!.length} stop{tourStops!.length === 1 ? '' : 's'}
+        </div>
+      )}
     </div>
   )
 }

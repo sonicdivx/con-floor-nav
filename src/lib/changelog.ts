@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.12'
+export const APP_VERSION = '0.3.13'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.13',
+    date: '2026-08-02',
+    highlights: [
+      'Multi-stop booth tour per map',
+      'Plan route from Favorites / Look again / End of con',
+    ],
+    notes: [
+      'Go → Plan route builds an aisle path from My pin through selected booths on the active map only',
+      'Nearest-neighbor + 2-opt ordering; numbered stop markers on the map',
+      'Add extra booths via search; Dealers and Artist Alley tours stay separate',
+    ],
+  },
   {
     version: '0.3.12',
     date: '2026-08-01',
