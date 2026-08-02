@@ -111,7 +111,7 @@ function App() {
   const peerPins = party.peers
   const lastPinPublish = useRef(0)
   const focusNonce = useRef(0)
-  /** `eventId:floorMapId` once localStorage tour has been applied for that map. */
+  /** `eventId:floorMapId` once IndexedDB tour has been applied for that map. */
   const tourHydratedKey = useRef<string | null>(null)
   /** Skip one persist after hydrate so we don't write empty state over storage. */
   const skipTourPersist = useRef(false)
@@ -120,7 +120,7 @@ function App() {
     setTourStopIds(null)
     setTourMsg(null)
     if (eventId != null && floorMapId != null) {
-      clearTourSession(eventId, floorMapId)
+      void clearTourSession(eventId, floorMapId)
     }
   }
 
@@ -131,7 +131,7 @@ function App() {
     setDetailsExpanded(false)
     setNavTargetBoothId(null)
     setNavTargetPoint(null)
-    // Clear in-memory tour only — per-map tours stay in localStorage for restore.
+    // Clear in-memory tour only — per-map tours stay in IndexedDB for restore.
     setTourStopIds(null)
     setTourMsg(null)
     setTourExtraBoothIds([])
@@ -165,25 +165,35 @@ function App() {
       return
     }
     const key = `${eventId}:${floorMapId}`
-    const stored = loadTourSession(eventId, floorMapId)
+    // Block persists until IndexedDB load finishes for this map.
+    tourHydratedKey.current = null
     skipTourPersist.current = true
-    setTourStopIds(stored?.stopIds ?? null)
-    setTourEndPin(stored?.endPin ?? null)
-    setTourExtraBoothIds(stored?.extraBoothIds ?? [])
-    if (stored?.statusFilters) setTourStatusFilters(stored.statusFilters)
-    if (stored?.stopIds != null || stored?.endPin) {
-      setTourMsg(
-        `Restored tour · ${stored.stopIds?.length ?? 0} stop${
-          (stored.stopIds?.length ?? 0) === 1 ? '' : 's'
-        }${stored.endPin ? ' + end pin' : ''}`,
-      )
-    } else {
-      setTourMsg(null)
+    let cancelled = false
+    void (async () => {
+      const stored = await loadTourSession(eventId, floorMapId)
+      if (cancelled) return
+      skipTourPersist.current = true
+      setTourStopIds(stored?.stopIds ?? null)
+      setTourEndPin(stored?.endPin ?? null)
+      setTourExtraBoothIds(stored?.extraBoothIds ?? [])
+      if (stored?.statusFilters) setTourStatusFilters(stored.statusFilters)
+      if (stored?.stopIds != null || stored?.endPin) {
+        setTourMsg(
+          `Restored tour · ${stored.stopIds?.length ?? 0} stop${
+            (stored.stopIds?.length ?? 0) === 1 ? '' : 's'
+          }${stored.endPin ? ' + end pin' : ''}`,
+        )
+      } else {
+        setTourMsg(null)
+      }
+      tourHydratedKey.current = key
+    })()
+    return () => {
+      cancelled = true
     }
-    tourHydratedKey.current = key
   }, [eventId, floorMapId])
 
-  /** Persist tour so refresh keeps the route on this map. */
+  /** Persist tour in IndexedDB so refresh keeps the route on this map. */
   useEffect(() => {
     if (eventId == null || floorMapId == null) return
     const key = `${eventId}:${floorMapId}`
@@ -192,7 +202,7 @@ function App() {
       skipTourPersist.current = false
       return
     }
-    saveTourSession(eventId, floorMapId, {
+    void saveTourSession(eventId, floorMapId, {
       stopIds: tourStopIds,
       endPin: tourEndPin,
       extraBoothIds: tourExtraBoothIds,
@@ -206,6 +216,13 @@ function App() {
     tourExtraBoothIds,
     tourStatusFilters,
   ])
+
+  const markTourHydratedForPersist = () => {
+    if (eventId != null && floorMapId != null) {
+      tourHydratedKey.current = `${eventId}:${floorMapId}`
+      skipTourPersist.current = false
+    }
+  }
 
   useEffect(() => {
     if (eventId == null) return
@@ -679,8 +696,8 @@ function App() {
     window.scrollTo(0, 0)
     // Single-booth nav replaces any saved tour on the current / destination map.
     if (eventId != null) {
-      if (floorMapId != null) clearTourSession(eventId, floorMapId)
-      if (booth.floorMapId != null) clearTourSession(eventId, booth.floorMapId)
+      if (floorMapId != null) void clearTourSession(eventId, floorMapId)
+      if (booth.floorMapId != null) void clearTourSession(eventId, booth.floorMapId)
     }
     setTourStopIds(null)
     setTourEndPin(null)
@@ -745,6 +762,7 @@ function App() {
   }
 
   const setTourEndPinOnMap = (x: number, y: number) => {
+    markTourHydratedForPersist()
     setTourEndPin({ x, y })
     setTourMsg(
       tourStopIds != null
@@ -776,6 +794,7 @@ function App() {
       setTourMsg('Tour cleared.')
       return
     }
+    markTourHydratedForPersist()
     setTourStopIds(next)
     setTourMsg('Stop removed · path recalculated')
   }
@@ -783,7 +802,8 @@ function App() {
   const reorderTourStops = (orderedIds: number[]) => {
     setNavTargetBoothId(null)
     setNavTargetPoint(null)
-    setTourStopIds(orderedIds)
+    markTourHydratedForPersist()
+    setTourStopIds([...orderedIds])
     setTourMsg('Stop order changed · path recalculated')
   }
 
@@ -852,6 +872,7 @@ function App() {
 
     setNavTargetBoothId(null)
     setNavTargetPoint(null)
+    markTourHydratedForPersist()
     setTourStopIds(result.orderedStops.map((s) => s.boothId))
 
     const parts: string[] = [

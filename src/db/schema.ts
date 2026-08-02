@@ -4,6 +4,7 @@ import type {
   EventRecord,
   FloorMapRecord,
   ItemPhotoRecord,
+  TourSessionRecord,
   UserLocationRecord,
   VendorRecord,
 } from './types'
@@ -16,6 +17,7 @@ export class ConFloorDB extends Dexie {
   vendors!: EntityTable<VendorRecord, 'id'>
   itemPhotos!: EntityTable<ItemPhotoRecord, 'id'>
   userLocations!: EntityTable<UserLocationRecord, 'id'>
+  tourSessions!: EntityTable<TourSessionRecord, 'id'>
 
   constructor() {
     super('con-floor-nav')
@@ -64,6 +66,10 @@ export class ConFloorDB extends Dexie {
     this.version(4).stores({
       booths:
         '++id, eventId, boothKey, floorMapId, [eventId+boothKey], [eventId+floorMapId], [eventId+floorMapId+boothKey]',
+    })
+    // Persist multi-stop tours per floor map (IndexedDB, not localStorage).
+    this.version(5).stores({
+      tourSessions: '++id, eventId, floorMapId, [eventId+floorMapId]',
     })
   }
 }
@@ -182,6 +188,7 @@ export async function deleteEventCascade(eventId: number): Promise<void> {
       db.vendors,
       db.itemPhotos,
       db.userLocations,
+      db.tourSessions,
     ],
     async () => {
       const vendors = await db.vendors.where('eventId').equals(eventId).toArray()
@@ -196,6 +203,7 @@ export async function deleteEventCascade(eventId: number): Promise<void> {
       await db.booths.where('eventId').equals(eventId).delete()
       await db.floorMaps.where('eventId').equals(eventId).delete()
       await db.userLocations.where('eventId').equals(eventId).delete()
+      await db.tourSessions.where('eventId').equals(eventId).delete()
       await db.events.delete(eventId)
     },
   )

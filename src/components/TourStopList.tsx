@@ -157,27 +157,11 @@ export function TourStopList({ items, onReorder, onRemove, onFocus }: Props) {
       const y = clientY ?? lastClientYRef.current
       const order = itemsRef.current.map((i) => i.boothId)
       const from = fromId != null ? order.indexOf(fromId) : -1
-
-      // Insert index from pointer Y (mid-line of each row), not just hovered id.
-      let insertAt = order.length
-      const list = listRef.current
-      if (list && from >= 0) {
-        const rows = [
-          ...list.querySelectorAll<HTMLElement>('[data-tour-booth-id]'),
-        ]
-        insertAt = rows.length
-        for (let i = 0; i < rows.length; i++) {
-          const rect = rows[i]!.getBoundingClientRect()
-          if (y < rect.top + rect.height / 2) {
-            insertAt = i
-            break
-          }
-        }
-      } else {
-        const toId =
-          overIdRef.current ?? (fromId != null ? rowFromPoint(y) : null)
-        insertAt = toId != null ? order.indexOf(toId) : from
-      }
+      // Drop onto the row under the pointer (take that slot). Mid-line insert
+      // math was cancelling one-step moves and leaving the map path stale.
+      const toId =
+        overIdRef.current ?? (fromId != null ? rowFromPoint(y) : null)
+      const to = toId != null ? order.indexOf(toId) : -1
 
       dragIdRef.current = null
       pointerIdRef.current = null
@@ -186,12 +170,7 @@ export function TourStopList({ items, onReorder, onRemove, onFocus }: Props) {
       setOver(null)
       document.body.classList.remove('tour-stop-dragging')
 
-      if (fromId == null || from < 0) return
-      // Adjust target when removing the item shifts later indices down.
-      let to = insertAt
-      if (to > from) to -= 1
-      to = Math.max(0, Math.min(order.length - 1, to))
-      if (to === from) return
+      if (fromId == null || from < 0 || to < 0 || to === from) return
       const next = [...order]
       const [moved] = next.splice(from, 1)
       next.splice(to, 0, moved)

@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.19'
+export const APP_VERSION = '0.3.20'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.20',
+    date: '2026-08-02',
+    highlights: [
+      'Tour route saved in IndexedDB',
+      'Reorder updates map path; Booth info closed by default',
+    ],
+    notes: [
+      'Planned tours persist in IndexedDB per floor map (survives refresh; migrates old localStorage)',
+      'Dragging stops to reorder reliably updates aisle path + numbered markers',
+      'Booth info accordion starts collapsed; viewport height tracks mobile browser chrome better',
+    ],
+  },
   {
     version: '0.3.19',
     date: '2026-08-02',

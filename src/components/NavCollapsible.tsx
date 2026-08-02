@@ -8,11 +8,11 @@ type Props = {
   children: ReactNode
 }
 
-/** Collapsible section for the Go tab — keeps favorites reachable without long scroll. */
+/** Collapsible section — closed by default to keep sheets compact on phones. */
 export function NavCollapsible({
   title,
   summary,
-  defaultOpen = true,
+  defaultOpen = false,
   children,
 }: Props) {
   const [open, setOpen] = useState(defaultOpen)

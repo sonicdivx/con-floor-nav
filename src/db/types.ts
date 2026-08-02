@@ -145,6 +145,23 @@ export interface UserLocationRecord {
   updatedAt: number
 }
 
+/** Per-map multi-stop tour session (survives refresh via IndexedDB). */
+export interface TourSessionRecord {
+  id?: number
+  eventId: number
+  floorMapId: number
+  /** Booth ids in visit order; null = no active tour shell. */
+  stopIds: number[] | null
+  endPin: { x: number; y: number } | null
+  extraBoothIds: number[]
+  statusFilters?: {
+    favorite: boolean
+    look_again: boolean
+    end_of_con: boolean
+  }
+  updatedAt: number
+}
+
 /** Import JSON schema (plan spec) */
 export interface BoothImportJson {
   event?: string

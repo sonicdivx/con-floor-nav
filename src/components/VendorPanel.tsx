@@ -186,7 +186,7 @@ export function VendorPanel({
           <NavCollapsible
             title="Booth info"
             summary={catalogInfoSummary(catalogInfo)}
-            defaultOpen
+            defaultOpen={false}
           >
             <CatalogInfoBody info={catalogInfo} />
           </NavCollapsible>
