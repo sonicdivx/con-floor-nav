@@ -1872,12 +1872,13 @@ label.btn.disabled,
   display: flex;
   align-items: stretch;
   gap: 0.35rem;
-  touch-action: none;
 }
 
 .tour-stop-row .tour-stop-main {
   flex: 1;
   min-width: 0;
+  /* Keep page/list scrolling when dragging a finger on the stop content. */
+  touch-action: manipulation;
 }
 
 .tour-drag-handle {
@@ -1891,8 +1892,15 @@ label.btn.disabled,
   background: var(--bg-panel);
   color: var(--text-muted);
   cursor: grab;
+  /* Only the grip consumes the gesture for reorder. */
   touch-action: none;
   padding: 0;
+}
+
+body.tour-stop-dragging {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .tour-drag-handle:active {

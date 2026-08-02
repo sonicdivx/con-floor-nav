@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.15'
+export const APP_VERSION = '0.3.16'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,18 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.16',
+    date: '2026-08-02',
+    highlights: [
+      'Tour drag no longer breaks page scroll',
+      'Auto-scroll while reordering stops',
+    ],
+    notes: [
+      'Only the grip handle captures touch — swiping the stop row scrolls the Go tab again',
+      'Dragging near the top/bottom of the panel auto-scrolls so long tours stay reachable',
+    ],
+  },
   {
     version: '0.3.15',
     date: '2026-08-02',
