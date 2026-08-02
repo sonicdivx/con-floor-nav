@@ -285,7 +285,11 @@ function App() {
     if (userLoc) setLocalPin({ x: userLoc.x, y: userLoc.y })
   }, [userLoc?.id, userLoc?.x, userLoc?.y])
 
-  const mapPin = localPin ?? (userLoc ? { x: userLoc.x, y: userLoc.y } : null)
+  const mapPin = useMemo(() => {
+    if (localPin) return localPin
+    if (userLoc) return { x: userLoc.x, y: userLoc.y }
+    return null
+  }, [localPin, userLoc?.x, userLoc?.y])
 
   const vendorsByBoothId = useMemo(() => {
     const m = new Map<number, VendorRecord>()
