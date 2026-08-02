@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
+import { PiTrash } from 'react-icons/pi'
 import {
   db,
   ensureVendorForBooth,
@@ -11,6 +12,7 @@ import {
 } from './db/schema'
 import type { Rect, VendorRecord, VisitStatus } from './db/types'
 import { MapViewer, type MapMode, type TourStopMarker } from './components/MapViewer'
+import { TourStopList } from './components/TourStopList'
 import { VendorPanel } from './components/VendorPanel'
 import { ImportPanel } from './components/ImportPanel'
 import { AiExtractPanel } from './components/AiExtractPanel'
@@ -86,9 +88,8 @@ function App() {
     look_again: true,
     end_of_con: true,
   })
-  /** Where the tour finishes after the last booth stop. */
-  const [tourEndMode, setTourEndMode] = useState<'none' | 'pin' | 'booth'>('none')
-  const [tourEndBoothId, setTourEndBoothId] = useState<number | null>(null)
+  /** Map-placed destination after the last booth stop (normalized coords). */
+  const [tourEndPin, setTourEndPin] = useState<NormPoint | null>(null)
   /** Manually added booth ids for the next / current tour plan. */
   const [tourExtraBoothIds, setTourExtraBoothIds] = useState<number[]>([])
   const [tourMsg, setTourMsg] = useState<string | null>(null)
@@ -126,7 +127,7 @@ function App() {
     setNavTargetPoint(null)
     clearTour()
     setTourExtraBoothIds([])
-    setTourEndBoothId(null)
+    setTourEndPin(null)
     setLocalPin(null)
     setMapMode('navigate')
   }
@@ -580,39 +581,10 @@ function App() {
       )
       return
     }
-    if (tourEndMode === 'booth' && tourEndBoothId === booth.id) {
-      setTourMsg('That booth is already the tour end point.')
-      return
-    }
     setTourExtraBoothIds((prev) =>
       prev.includes(booth.id!) ? prev : [...prev, booth.id!],
     )
     setTourMsg(null)
-  }
-
-  const setTourEndFromSearch = (hit: DealerHit) => {
-    const { booth, vendor } = hit
-    if (booth.id == null) return
-    if (booth.floorMapId != null && booth.floorMapId !== floorMapId) {
-      const other =
-        booth.floorMapId != null
-          ? mapNameById.get(booth.floorMapId)
-          : undefined
-      setTourMsg(
-        `${vendor.name} is on ${other ?? 'another map'}. Switch maps to set the end there.`,
-      )
-      return
-    }
-    setTourEndMode('booth')
-    setTourEndBoothId(booth.id)
-    setTourExtraBoothIds((prev) => prev.filter((id) => id !== booth.id))
-    setTourMsg(null)
-    if (tourStopIds) {
-      applyTourOrder(
-        tourStopIds.filter((id) => id !== booth.id),
-        { endMode: 'booth', endBoothId: booth.id, switchToMap: false },
-      )
-    }
   }
 
   const focusTourStop = (boothId: number | null, x: number, y: number) => {
@@ -623,58 +595,47 @@ function App() {
     setMapMode('navigate')
   }
 
-  const resolveTourEnd = (
-    pin: NormPoint,
-    boothById: Map<number, NonNullable<typeof booths>[number]>,
-    endMode: typeof tourEndMode = tourEndMode,
-    endBoothId: number | null = tourEndBoothId,
-  ): { point: NormPoint | null; marker: TourStopMarker | null; label: string | null } => {
-    if (endMode === 'pin') {
-      return {
-        point: pin,
-        marker: {
-          x: pin.x,
-          y: pin.y,
-          label: 'My pin',
-          index: 0,
-          kind: 'end',
-        },
-        label: 'My pin',
-      }
+  const startSetTourEndPin = () => {
+    setTab('map')
+    setMapMode('tourEnd')
+    setMapMenuOpen(false)
+    setMapFullscreen(false)
+    setTourMsg('Tap the map to place the tour end pin.')
+  }
+
+  const setTourEndPinOnMap = (x: number, y: number) => {
+    const point = { x, y }
+    setTourEndPin(point)
+    setTourMsg('Tour end pin set.')
+    if (tourStopIds && tourStopIds.length > 0) {
+      applyTourOrder(tourStopIds, {
+        endPin: point,
+        switchToMap: false,
+        messagePrefix: 'Updated tour',
+      })
     }
-    if (endMode === 'booth' && endBoothId != null) {
-      const booth = boothById.get(endBoothId)
-      if (!booth) {
-        return { point: null, marker: null, label: null }
-      }
-      const vendor = vendorsByBoothId.get(endBoothId)
-      const center = {
-        x: booth.rect.x + booth.rect.w / 2,
-        y: booth.rect.y + booth.rect.h / 2,
-      }
-      return {
-        point: center,
-        marker: {
-          boothId: endBoothId,
-          x: center.x,
-          y: center.y,
-          label: booth.label || booth.boothKey || String(endBoothId),
-          index: 0,
-          kind: 'end',
-        },
-        label: vendor?.name?.trim() || `Booth ${booth.label || endBoothId}`,
-      }
+  }
+
+  const clearTourEndPin = () => {
+    setTourEndPin(null)
+    if (tourStopIds && tourStopIds.length > 0) {
+      applyTourOrder(tourStopIds, {
+        endPin: null,
+        switchToMap: false,
+        messagePrefix: 'Updated tour',
+      })
+    } else {
+      setTourMsg('End pin cleared.')
     }
-    return { point: null, marker: null, label: null }
+    if (mapMode === 'tourEnd') setMapMode('navigate')
   }
 
   const applyTourResult = (
     result: ReturnType<typeof planTour>,
-    endMarker: TourStopMarker | null,
-    endLabel: string | null,
+    endPoint: NormPoint | null,
     opts?: { switchToMap?: boolean; messagePrefix?: string },
   ) => {
-    if (!result.orderedStops.length && !endMarker) {
+    if (!result.orderedStops.length && !endPoint) {
       setTourStopIds(null)
       setTourPath(null)
       setTourStopMarkers(null)
@@ -686,8 +647,8 @@ function App() {
     setNavTargetPoint(null)
     setTourStopIds(result.orderedStops.map((s) => s.boothId))
     setTourPath(result.path.length >= 2 ? result.path : null)
-    setTourStopMarkers([
-      ...result.orderedStops.map((s) => ({
+    setTourStopMarkers(
+      result.orderedStops.map((s) => ({
         boothId: s.boothId,
         x: s.center.x,
         y: s.center.y,
@@ -695,14 +656,13 @@ function App() {
         index: s.index,
         kind: 'stop' as const,
       })),
-      ...(endMarker ? [endMarker] : []),
-    ])
+    )
 
     const parts: string[] = [
       opts?.messagePrefix ??
         `${result.orderedStops.length} stop${result.orderedStops.length === 1 ? '' : 's'} on ${activeMapName}`,
     ]
-    if (endLabel) parts.push(`ends at ${endLabel}`)
+    if (endPoint) parts.push('ends at end pin')
     if (result.skippedBoothIds.length) {
       parts.push(`${result.skippedBoothIds.length} skipped`)
     }
@@ -721,8 +681,7 @@ function App() {
   const applyTourOrder = (
     orderedIds: number[],
     opts?: {
-      endMode?: typeof tourEndMode
-      endBoothId?: number | null
+      endPin?: NormPoint | null
       switchToMap?: boolean
       messagePrefix?: string
     },
@@ -736,23 +695,16 @@ function App() {
       if (b.id != null) boothById.set(b.id, b)
     }
 
-    const endMode = opts?.endMode ?? tourEndMode
-    const endBoothId =
-      opts?.endBoothId !== undefined ? opts.endBoothId : tourEndBoothId
-    const end = resolveTourEnd(pin, boothById, endMode, endBoothId)
+    const endPoint =
+      opts?.endPin !== undefined ? opts.endPin : tourEndPin
 
-    const filteredIds =
-      endMode === 'booth' && endBoothId != null
-        ? orderedIds.filter((id) => id !== endBoothId)
-        : orderedIds
-
-    if (!filteredIds.length && !end.point) {
+    if (!orderedIds.length && !endPoint) {
       clearTour()
-      setTourMsg('Tour cleared — add booths or set an end point.')
+      setTourMsg('Tour cleared — add booths or set an end pin.')
       return
     }
 
-    const stops = filteredIds.flatMap((boothId) => {
+    const stops = orderedIds.flatMap((boothId) => {
       const booth = boothById.get(boothId)
       if (!booth) return []
       const vendor = vendorsByBoothId.get(boothId)
@@ -770,15 +722,15 @@ function App() {
     const result = planTour({
       pin,
       stops,
-      end: end.point,
-      orderedBoothIds: filteredIds,
+      end: endPoint,
+      orderedBoothIds: orderedIds,
       mapWidth: floorMap?.width ?? 1000,
       mapHeight: floorMap?.height ?? 700,
       boothRects: mapBoothList.map((b) => b.rect),
       obstacles: floorMap?.obstacles ?? [],
     })
 
-    applyTourResult(result, end.marker, end.label, {
+    applyTourResult(result, endPoint, {
       switchToMap: opts?.switchToMap,
       messagePrefix:
         opts?.messagePrefix ??
@@ -794,15 +746,8 @@ function App() {
     )
   }
 
-  const moveTourStop = (boothId: number, delta: -1 | 1) => {
-    if (!tourStopIds) return
-    const idx = tourStopIds.indexOf(boothId)
-    if (idx < 0) return
-    const next = idx + delta
-    if (next < 0 || next >= tourStopIds.length) return
-    const ids = [...tourStopIds]
-    ;[ids[idx], ids[next]] = [ids[next], ids[idx]]
-    applyTourOrder(ids, {
+  const reorderTourStops = (orderedIds: number[]) => {
+    applyTourOrder(orderedIds, {
       switchToMap: false,
       messagePrefix: 'Updated tour',
     })
@@ -826,12 +771,6 @@ function App() {
       if (b.id != null) boothById.set(b.id, b)
     }
 
-    const end = resolveTourEnd(pin, boothById)
-    if (tourEndMode === 'booth' && tourEndBoothId != null && !end.point) {
-      setTourMsg('End booth is not on this map. Pick another end point.')
-      return
-    }
-
     const stopIds = new Set<number>()
     for (const v of vendors ?? []) {
       if (!selectedStatuses.has(v.visitStatus as Exclude<VisitStatus, 'none'>)) {
@@ -842,12 +781,8 @@ function App() {
     for (const id of tourExtraBoothIds) {
       if (boothById.has(id)) stopIds.add(id)
     }
-    // End booth is the destination, not an intermediate stop.
-    if (tourEndMode === 'booth' && tourEndBoothId != null) {
-      stopIds.delete(tourEndBoothId)
-    }
 
-    if (!stopIds.size && !end.point) {
+    if (!stopIds.size && !tourEndPin) {
       setTourStopIds(null)
       setTourPath(null)
       setTourStopMarkers(null)
@@ -870,14 +805,14 @@ function App() {
     const result = planTour({
       pin,
       stops,
-      end: end.point,
+      end: tourEndPin,
       mapWidth: floorMap?.width ?? 1000,
       mapHeight: floorMap?.height ?? 700,
       boothRects: mapBoothList.map((b) => b.rect),
       obstacles: floorMap?.obstacles ?? [],
     })
 
-    applyTourResult(result, end.marker, end.label)
+    applyTourResult(result, tourEndPin)
   }
 
   const openBoothDetails = (boothId: number) => {
@@ -1216,6 +1151,7 @@ function App() {
               navTargetPoint={navTargetPoint}
               tourPath={tourPath}
               tourStops={tourStopMarkers}
+              tourEndPin={tourEndPin}
               focusRequest={focusRequest}
               fitRequest={mapFitNonce}
               peerPins={peerPins}
@@ -1224,6 +1160,7 @@ function App() {
               onSelectBooth={selectBoothForDetails}
               onUpdateBoothRect={updateBoothRectDraft}
               onPinChange={(x, y) => void setPin(x, y)}
+              onTourEndChange={setTourEndPinOnMap}
               onModeChange={setMapMode}
               onNavigateBooth={navigateToBooth}
               onViewBoothDetails={openBoothDetails}
@@ -1411,199 +1348,74 @@ function App() {
 
             <div className="tour-end-block">
               <p className="tour-end-label">
-                End point
+                End pin
                 <span className="muted sm"> · after the last stop</span>
               </p>
-              <div className="tour-end-modes" role="group" aria-label="Tour end point">
-                {(
-                  [
-                    ['none', 'None'],
-                    ['pin', 'My pin'],
-                    ['booth', 'Booth'],
-                  ] as const
-                ).map(([mode, label]) => (
+              <div className="tour-actions" style={{ marginTop: 0 }}>
+                <button
+                  type="button"
+                  className={`btn sm ${mapMode === 'tourEnd' ? 'primary' : 'secondary'}`}
+                  onClick={startSetTourEndPin}
+                >
+                  {tourEndPin ? 'Move end pin on map' : 'Set end pin on map'}
+                </button>
+                {tourEndPin && (
                   <button
-                    key={mode}
                     type="button"
-                    className={`btn sm ${tourEndMode === mode ? 'primary' : 'ghost'}`}
-                    aria-pressed={tourEndMode === mode}
-                    onClick={() => {
-                      setTourEndMode(mode)
-                      if (mode !== 'booth') setTourEndBoothId(null)
-                      if (tourStopIds) {
-                        applyTourOrder(tourStopIds, {
-                          endMode: mode,
-                          endBoothId: mode === 'booth' ? tourEndBoothId : null,
-                          switchToMap: false,
-                          messagePrefix: 'Updated tour',
-                        })
-                      }
-                    }}
+                    className="btn ghost sm"
+                    onClick={clearTourEndPin}
                   >
-                    {label}
+                    Clear end pin
                   </button>
-                ))}
+                )}
               </div>
-              {tourEndMode === 'booth' && (
-                <>
-                  <DealerSearch
-                    vendors={vendors ?? []}
-                    booths={booths ?? []}
-                    mapNameById={mapNameById}
-                    onSelect={setTourEndFromSearch}
-                    placeholder="Search end booth…"
-                  />
-                  {tourEndBoothId != null && (
-                    <p className="muted sm tour-end-selected">
-                      Ends at{' '}
-                      <strong>
-                        {vendorsByBoothId.get(tourEndBoothId)?.name ??
-                          `Booth ${
-                            (booths ?? []).find((b) => b.id === tourEndBoothId)
-                              ?.label ?? tourEndBoothId
-                          }`}
-                      </strong>
-                      <button
-                        type="button"
-                        className="btn ghost sm"
-                        onClick={() => {
-                          setTourEndMode('none')
-                          setTourEndBoothId(null)
-                          if (tourStopIds) {
-                            applyTourOrder(tourStopIds, {
-                              endMode: 'none',
-                              endBoothId: null,
-                              switchToMap: false,
-                              messagePrefix: 'Updated tour',
-                            })
-                          }
-                        }}
-                      >
-                        Clear end
-                      </button>
-                    </p>
-                  )}
-                </>
+              {tourEndPin && (
+                <p className="muted sm tour-end-selected">
+                  End pin set on this map
+                </p>
               )}
             </div>
 
             {tourStopIds && tourStopMarkers && tourStopMarkers.length > 0 && (
-              <ul className="nav-list tour-stop-list">
-                {tourStopMarkers.map((stop, listIdx) => {
-                  const isEnd = stop.kind === 'end'
-                  const vendor =
-                    stop.boothId != null
-                      ? vendorsByBoothId.get(stop.boothId)
-                      : undefined
-                  const stopCount = tourStopIds.length
-                  const stopPos =
-                    stop.boothId != null
-                      ? tourStopIds.indexOf(stop.boothId)
-                      : -1
-                  return (
-                    <li
-                      key={`planned-${stop.kind ?? 'stop'}-${stop.index}-${stop.boothId ?? stop.label}`}
-                      className={`tour-stop-row${isEnd ? ' is-end' : ''}`}
-                    >
-                      <button
-                        type="button"
-                        className="nav-item tour-stop-main"
-                        onClick={() => {
-                          focusTourStop(stop.boothId ?? null, stop.x, stop.y)
-                        }}
-                      >
-                        <span
-                          className={`tour-stop-num${isEnd ? ' end' : ''}`}
-                        >
-                          {isEnd ? 'E' : stop.index}
-                        </span>
-                        {!isEnd && (
-                          <span
-                            className="status-dot"
-                            style={{
-                              background:
-                                STATUS_COLORS[vendor?.visitStatus ?? 'none'],
-                            }}
-                          />
-                        )}
-                        <span>
-                          <strong>
-                            {isEnd
-                              ? stop.label === 'My pin'
-                                ? 'My pin'
-                                : vendor?.name ?? stop.label
-                              : vendor?.name ?? stop.label}
-                          </strong>
-                          <span className="muted sm">
-                            {isEnd
-                              ? stop.label === 'My pin'
-                                ? 'End · return to pin'
-                                : `End · Booth ${stop.label}`
-                              : `Booth ${stop.label}${
-                                  vendor
-                                    ? ` · ${STATUS_LABELS[vendor.visitStatus]}`
-                                    : ''
-                                }`}
-                          </span>
-                        </span>
-                      </button>
-                      {!isEnd && stop.boothId != null && (
-                        <div className="tour-stop-actions">
-                          <button
-                            type="button"
-                            className="btn ghost sm"
-                            aria-label="Move stop earlier"
-                            disabled={stopPos <= 0}
-                            onClick={() => moveTourStop(stop.boothId!, -1)}
-                          >
-                            ↑
-                          </button>
-                          <button
-                            type="button"
-                            className="btn ghost sm"
-                            aria-label="Move stop later"
-                            disabled={stopPos < 0 || stopPos >= stopCount - 1}
-                            onClick={() => moveTourStop(stop.boothId!, 1)}
-                          >
-                            ↓
-                          </button>
-                          <button
-                            type="button"
-                            className="btn ghost sm"
-                            aria-label="Remove stop"
-                            onClick={() => removeTourStop(stop.boothId!)}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      )}
-                      {isEnd && listIdx >= 0 && (
-                        <div className="tour-stop-actions">
-                          <button
-                            type="button"
-                            className="btn ghost sm"
-                            aria-label="Clear end point"
-                            onClick={() => {
-                              setTourEndMode('none')
-                              setTourEndBoothId(null)
-                              if (tourStopIds) {
-                                applyTourOrder(tourStopIds, {
-                                  endMode: 'none',
-                                  endBoothId: null,
-                                  switchToMap: false,
-                                  messagePrefix: 'Updated tour',
-                                })
-                              }
-                            }}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      )}
-                    </li>
+              <TourStopList
+                items={tourStopMarkers
+                  .filter(
+                    (s): s is TourStopMarker & { boothId: number } =>
+                      s.kind !== 'end' && s.boothId != null,
                   )
-                })}
-              </ul>
+                  .map((s) => {
+                    const vendor = vendorsByBoothId.get(s.boothId)
+                    return {
+                      boothId: s.boothId,
+                      index: s.index,
+                      x: s.x,
+                      y: s.y,
+                      label: s.label,
+                      name: vendor?.name?.trim() || `Booth ${s.label}`,
+                      visitStatus: vendor?.visitStatus ?? 'none',
+                    }
+                  })}
+                onReorder={reorderTourStops}
+                onRemove={removeTourStop}
+                onFocus={(boothId, x, y) => focusTourStop(boothId, x, y)}
+              />
+            )}
+            {tourEndPin && tourStopIds != null && (
+              <div className="tour-stop-row is-end tour-end-list-row">
+                <span className="tour-stop-num end">E</span>
+                <span className="tour-end-list-copy">
+                  <strong>End pin</strong>
+                  <span className="muted sm">Destination after last stop</span>
+                </span>
+                <button
+                  type="button"
+                  className="tour-stop-delete"
+                  aria-label="Clear end pin"
+                  onClick={clearTourEndPin}
+                >
+                  <PiTrash size={20} aria-hidden />
+                </button>
+              </div>
             )}
             {tourMsg && <p className="muted sm">{tourMsg}</p>}
             <div className="tour-actions">

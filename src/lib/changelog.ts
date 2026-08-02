@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.14'
+export const APP_VERSION = '0.3.15'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.15',
+    date: '2026-08-02',
+    highlights: [
+      'Drag-and-drop tour stop reorder',
+      'Map-placed tour end pin',
+    ],
+    notes: [
+      'Drag the handle to reorder planned stops; full-height trash removes a stop',
+      'Set end pin on the map (green End pin) — tour path finishes there after the last booth',
+      'Touch-friendly pointer drag works on phones',
+    ],
+  },
   {
     version: '0.3.14',
     date: '2026-08-02',

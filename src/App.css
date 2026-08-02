@@ -1856,13 +1856,6 @@ label.btn.disabled,
   font-weight: 600;
 }
 
-.tour-end-modes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 0.5rem;
-}
-
 .tour-end-selected {
   display: flex;
   flex-wrap: wrap;
@@ -1879,6 +1872,7 @@ label.btn.disabled,
   display: flex;
   align-items: stretch;
   gap: 0.35rem;
+  touch-action: none;
 }
 
 .tour-stop-row .tour-stop-main {
@@ -1886,22 +1880,86 @@ label.btn.disabled,
   min-width: 0;
 }
 
-.tour-stop-actions {
+.tour-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  color: var(--text-muted);
+  cursor: grab;
+  touch-action: none;
+  padding: 0;
+}
+
+.tour-drag-handle:active {
+  cursor: grabbing;
+  background: color-mix(in srgb, var(--accent, #6ea8fe) 14%, var(--bg-panel));
+}
+
+.tour-stop-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: 2.75rem;
+  min-height: 100%;
+  flex-shrink: 0;
+  border: 1px solid color-mix(in srgb, #e35d6a 40%, var(--border));
+  border-radius: var(--radius);
+  background: color-mix(in srgb, #e35d6a 12%, var(--bg-panel));
+  color: #e35d6a;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tour-stop-delete svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.tour-stop-delete:hover,
+.tour-stop-delete:focus-visible {
+  background: color-mix(in srgb, #e35d6a 22%, var(--bg-panel));
+}
+
+.tour-stop-row.is-dragging {
+  opacity: 0.55;
+}
+
+.tour-stop-row.is-drop-target {
+  outline: 2px solid color-mix(in srgb, #ff6b4a 70%, transparent);
+  outline-offset: -2px;
+  border-radius: var(--radius);
+}
+
+.tour-end-list-row {
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  border: 1px solid color-mix(in srgb, #2f9e6a 40%, var(--border));
+  border-radius: var(--radius);
+  background: var(--bg-panel);
+  align-items: center;
+}
+
+.tour-end-list-copy {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 0.15rem;
-  flex-shrink: 0;
+  flex: 1;
+  min-width: 0;
 }
 
-.tour-stop-actions .btn {
-  min-width: 2rem;
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
+.tour-map-hint.tour-end-place-hint {
+  border-color: color-mix(in srgb, #2f9e6a 45%, var(--border));
+  background: color-mix(in srgb, var(--bg-panel, #1a1f2e) 88%, #2f9e6a);
 }
 
-.tour-stop-row.is-end .tour-stop-main {
-  border-color: color-mix(in srgb, #2f9e6a 40%, var(--border));
+.map-pin-mode-btn.tour-end-mode-btn.active {
+  color: #2f9e6a;
+  border-color: color-mix(in srgb, #2f9e6a 55%, var(--border));
 }
 
 .tour-status-filters {

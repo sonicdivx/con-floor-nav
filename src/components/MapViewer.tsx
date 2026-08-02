@@ -20,7 +20,7 @@ import { findAislePath, type NormPoint } from '../lib/pathfinding'
 import { peerColor, type PartyPeer } from '../lib/partySocket'
 import { STATUS_COLORS } from '../lib/statusColors'
 
-export type MapMode = 'navigate' | 'edit' | 'pin'
+export type MapMode = 'navigate' | 'edit' | 'pin' | 'tourEnd'
 
 export type TourStopMarker = {
   x: number
@@ -49,6 +49,8 @@ interface Props {
   tourPath?: NormPoint[] | null
   /** Numbered tour stop markers */
   tourStops?: TourStopMarker[] | null
+  /** Optional tour end pin (map-placed destination after the last stop). */
+  tourEndPin?: { x: number; y: number } | null
   pin: { x: number; y: number } | null
   mode: MapMode
   /** Other party members (exclude self client-side). */
@@ -60,6 +62,8 @@ interface Props {
   onSelectBooth: (_boothId: number | null) => void
   onUpdateBoothRect: (boothId: number, rect: BoothRecord['rect']) => void
   onPinChange: (x: number, y: number) => void
+  /** Place / move the tour end pin (tourEnd mode). */
+  onTourEndChange?: (x: number, y: number) => void
   onModeChange?: (mode: MapMode) => void
   onNavigateBooth?: (boothId: number) => void
   onViewBoothDetails?: (boothId: number) => void
@@ -81,6 +85,7 @@ export function MapViewer({
   navTargetPoint = null,
   tourPath = null,
   tourStops = null,
+  tourEndPin = null,
   pin,
   mode,
   peerPins = [],
@@ -89,6 +94,7 @@ export function MapViewer({
   onSelectBooth,
   onUpdateBoothRect,
   onPinChange,
+  onTourEndChange,
   onModeChange,
   onNavigateBooth,
   onViewBoothDetails,
@@ -329,7 +335,8 @@ export function MapViewer({
     mapHeight,
   ])
 
-  const tourActive = Boolean(tourStops && tourStops.length > 0)
+  const numberedTourStops = (tourStops ?? []).filter((s) => s.kind !== 'end')
+  const tourActive = numberedTourStops.length > 0 || Boolean(tourEndPin)
 
   const clientToNorm = (clientX: number, clientY: number) => {
     const el = containerRef.current
@@ -542,6 +549,12 @@ export function MapViewer({
     dragPinRef.current = null
     setDragPin(null)
     onPinChange(n.x, n.y)
+  }
+
+  const placeTourEndAtClient = (clientX: number, clientY: number) => {
+    if (!onTourEndChange) return
+    const n = clientToNorm(clientX, clientY)
+    onTourEndChange(n.x, n.y)
   }
 
   const isMapChrome = (target: EventTarget | null) => {
@@ -764,6 +777,17 @@ export function MapViewer({
         const x = d?.startX ?? e.clientX
         const y = d?.startY ?? e.clientY
         placePinAtClient(x, y)
+      }
+      suppressPinPlaceRef.current = false
+      return
+    }
+
+    // Tour end: tap to drop the green end pin.
+    if (mode === 'tourEnd') {
+      if (!suppressPinPlaceRef.current && !isMapChrome(e.target)) {
+        const x = d?.startX ?? e.clientX
+        const y = d?.startY ?? e.clientY
+        placeTourEndAtClient(x, y)
       }
       suppressPinPlaceRef.current = false
       return
@@ -1124,35 +1148,79 @@ export function MapViewer({
                 pointerEvents="none"
               />
             )}
-            {tourActive &&
-              tourStops!.map((stop) => {
-                const isEnd = stop.kind === 'end'
-                const r = Math.max(10, 12 / scale)
-                return (
-                  <g
-                    key={`tour-stop-${stop.kind ?? 'stop'}-${stop.index}-${stop.boothId ?? stop.label}`}
-                    className="tour-stop-marker"
-                    transform={`translate(${stop.x * mapWidth}, ${stop.y * mapHeight})`}
-                    pointerEvents="none"
+            {numberedTourStops.map((stop) => {
+              const r = Math.max(10, 12 / scale)
+              return (
+                <g
+                  key={`tour-stop-${stop.index}-${stop.boothId ?? stop.label}`}
+                  className="tour-stop-marker"
+                  transform={`translate(${stop.x * mapWidth}, ${stop.y * mapHeight})`}
+                  pointerEvents="none"
+                >
+                  <circle
+                    r={r}
+                    fill="#ff6b4a"
+                    stroke="#fff"
+                    strokeWidth={2 / scale}
+                  />
+                  <text
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    fill="#fff"
+                    fontSize={Math.max(10, 11 / scale)}
+                    fontWeight={700}
                   >
-                    <circle
-                      r={r}
-                      fill={isEnd ? '#2f9e6a' : '#ff6b4a'}
-                      stroke="#fff"
-                      strokeWidth={2 / scale}
-                    />
-                    <text
-                      textAnchor="middle"
-                      dominantBaseline="central"
-                      fill="#fff"
-                      fontSize={Math.max(10, 11 / scale)}
-                      fontWeight={700}
-                    >
-                      {isEnd ? 'E' : stop.index}
-                    </text>
-                  </g>
-                )
-              })}
+                    {stop.index}
+                  </text>
+                </g>
+              )
+            })}
+            {tourEndPin && (
+              <g
+                className="tour-end-pin"
+                transform={`translate(${tourEndPin.x * mapWidth}, ${tourEndPin.y * mapHeight})`}
+                style={{
+                  cursor: mode === 'tourEnd' ? 'grab' : 'default',
+                  pointerEvents: mode === 'tourEnd' ? 'auto' : 'none',
+                }}
+                onPointerDown={
+                  mode === 'tourEnd'
+                    ? (e) => {
+                        e.stopPropagation()
+                        placeTourEndAtClient(e.clientX, e.clientY)
+                      }
+                    : undefined
+                }
+              >
+                <circle r={Math.max(14, 18 / scale)} fill="transparent" pointerEvents="all" />
+                <circle
+                  r={14 / scale}
+                  fill="#2f9e6a"
+                  fillOpacity={0.28}
+                  pointerEvents="none"
+                />
+                <circle
+                  r={7 / scale}
+                  fill="#2f9e6a"
+                  stroke="#fff"
+                  strokeWidth={2 / scale}
+                  pointerEvents="none"
+                />
+                <text
+                  y={-12 / scale}
+                  textAnchor="middle"
+                  fontSize={11 / scale}
+                  fontWeight={700}
+                  fill="#2f9e6a"
+                  stroke="rgba(0,0,0,0.45)"
+                  strokeWidth={2 / scale}
+                  paintOrder="stroke"
+                  pointerEvents="none"
+                >
+                  End
+                </text>
+              </g>
+            )}
             {peerPins.map((peer) => {
               const color = peerColor(peer.id || peer.name)
               return (
@@ -1307,7 +1375,7 @@ export function MapViewer({
           suppressPinPlaceRef.current = true
         }}
       >
-        {mode !== 'edit' && onModeChange && (
+        {mode !== 'edit' && mode !== 'tourEnd' && onModeChange && (
           <button
             type="button"
             className={`btn secondary sm map-pin-mode-btn${mode === 'pin' ? ' active' : ''}`}
@@ -1322,6 +1390,19 @@ export function MapViewer({
               <PiPushPinLight size={18} aria-hidden />
             )}
             <span>My pin</span>
+          </button>
+        )}
+        {mode === 'tourEnd' && onModeChange && (
+          <button
+            type="button"
+            className="btn secondary sm map-pin-mode-btn active tour-end-mode-btn"
+            aria-pressed
+            aria-label="Done setting tour end pin"
+            title="Done"
+            onClick={() => onModeChange('navigate')}
+          >
+            <PiPushPinFill size={18} aria-hidden />
+            <span>Done end pin</span>
           </button>
         )}
         {rowLabels.length > 0 && (
@@ -1349,13 +1430,16 @@ export function MapViewer({
           Fit
         </button>
       </div>
-      {tourActive && (
+      {mode === 'tourEnd' && (
+        <div className="tour-map-hint tour-end-place-hint" role="status">
+          Tap the map to set the tour end pin
+        </div>
+      )}
+      {tourActive && mode !== 'tourEnd' && (
         <div className="tour-map-hint" role="status">
           {(() => {
-            const stops = tourStops!.filter((s) => s.kind !== 'end')
-            const hasEnd = tourStops!.some((s) => s.kind === 'end')
-            const stopPart = `${stops.length} stop${stops.length === 1 ? '' : 's'}`
-            return hasEnd ? `Tour · ${stopPart} + end` : `Tour · ${stopPart}`
+            const stopPart = `${numberedTourStops.length} stop${numberedTourStops.length === 1 ? '' : 's'}`
+            return tourEndPin ? `Tour · ${stopPart} + end` : `Tour · ${stopPart}`
           })()}
         </div>
       )}
