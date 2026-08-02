@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.17'
+export const APP_VERSION = '0.3.18'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,17 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.18',
+    date: '2026-08-02',
+    highlights: [
+      'Tour route survives page refresh',
+    ],
+    notes: [
+      'Planned stop order and end pin are saved per floor map in localStorage',
+      'Refresh restores the aisle route; Clear tour removes the saved route for this map',
+    ],
+  },
   {
     version: '0.3.17',
     date: '2026-08-02',

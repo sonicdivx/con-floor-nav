@@ -36,6 +36,11 @@ import { usePartySession } from './hooks/usePartySession'
 import { syncCatalogFromCloud } from './lib/cloudSync'
 import { APP_VERSION } from './lib/changelog'
 import { planTour } from './lib/tourPlan'
+import {
+  clearTourSession,
+  loadTourSession,
+  saveTourSession,
+} from './lib/tourPersist'
 import type { NormPoint } from './lib/pathfinding'
 import './App.css'
 
@@ -106,10 +111,17 @@ function App() {
   const peerPins = party.peers
   const lastPinPublish = useRef(0)
   const focusNonce = useRef(0)
+  /** `eventId:floorMapId` once localStorage tour has been applied for that map. */
+  const tourHydratedKey = useRef<string | null>(null)
+  /** Skip one persist after hydrate so we don't write empty state over storage. */
+  const skipTourPersist = useRef(false)
 
   const clearTour = () => {
     setTourStopIds(null)
     setTourMsg(null)
+    if (eventId != null && floorMapId != null) {
+      clearTourSession(eventId, floorMapId)
+    }
   }
 
   const resetMapSession = () => {
@@ -119,9 +131,12 @@ function App() {
     setDetailsExpanded(false)
     setNavTargetBoothId(null)
     setNavTargetPoint(null)
-    clearTour()
+    // Clear in-memory tour only — per-map tours stay in localStorage for restore.
+    setTourStopIds(null)
+    setTourMsg(null)
     setTourExtraBoothIds([])
     setTourEndPin(null)
+    tourHydratedKey.current = null
     setLocalPin(null)
     setMapMode('navigate')
   }
@@ -142,6 +157,55 @@ function App() {
   useEffect(() => {
     void getActiveEventId().then(setEventId)
   }, [])
+
+  /** Restore planned tour for this event + floor map after refresh / map switch. */
+  useEffect(() => {
+    if (eventId == null || floorMapId == null) {
+      tourHydratedKey.current = null
+      return
+    }
+    const key = `${eventId}:${floorMapId}`
+    const stored = loadTourSession(eventId, floorMapId)
+    skipTourPersist.current = true
+    setTourStopIds(stored?.stopIds ?? null)
+    setTourEndPin(stored?.endPin ?? null)
+    setTourExtraBoothIds(stored?.extraBoothIds ?? [])
+    if (stored?.statusFilters) setTourStatusFilters(stored.statusFilters)
+    if (stored?.stopIds != null || stored?.endPin) {
+      setTourMsg(
+        `Restored tour · ${stored.stopIds?.length ?? 0} stop${
+          (stored.stopIds?.length ?? 0) === 1 ? '' : 's'
+        }${stored.endPin ? ' + end pin' : ''}`,
+      )
+    } else {
+      setTourMsg(null)
+    }
+    tourHydratedKey.current = key
+  }, [eventId, floorMapId])
+
+  /** Persist tour so refresh keeps the route on this map. */
+  useEffect(() => {
+    if (eventId == null || floorMapId == null) return
+    const key = `${eventId}:${floorMapId}`
+    if (tourHydratedKey.current !== key) return
+    if (skipTourPersist.current) {
+      skipTourPersist.current = false
+      return
+    }
+    saveTourSession(eventId, floorMapId, {
+      stopIds: tourStopIds,
+      endPin: tourEndPin,
+      extraBoothIds: tourExtraBoothIds,
+      statusFilters: tourStatusFilters,
+    })
+  }, [
+    eventId,
+    floorMapId,
+    tourStopIds,
+    tourEndPin,
+    tourExtraBoothIds,
+    tourStatusFilters,
+  ])
 
   useEffect(() => {
     if (eventId == null) return
@@ -613,8 +677,16 @@ function App() {
       document.activeElement.blur()
     }
     window.scrollTo(0, 0)
-    clearTour()
+    // Single-booth nav replaces any saved tour on the current / destination map.
+    if (eventId != null) {
+      if (floorMapId != null) clearTourSession(eventId, floorMapId)
+      if (booth.floorMapId != null) clearTourSession(eventId, booth.floorMapId)
+    }
+    setTourStopIds(null)
+    setTourEndPin(null)
     setTourExtraBoothIds([])
+    setTourMsg(null)
+    tourHydratedKey.current = null
     if (booth.floorMapId != null && booth.floorMapId !== floorMapId) {
       if (eventId != null) setActiveFloorMapId(eventId, booth.floorMapId)
       setFloorMapId(booth.floorMapId)
@@ -1410,12 +1482,13 @@ function App() {
               >
                 Plan route on this map
               </button>
-              {(tourStopIds != null || tourPath != null) && (
+              {(tourStopIds != null || tourPath != null || tourEndPin != null) && (
                 <button
                   type="button"
                   className="btn ghost"
                   onClick={() => {
                     clearTour()
+                    setTourEndPin(null)
                     setTourExtraBoothIds([])
                   }}
                 >
