@@ -1738,7 +1738,11 @@ function App() {
 
       {tab === 'gallery' && (
         <div className="page">
-          <GalleryPanel eventId={eventId} onOpenVendor={openVendorById} />
+          <GalleryPanel
+            eventId={eventId}
+            onOpenVendor={openVendorById}
+            tourStopIds={tourStopIds}
+          />
         </div>
       )}
 

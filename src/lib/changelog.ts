@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.18'
+export const APP_VERSION = '0.3.19'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,17 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.19',
+    date: '2026-08-02',
+    highlights: [
+      'Order gallery photos by tour route',
+    ],
+    notes: [
+      'Photos tab: Order → Tour route lists vendor photo groups in planned stop order',
+      'Stop numbers appear next to vendors so you can confirm the aisle tour against photos',
+    ],
+  },
   {
     version: '0.3.18',
     date: '2026-08-02',

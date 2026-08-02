@@ -1571,6 +1571,21 @@ label.btn.disabled,
   margin-bottom: 0.85rem;
 }
 
+.gallery-sort {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+}
+
+.gallery-sort-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 0.15rem;
+}
+
 .gallery-group {
   margin-bottom: 1.25rem;
 }
@@ -1585,6 +1600,24 @@ label.btn.disabled,
 .gallery-group-header h3 {
   margin: 0;
   font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.gallery-tour-stop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.3rem;
+  border-radius: 50%;
+  background: #ff6b4a;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 /* —— Fullscreen photo lightbox (gallery) —— */
