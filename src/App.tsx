@@ -75,12 +75,8 @@ function App() {
     x: number
     y: number
   } | null>(null)
-  /** Booth ids in planned tour visit order (active map only). */
+  /** Booth ids in planned tour visit order (active map only). Path is derived from this. */
   const [tourStopIds, setTourStopIds] = useState<number[] | null>(null)
-  const [tourPath, setTourPath] = useState<NormPoint[] | null>(null)
-  const [tourStopMarkers, setTourStopMarkers] = useState<TourStopMarker[] | null>(
-    null,
-  )
   const [tourStatusFilters, setTourStatusFilters] = useState<
     Record<Exclude<VisitStatus, 'none'>, boolean>
   >({
@@ -113,8 +109,6 @@ function App() {
 
   const clearTour = () => {
     setTourStopIds(null)
-    setTourPath(null)
-    setTourStopMarkers(null)
     setTourMsg(null)
   }
 
@@ -535,6 +529,77 @@ function App() {
     (floorMapId != null ? mapNameById.get(floorMapId) : undefined) ||
     'This map'
 
+  /**
+   * Aisle path + numbered markers always follow `tourStopIds` order.
+   * Reorder / remove / end-pin changes recalculate the path automatically.
+   */
+  const { tourPath, tourStopMarkers } = useMemo(() => {
+    if (tourStopIds == null) {
+      return {
+        tourPath: null as NormPoint[] | null,
+        tourStopMarkers: null as TourStopMarker[] | null,
+      }
+    }
+
+    const mapBoothList = booths ?? []
+    const pin = mapPin ?? { x: 0.5, y: 0.5 }
+    const boothById = new Map<number, (typeof mapBoothList)[number]>()
+    for (const b of mapBoothList) {
+      if (b.id != null) boothById.set(b.id, b)
+    }
+
+    const stops = tourStopIds.flatMap((boothId) => {
+      const booth = boothById.get(boothId)
+      if (!booth) return []
+      const vendor = vendorsByBoothId.get(boothId)
+      return [
+        {
+          boothId,
+          rect: booth.rect,
+          label: booth.label || booth.boothKey || String(boothId),
+          name: vendor?.name?.trim() || `Booth ${booth.label || boothId}`,
+          visitStatus: vendor?.visitStatus ?? ('none' as const),
+        },
+      ]
+    })
+
+    if (!stops.length && !tourEndPin) {
+      return { tourPath: null, tourStopMarkers: null }
+    }
+
+    const result = planTour({
+      pin,
+      stops,
+      end: tourEndPin,
+      orderedBoothIds: tourStopIds,
+      mapWidth: floorMap?.width ?? 1000,
+      mapHeight: floorMap?.height ?? 700,
+      boothRects: mapBoothList.map((b) => b.rect),
+      obstacles: floorMap?.obstacles ?? [],
+    })
+
+    return {
+      tourPath: result.path.length >= 2 ? result.path : null,
+      tourStopMarkers: result.orderedStops.map((s) => ({
+        boothId: s.boothId,
+        x: s.center.x,
+        y: s.center.y,
+        label: s.label,
+        index: s.index,
+        kind: 'stop' as const,
+      })),
+    }
+  }, [
+    tourStopIds,
+    tourEndPin,
+    mapPin,
+    booths,
+    vendorsByBoothId,
+    floorMap?.width,
+    floorMap?.height,
+    floorMap?.obstacles,
+  ])
+
   /** Search result → switch map if needed, aisle-nav to booth at default fit scale. */
   const navigateToDealer = (hit: DealerHit) => {
     const { booth } = hit
@@ -604,153 +669,46 @@ function App() {
   }
 
   const setTourEndPinOnMap = (x: number, y: number) => {
-    const point = { x, y }
-    setTourEndPin(point)
-    setTourMsg('Tour end pin set.')
-    if (tourStopIds && tourStopIds.length > 0) {
-      applyTourOrder(tourStopIds, {
-        endPin: point,
-        switchToMap: false,
-        messagePrefix: 'Updated tour',
-      })
-    }
+    setTourEndPin({ x, y })
+    setTourMsg(
+      tourStopIds != null
+        ? 'End pin set · path recalculated'
+        : 'Tour end pin set.',
+    )
+    // Activate an empty tour shell so the end pin alone can draw a path.
+    if (tourStopIds == null) setTourStopIds([])
   }
 
   const clearTourEndPin = () => {
     setTourEndPin(null)
-    if (tourStopIds && tourStopIds.length > 0) {
-      applyTourOrder(tourStopIds, {
-        endPin: null,
-        switchToMap: false,
-        messagePrefix: 'Updated tour',
-      })
+    if (tourStopIds != null && tourStopIds.length === 0) {
+      clearTour()
+      setTourMsg('End pin cleared.')
+    } else if (tourStopIds != null) {
+      setTourMsg('End pin cleared · path recalculated')
     } else {
       setTourMsg('End pin cleared.')
     }
     if (mapMode === 'tourEnd') setMapMode('navigate')
   }
 
-  const applyTourResult = (
-    result: ReturnType<typeof planTour>,
-    endPoint: NormPoint | null,
-    opts?: { switchToMap?: boolean; messagePrefix?: string },
-  ) => {
-    if (!result.orderedStops.length && !endPoint) {
-      setTourStopIds(null)
-      setTourPath(null)
-      setTourStopMarkers(null)
-      setTourMsg('Could not plan a route for those booths.')
-      return
-    }
-
-    setNavTargetBoothId(null)
-    setNavTargetPoint(null)
-    setTourStopIds(result.orderedStops.map((s) => s.boothId))
-    setTourPath(result.path.length >= 2 ? result.path : null)
-    setTourStopMarkers(
-      result.orderedStops.map((s) => ({
-        boothId: s.boothId,
-        x: s.center.x,
-        y: s.center.y,
-        label: s.label,
-        index: s.index,
-        kind: 'stop' as const,
-      })),
-    )
-
-    const parts: string[] = [
-      opts?.messagePrefix ??
-        `${result.orderedStops.length} stop${result.orderedStops.length === 1 ? '' : 's'} on ${activeMapName}`,
-    ]
-    if (endPoint) parts.push('ends at end pin')
-    if (result.skippedBoothIds.length) {
-      parts.push(`${result.skippedBoothIds.length} skipped`)
-    }
-    if (result.usedStraightFallback) {
-      parts.push('some legs use a straight line')
-    }
-    setTourMsg(parts.join(' · '))
-    if (opts?.switchToMap !== false) {
-      setTab('map')
-      setMapMode('navigate')
-      setMapFitNonce((n) => n + 1)
-    }
-    void ensurePin()
-  }
-
-  const applyTourOrder = (
-    orderedIds: number[],
-    opts?: {
-      endPin?: NormPoint | null
-      switchToMap?: boolean
-      messagePrefix?: string
-    },
-  ) => {
-    const mapBoothList = booths ?? []
-    const pin = mapPin ?? { x: 0.5, y: 0.5 }
-    if (!mapPin) setLocalPin(pin)
-
-    const boothById = new Map<number, (typeof mapBoothList)[number]>()
-    for (const b of mapBoothList) {
-      if (b.id != null) boothById.set(b.id, b)
-    }
-
-    const endPoint =
-      opts?.endPin !== undefined ? opts.endPin : tourEndPin
-
-    if (!orderedIds.length && !endPoint) {
-      clearTour()
-      setTourMsg('Tour cleared — add booths or set an end pin.')
-      return
-    }
-
-    const stops = orderedIds.flatMap((boothId) => {
-      const booth = boothById.get(boothId)
-      if (!booth) return []
-      const vendor = vendorsByBoothId.get(boothId)
-      return [
-        {
-          boothId,
-          rect: booth.rect,
-          label: booth.label || booth.boothKey || String(boothId),
-          name: vendor?.name?.trim() || `Booth ${booth.label || boothId}`,
-          visitStatus: vendor?.visitStatus ?? ('none' as const),
-        },
-      ]
-    })
-
-    const result = planTour({
-      pin,
-      stops,
-      end: endPoint,
-      orderedBoothIds: orderedIds,
-      mapWidth: floorMap?.width ?? 1000,
-      mapHeight: floorMap?.height ?? 700,
-      boothRects: mapBoothList.map((b) => b.rect),
-      obstacles: floorMap?.obstacles ?? [],
-    })
-
-    applyTourResult(result, endPoint, {
-      switchToMap: opts?.switchToMap,
-      messagePrefix:
-        opts?.messagePrefix ??
-        `${result.orderedStops.length} stop${result.orderedStops.length === 1 ? '' : 's'} (manual order)`,
-    })
-  }
-
   const removeTourStop = (boothId: number) => {
     if (!tourStopIds) return
-    applyTourOrder(
-      tourStopIds.filter((id) => id !== boothId),
-      { switchToMap: false, messagePrefix: 'Updated tour' },
-    )
+    const next = tourStopIds.filter((id) => id !== boothId)
+    if (!next.length && !tourEndPin) {
+      clearTour()
+      setTourMsg('Tour cleared.')
+      return
+    }
+    setTourStopIds(next)
+    setTourMsg('Stop removed · path recalculated')
   }
 
   const reorderTourStops = (orderedIds: number[]) => {
-    applyTourOrder(orderedIds, {
-      switchToMap: false,
-      messagePrefix: 'Updated tour',
-    })
+    setNavTargetBoothId(null)
+    setNavTargetPoint(null)
+    setTourStopIds(orderedIds)
+    setTourMsg('Stop order changed · path recalculated')
   }
 
   const buildTour = () => {
@@ -784,8 +742,6 @@ function App() {
 
     if (!stopIds.size && !tourEndPin) {
       setTourStopIds(null)
-      setTourPath(null)
-      setTourStopMarkers(null)
       setTourMsg('No matching booths on this map. Mark favorites or add a booth.')
       return
     }
@@ -812,7 +768,31 @@ function App() {
       obstacles: floorMap?.obstacles ?? [],
     })
 
-    applyTourResult(result, tourEndPin)
+    if (!result.orderedStops.length && !tourEndPin) {
+      setTourStopIds(null)
+      setTourMsg('Could not plan a route for those booths.')
+      return
+    }
+
+    setNavTargetBoothId(null)
+    setNavTargetPoint(null)
+    setTourStopIds(result.orderedStops.map((s) => s.boothId))
+
+    const parts: string[] = [
+      `${result.orderedStops.length} stop${result.orderedStops.length === 1 ? '' : 's'} on ${activeMapName}`,
+    ]
+    if (tourEndPin) parts.push('ends at end pin')
+    if (result.skippedBoothIds.length) {
+      parts.push(`${result.skippedBoothIds.length} skipped`)
+    }
+    if (result.usedStraightFallback) {
+      parts.push('some legs use a straight line')
+    }
+    setTourMsg(parts.join(' · '))
+    setTab('map')
+    setMapMode('navigate')
+    setMapFitNonce((n) => n + 1)
+    void ensurePin()
   }
 
   const openBoothDetails = (boothId: number) => {
