@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.20'
+export const APP_VERSION = '0.3.21'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.21',
+    date: '2026-08-02',
+    highlights: [
+      'Tour survives refresh (IndexedDB + localStorage)',
+      'Reorder updates map path; booth info stays collapsed',
+    ],
+    notes: [
+      'Tour route dual-writes IndexedDB and localStorage, and flushes on page hide so refresh cannot race the save',
+      'Drag-reorder captures the pointer and rebuilds aisle path + stop numbers when you change plan order',
+      'Booth info accordion resets closed when switching booths; app height no longer stretches under mobile browser chrome',
+    ],
+  },
   {
     version: '0.3.20',
     date: '2026-08-02',

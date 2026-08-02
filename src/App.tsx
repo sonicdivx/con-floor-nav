@@ -38,6 +38,7 @@ import { APP_VERSION } from './lib/changelog'
 import { planTour } from './lib/tourPlan'
 import {
   clearTourSession,
+  flushTourSessionSync,
   loadTourSession,
   saveTourSession,
 } from './lib/tourPersist'
@@ -111,14 +112,58 @@ function App() {
   const peerPins = party.peers
   const lastPinPublish = useRef(0)
   const focusNonce = useRef(0)
-  /** `eventId:floorMapId` once IndexedDB tour has been applied for that map. */
+  /** `eventId:floorMapId` once storage tour has been applied for that map. */
   const tourHydratedKey = useRef<string | null>(null)
-  /** Skip one persist after hydrate so we don't write empty state over storage. */
+  /** Skip persist until hydrate finishes (and once after applying stored state). */
   const skipTourPersist = useRef(false)
+  /** Always-current tour snapshot for pagehide flush. */
+  const tourSnapshotRef = useRef({
+    stopIds: null as number[] | null,
+    endPin: null as NormPoint | null,
+    extraBoothIds: [] as number[],
+    statusFilters: {
+      favorite: true,
+      look_again: true,
+      end_of_con: true,
+    } as Record<Exclude<VisitStatus, 'none'>, boolean>,
+  })
+
+  const persistTourNow = (
+    next?: Partial<{
+      stopIds: number[] | null
+      endPin: NormPoint | null
+      extraBoothIds: number[]
+      statusFilters: Record<Exclude<VisitStatus, 'none'>, boolean>
+    }>,
+  ) => {
+    if (eventId == null || floorMapId == null) return
+    const key = `${eventId}:${floorMapId}`
+    if (tourHydratedKey.current !== key) return
+    const tour = {
+      stopIds: next?.stopIds !== undefined ? next.stopIds : tourSnapshotRef.current.stopIds,
+      endPin: next?.endPin !== undefined ? next.endPin : tourSnapshotRef.current.endPin,
+      extraBoothIds:
+        next?.extraBoothIds !== undefined
+          ? next.extraBoothIds
+          : tourSnapshotRef.current.extraBoothIds,
+      statusFilters:
+        next?.statusFilters !== undefined
+          ? next.statusFilters
+          : tourSnapshotRef.current.statusFilters,
+    }
+    tourSnapshotRef.current = tour
+    flushTourSessionSync(eventId, floorMapId, tour)
+  }
 
   const clearTour = () => {
     setTourStopIds(null)
     setTourMsg(null)
+    tourSnapshotRef.current = {
+      ...tourSnapshotRef.current,
+      stopIds: null,
+      endPin: null,
+      extraBoothIds: [],
+    }
     if (eventId != null && floorMapId != null) {
       void clearTourSession(eventId, floorMapId)
     }
@@ -131,12 +176,13 @@ function App() {
     setDetailsExpanded(false)
     setNavTargetBoothId(null)
     setNavTargetPoint(null)
-    // Clear in-memory tour only — per-map tours stay in IndexedDB for restore.
+    // Clear in-memory tour only — per-map tours stay in storage for restore.
     setTourStopIds(null)
     setTourMsg(null)
     setTourExtraBoothIds([])
     setTourEndPin(null)
     tourHydratedKey.current = null
+    skipTourPersist.current = true
     setLocalPin(null)
     setMapMode('navigate')
   }
@@ -158,6 +204,16 @@ function App() {
     void getActiveEventId().then(setEventId)
   }, [])
 
+  /** Keep snapshot ref aligned for pagehide flush. */
+  useEffect(() => {
+    tourSnapshotRef.current = {
+      stopIds: tourStopIds,
+      endPin: tourEndPin,
+      extraBoothIds: tourExtraBoothIds,
+      statusFilters: tourStatusFilters,
+    }
+  }, [tourStopIds, tourEndPin, tourExtraBoothIds, tourStatusFilters])
+
   /** Restore planned tour for this event + floor map after refresh / map switch. */
   useEffect(() => {
     if (eventId == null || floorMapId == null) {
@@ -165,7 +221,7 @@ function App() {
       return
     }
     const key = `${eventId}:${floorMapId}`
-    // Block persists until IndexedDB load finishes for this map.
+    // Block persists until storage load finishes for this map.
     tourHydratedKey.current = null
     skipTourPersist.current = true
     let cancelled = false
@@ -173,19 +229,30 @@ function App() {
       const stored = await loadTourSession(eventId, floorMapId)
       if (cancelled) return
       skipTourPersist.current = true
-      setTourStopIds(stored?.stopIds ?? null)
-      setTourEndPin(stored?.endPin ?? null)
-      setTourExtraBoothIds(stored?.extraBoothIds ?? [])
-      if (stored?.statusFilters) setTourStatusFilters(stored.statusFilters)
-      if (stored?.stopIds != null || stored?.endPin) {
+      const stopIds = stored?.stopIds ?? null
+      const endPin = stored?.endPin ?? null
+      const extraBoothIds = stored?.extraBoothIds ?? []
+      const statusFilters = stored?.statusFilters
+      tourSnapshotRef.current = {
+        stopIds,
+        endPin,
+        extraBoothIds,
+        statusFilters: statusFilters ?? tourSnapshotRef.current.statusFilters,
+      }
+      setTourStopIds(stopIds)
+      setTourEndPin(endPin)
+      setTourExtraBoothIds(extraBoothIds)
+      if (statusFilters) setTourStatusFilters(statusFilters)
+      if (stopIds != null || endPin) {
         setTourMsg(
-          `Restored tour · ${stored.stopIds?.length ?? 0} stop${
-            (stored.stopIds?.length ?? 0) === 1 ? '' : 's'
-          }${stored.endPin ? ' + end pin' : ''}`,
+          `Restored tour · ${stopIds?.length ?? 0} stop${
+            (stopIds?.length ?? 0) === 1 ? '' : 's'
+          }${endPin ? ' + end pin' : ''}`,
         )
       } else {
         setTourMsg(null)
       }
+      // Mark hydrated after state is scheduled; persist effect will skip once.
       tourHydratedKey.current = key
     })()
     return () => {
@@ -193,7 +260,7 @@ function App() {
     }
   }, [eventId, floorMapId])
 
-  /** Persist tour in IndexedDB so refresh keeps the route on this map. */
+  /** Persist tour (IndexedDB + localStorage) so refresh keeps the route. */
   useEffect(() => {
     if (eventId == null || floorMapId == null) return
     const key = `${eventId}:${floorMapId}`
@@ -763,25 +830,31 @@ function App() {
 
   const setTourEndPinOnMap = (x: number, y: number) => {
     markTourHydratedForPersist()
-    setTourEndPin({ x, y })
+    const endPin = { x, y }
+    const stopIds = tourStopIds == null ? [] : tourStopIds
+    setTourEndPin(endPin)
+    // Activate an empty tour shell so the end pin alone can draw a path.
+    if (tourStopIds == null) setTourStopIds([])
     setTourMsg(
       tourStopIds != null
         ? 'End pin set · path recalculated'
         : 'Tour end pin set.',
     )
-    // Activate an empty tour shell so the end pin alone can draw a path.
-    if (tourStopIds == null) setTourStopIds([])
+    persistTourNow({ stopIds, endPin })
   }
 
   const clearTourEndPin = () => {
-    setTourEndPin(null)
     if (tourStopIds != null && tourStopIds.length === 0) {
       clearTour()
       setTourMsg('End pin cleared.')
     } else if (tourStopIds != null) {
+      setTourEndPin(null)
       setTourMsg('End pin cleared · path recalculated')
+      persistTourNow({ endPin: null })
     } else {
+      setTourEndPin(null)
       setTourMsg('End pin cleared.')
+      persistTourNow({ endPin: null })
     }
     if (mapMode === 'tourEnd') setMapMode('navigate')
   }
@@ -797,14 +870,17 @@ function App() {
     markTourHydratedForPersist()
     setTourStopIds(next)
     setTourMsg('Stop removed · path recalculated')
+    persistTourNow({ stopIds: next })
   }
 
   const reorderTourStops = (orderedIds: number[]) => {
+    const next = [...orderedIds]
     setNavTargetBoothId(null)
     setNavTargetPoint(null)
     markTourHydratedForPersist()
-    setTourStopIds([...orderedIds])
+    setTourStopIds(next)
     setTourMsg('Stop order changed · path recalculated')
+    persistTourNow({ stopIds: next })
   }
 
   const buildTour = () => {
@@ -873,7 +949,9 @@ function App() {
     setNavTargetBoothId(null)
     setNavTargetPoint(null)
     markTourHydratedForPersist()
-    setTourStopIds(result.orderedStops.map((s) => s.boothId))
+    const orderedIds = result.orderedStops.map((s) => s.boothId)
+    setTourStopIds(orderedIds)
+    persistTourNow({ stopIds: orderedIds })
 
     const parts: string[] = [
       `${result.orderedStops.length} stop${result.orderedStops.length === 1 ? '' : 's'} on ${activeMapName}`,

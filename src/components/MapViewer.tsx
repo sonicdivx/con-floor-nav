@@ -1136,6 +1136,9 @@ export function MapViewer({
             })}
             {navPathD && (
               <path
+                key={`nav-line-${(tourStops ?? [])
+                  .map((s) => `${s.boothId ?? s.label}:${s.index}`)
+                  .join('|')}-${tourPath?.length ?? 0}`}
                 className="nav-line"
                 d={navPathD}
                 fill="none"
@@ -1152,7 +1155,7 @@ export function MapViewer({
               const r = Math.max(10, 12 / scale)
               return (
                 <g
-                  key={`tour-stop-${stop.index}-${stop.boothId ?? stop.label}`}
+                  key={`tour-stop-${stop.boothId ?? stop.label}-i${stop.index}`}
                   className="tour-stop-marker"
                   transform={`translate(${stop.x * mapWidth}, ${stop.y * mapHeight})`}
                   pointerEvents="none"

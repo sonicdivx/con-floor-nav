@@ -1,10 +1,13 @@
-import { useId, useState, type ReactNode } from 'react'
+import { useEffect, useId, useState, type ReactNode } from 'react'
 
 type Props = {
   title: string
   /** Extra muted text in the header (e.g. party code / counts). */
   summary?: string
+  /** Starts closed unless explicitly opened. */
   defaultOpen?: boolean
+  /** When this changes, panel resets to defaultOpen (e.g. booth id). */
+  resetKey?: string | number
   children: ReactNode
 }
 
@@ -13,10 +16,15 @@ export function NavCollapsible({
   title,
   summary,
   defaultOpen = false,
+  resetKey,
   children,
 }: Props) {
   const [open, setOpen] = useState(defaultOpen)
   const panelId = useId()
+
+  useEffect(() => {
+    setOpen(defaultOpen)
+  }, [resetKey, defaultOpen])
 
   return (
     <section className={`nav-collapsible${open ? ' is-open' : ''}`}>

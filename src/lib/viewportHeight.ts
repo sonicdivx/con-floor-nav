@@ -1,10 +1,9 @@
 /**
- * Keep the app shell sized to the usable viewport.
+ * Keep the app shell sized to the usable viewport so bottom chrome
+ * (tabs, FABs, Clear tour) is not covered by mobile browser UI.
  *
- * Prefer layout `innerHeight`, but when mobile browser chrome (URL bar) shrinks
- * the visual viewport by a modest amount, use that height so bottom chrome
- * (tabs, FABs, Clear tour) is not covered. Large shrinks are treated as the
- * soft keyboard — keep layout height so the UI does not jump.
+ * Prefer the smaller of layout `innerHeight` and `visualViewport.height`
+ * when the shrink looks like browser chrome (not a soft keyboard).
  *
  * Do NOT apply visualViewport offset/top — that shifts the whole app when the
  * keyboard opens.
@@ -20,8 +19,8 @@ export function bindAppViewportHeight(): () => void {
     if (vv && vv.height > 0) {
       const visual = Math.round(vv.height)
       const delta = ih - visual
-      // Browser chrome hide/show is typically under ~140px; keyboards are larger.
-      if (delta > 0 && delta < 140) {
+      // Browser chrome hide/show is typically under ~180px; keyboards are larger.
+      if (delta > 0 && delta < 180) {
         height = Math.max(visual, 1)
       }
     }
@@ -30,10 +29,6 @@ export function bindAppViewportHeight(): () => void {
     // Clear any legacy shift vars from older builds / cached SW.
     root.style.removeProperty('--app-top')
     root.style.removeProperty('--app-width')
-    // Kill accidental document scroll from focus/keyboard.
-    window.scrollTo(0, 0)
-    document.documentElement.scrollLeft = 0
-    document.body.scrollLeft = 0
   }
 
   apply()
@@ -53,7 +48,8 @@ export function bindAppViewportHeight(): () => void {
   window.addEventListener('pageshow', apply)
   window.addEventListener('visibilitychange', apply)
   window.visualViewport?.addEventListener('resize', apply)
-  window.visualViewport?.addEventListener('scroll', apply)
+  // Intentionally no visualViewport scroll listener / scrollTo — those fought
+  // mobile chrome animations and left controls obscured.
 
   return () => {
     for (const t of timers) window.clearTimeout(t)
@@ -62,6 +58,5 @@ export function bindAppViewportHeight(): () => void {
     window.removeEventListener('pageshow', apply)
     window.removeEventListener('visibilitychange', apply)
     window.visualViewport?.removeEventListener('resize', apply)
-    window.visualViewport?.removeEventListener('scroll', apply)
   }
 }

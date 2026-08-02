@@ -44,6 +44,20 @@ function getScrollParent(el: HTMLElement | null): HTMLElement | null {
   return null
 }
 
+function reorderIds(
+  order: number[],
+  fromId: number,
+  toId: number,
+): number[] | null {
+  const from = order.indexOf(fromId)
+  const to = order.indexOf(toId)
+  if (from < 0 || to < 0 || from === to) return null
+  const next = [...order]
+  const [moved] = next.splice(from, 1)
+  next.splice(to, 0, moved!)
+  return next
+}
+
 /**
  * Planned tour stops with touch-friendly drag reorder and a full-height delete control.
  * Page scroll works on rows; only the grip starts a drag. Dragging near edges auto-scrolls
@@ -56,6 +70,7 @@ export function TourStopList({ items, onReorder, onRemove, onFocus }: Props) {
   const dragIdRef = useRef<number | null>(null)
   const overIdRef = useRef<number | null>(null)
   const pointerIdRef = useRef<number | null>(null)
+  const captureElRef = useRef<HTMLElement | null>(null)
   const lastClientYRef = useRef(0)
   const rafRef = useRef<number | null>(null)
   const [dragId, setDragId] = useState<number | null>(null)
@@ -156,13 +171,22 @@ export function TourStopList({ items, onReorder, onRemove, onFocus }: Props) {
       const fromId = dragIdRef.current
       const y = clientY ?? lastClientYRef.current
       const order = itemsRef.current.map((i) => i.boothId)
-      const from = fromId != null ? order.indexOf(fromId) : -1
-      // Drop onto the row under the pointer (take that slot). Mid-line insert
-      // math was cancelling one-step moves and leaving the map path stale.
       const toId =
         overIdRef.current ?? (fromId != null ? rowFromPoint(y) : null)
-      const to = toId != null ? order.indexOf(toId) : -1
 
+      const captureEl = captureElRef.current
+      if (
+        captureEl &&
+        pointerIdRef.current != null &&
+        captureEl.hasPointerCapture?.(pointerIdRef.current)
+      ) {
+        try {
+          captureEl.releasePointerCapture(pointerIdRef.current)
+        } catch {
+          /* ignore */
+        }
+      }
+      captureElRef.current = null
       dragIdRef.current = null
       pointerIdRef.current = null
       stopAutoScroll()
@@ -170,10 +194,9 @@ export function TourStopList({ items, onReorder, onRemove, onFocus }: Props) {
       setOver(null)
       document.body.classList.remove('tour-stop-dragging')
 
-      if (fromId == null || from < 0 || to < 0 || to === from) return
-      const next = [...order]
-      const [moved] = next.splice(from, 1)
-      next.splice(to, 0, moved)
+      if (fromId == null || toId == null) return
+      const next = reorderIds(order, fromId, toId)
+      if (!next) return
       onReorderRef.current(next)
     }
 
@@ -203,7 +226,6 @@ export function TourStopList({ items, onReorder, onRemove, onFocus }: Props) {
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('pointerup', onUp)
       window.removeEventListener('pointercancel', onUp)
-      // Safety: never leave the page stuck non-scrollable after an interrupted drag.
       stopAutoScroll()
       document.body.classList.remove('tour-stop-dragging')
     }
@@ -219,6 +241,12 @@ export function TourStopList({ items, onReorder, onRemove, onFocus }: Props) {
     pointerIdRef.current = e.pointerId
     dragIdRef.current = boothId
     lastClientYRef.current = e.clientY
+    captureElRef.current = e.currentTarget
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId)
+    } catch {
+      /* ignore */
+    }
     setDragId(boothId)
     setOver(boothId)
     document.body.classList.add('tour-stop-dragging')
@@ -226,6 +254,7 @@ export function TourStopList({ items, onReorder, onRemove, onFocus }: Props) {
 
   if (!items.length) return null
 
+  // Keep DOM order stable while dragging so hit-testing does not jump.
   return (
     <ul className="nav-list tour-stop-list" ref={listRef}>
       {items.map((stop) => {

@@ -46,7 +46,26 @@ function normalizeTour(data: Partial<PersistedTour> | TourSessionRecord): Persis
   return { stopIds, endPin, extraBoothIds, statusFilters }
 }
 
-function readLegacyLocalStorage(
+function isTourEmpty(tour: PersistedTour): boolean {
+  return (
+    (tour.stopIds == null || tour.stopIds.length === 0) &&
+    !tour.endPin &&
+    tour.extraBoothIds.length === 0
+  )
+}
+
+function writeLocalStorage(eventId: number, floorMapId: number, tour: PersistedTour) {
+  try {
+    localStorage.setItem(
+      legacyStorageKey(eventId, floorMapId),
+      JSON.stringify(tour),
+    )
+  } catch {
+    /* ignore quota / private mode */
+  }
+}
+
+function readLocalStorage(
   eventId: number,
   floorMapId: number,
 ): PersistedTour | null {
@@ -59,7 +78,7 @@ function readLegacyLocalStorage(
   }
 }
 
-function clearLegacyLocalStorage(eventId: number, floorMapId: number) {
+function clearLocalStorage(eventId: number, floorMapId: number) {
   try {
     localStorage.removeItem(legacyStorageKey(eventId, floorMapId))
   } catch {
@@ -67,7 +86,63 @@ function clearLegacyLocalStorage(eventId: number, floorMapId: number) {
   }
 }
 
-/** Load a per-map tour session from IndexedDB (migrates legacy localStorage once). */
+/** Latest tour pending write — flushed on pagehide so refresh cannot race async IDB. */
+let pendingFlush:
+  | { eventId: number; floorMapId: number; tour: PersistedTour }
+  | null = null
+
+function rememberPending(
+  eventId: number,
+  floorMapId: number,
+  tour: PersistedTour,
+) {
+  pendingFlush = { eventId, floorMapId, tour }
+}
+
+/** Sync localStorage + kick IndexedDB; safe to call from pagehide. */
+export function flushTourSessionSync(
+  eventId: number,
+  floorMapId: number,
+  tour: PersistedTour,
+): void {
+  rememberPending(eventId, floorMapId, tour)
+  if (isTourEmpty(tour) && tour.stopIds == null) {
+    clearLocalStorage(eventId, floorMapId)
+  } else {
+    writeLocalStorage(eventId, floorMapId, tour)
+  }
+  void saveTourSession(eventId, floorMapId, tour)
+}
+
+/** Flush whatever was last scheduled (pagehide / visibilitychange). */
+export function flushPendingTourSession(): void {
+  if (!pendingFlush) return
+  const { eventId, floorMapId, tour } = pendingFlush
+  flushTourSessionSync(eventId, floorMapId, tour)
+}
+
+let flushListenersBound = false
+
+/** Bind once: keep tours durable across refresh / backgrounding. */
+export function bindTourPersistLifecycle(): () => void {
+  if (flushListenersBound || typeof window === 'undefined') {
+    return () => undefined
+  }
+  flushListenersBound = true
+  const onFlush = () => flushPendingTourSession()
+  window.addEventListener('pagehide', onFlush)
+  window.addEventListener('beforeunload', onFlush)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') onFlush()
+  })
+  return () => {
+    window.removeEventListener('pagehide', onFlush)
+    window.removeEventListener('beforeunload', onFlush)
+    flushListenersBound = false
+  }
+}
+
+/** Load a per-map tour session (IndexedDB first, then localStorage). */
 export async function loadTourSession(
   eventId: number,
   floorMapId: number,
@@ -77,19 +152,21 @@ export async function loadTourSession(
       .where('[eventId+floorMapId]')
       .equals([eventId, floorMapId])
       .first()
-    if (row) return normalizeTour(row)
-
-    const legacy = readLegacyLocalStorage(eventId, floorMapId)
-    if (legacy) {
-      await saveTourSession(eventId, floorMapId, legacy)
-      clearLegacyLocalStorage(eventId, floorMapId)
-      return legacy
+    if (row) {
+      const fromIdb = normalizeTour(row)
+      if (fromIdb) return fromIdb
     }
-    return null
   } catch (err) {
-    console.warn('loadTourSession failed', err)
-    return readLegacyLocalStorage(eventId, floorMapId)
+    console.warn('loadTourSession IndexedDB failed', err)
   }
+
+  const legacy = readLocalStorage(eventId, floorMapId)
+  if (legacy) {
+    // Best-effort promote into IndexedDB without clearing localStorage first.
+    void saveTourSession(eventId, floorMapId, legacy)
+    return legacy
+  }
+  return null
 }
 
 export async function saveTourSession(
@@ -97,10 +174,16 @@ export async function saveTourSession(
   floorMapId: number,
   tour: PersistedTour,
 ): Promise<void> {
-  const empty =
-    (tour.stopIds == null || tour.stopIds.length === 0) &&
-    !tour.endPin &&
-    tour.extraBoothIds.length === 0
+  rememberPending(eventId, floorMapId, tour)
+
+  const empty = isTourEmpty(tour)
+
+  // Always mirror to localStorage first so a refresh mid-IDB-write still restores.
+  if (empty && tour.stopIds == null) {
+    clearLocalStorage(eventId, floorMapId)
+  } else {
+    writeLocalStorage(eventId, floorMapId, tour)
+  }
 
   try {
     const existing = await db.tourSessions
@@ -110,7 +193,6 @@ export async function saveTourSession(
 
     if (empty && tour.stopIds == null) {
       if (existing?.id != null) await db.tourSessions.delete(existing.id)
-      clearLegacyLocalStorage(eventId, floorMapId)
       return
     }
 
@@ -125,18 +207,9 @@ export async function saveTourSession(
       updatedAt: Date.now(),
     }
     await db.tourSessions.put(record)
-    clearLegacyLocalStorage(eventId, floorMapId)
   } catch (err) {
-    console.warn('saveTourSession failed', err)
-    // Last-resort fallback so a route is not silently lost.
-    try {
-      localStorage.setItem(
-        legacyStorageKey(eventId, floorMapId),
-        JSON.stringify(tour),
-      )
-    } catch {
-      /* ignore */
-    }
+    console.warn('saveTourSession IndexedDB failed', err)
+    // localStorage already written above.
   }
 }
 
@@ -144,6 +217,12 @@ export async function clearTourSession(
   eventId: number,
   floorMapId: number,
 ): Promise<void> {
+  pendingFlush = {
+    eventId,
+    floorMapId,
+    tour: { stopIds: null, endPin: null, extraBoothIds: [] },
+  }
+  clearLocalStorage(eventId, floorMapId)
   try {
     const existing = await db.tourSessions
       .where('[eventId+floorMapId]')
@@ -153,5 +232,4 @@ export async function clearTourSession(
   } catch (err) {
     console.warn('clearTourSession failed', err)
   }
-  clearLegacyLocalStorage(eventId, floorMapId)
 }

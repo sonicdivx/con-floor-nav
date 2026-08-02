@@ -184,6 +184,8 @@ export function VendorPanel({
       {catalogInfo && hasCatalogInfo(catalogInfo) ? (
         <section className="panel-section catalog-info-section">
           <NavCollapsible
+            key={`booth-info-${vendor.boothId}`}
+            resetKey={vendor.boothId}
             title="Booth info"
             summary={catalogInfoSummary(catalogInfo)}
             defaultOpen={false}
