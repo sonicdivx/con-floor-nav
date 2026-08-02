@@ -28,6 +28,8 @@ export type TourStopMarker = {
   label: string
   index: number
   boothId?: number
+  /** Final destination marker (after numbered stops). */
+  kind?: 'stop' | 'end'
 }
 
 interface Props {
@@ -1124,17 +1126,18 @@ export function MapViewer({
             )}
             {tourActive &&
               tourStops!.map((stop) => {
+                const isEnd = stop.kind === 'end'
                 const r = Math.max(10, 12 / scale)
                 return (
                   <g
-                    key={`tour-stop-${stop.index}-${stop.boothId ?? stop.label}`}
+                    key={`tour-stop-${stop.kind ?? 'stop'}-${stop.index}-${stop.boothId ?? stop.label}`}
                     className="tour-stop-marker"
                     transform={`translate(${stop.x * mapWidth}, ${stop.y * mapHeight})`}
                     pointerEvents="none"
                   >
                     <circle
                       r={r}
-                      fill="#ff6b4a"
+                      fill={isEnd ? '#2f9e6a' : '#ff6b4a'}
                       stroke="#fff"
                       strokeWidth={2 / scale}
                     />
@@ -1145,7 +1148,7 @@ export function MapViewer({
                       fontSize={Math.max(10, 11 / scale)}
                       fontWeight={700}
                     >
-                      {stop.index}
+                      {isEnd ? 'E' : stop.index}
                     </text>
                   </g>
                 )
@@ -1348,7 +1351,12 @@ export function MapViewer({
       </div>
       {tourActive && (
         <div className="tour-map-hint" role="status">
-          Tour · {tourStops!.length} stop{tourStops!.length === 1 ? '' : 's'}
+          {(() => {
+            const stops = tourStops!.filter((s) => s.kind !== 'end')
+            const hasEnd = tourStops!.some((s) => s.kind === 'end')
+            const stopPart = `${stops.length} stop${stops.length === 1 ? '' : 's'}`
+            return hasEnd ? `Tour · ${stopPart} + end` : `Tour · ${stopPart}`
+          })()}
         </div>
       )}
     </div>

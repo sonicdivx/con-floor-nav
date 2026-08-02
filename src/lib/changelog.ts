@@ -1,6 +1,6 @@
 /** App version + human-readable changelog (source for update toast & What's new page). */
 
-export const APP_VERSION = '0.3.13'
+export const APP_VERSION = '0.3.14'
 
 export type ChangelogEntry = {
   version: string
@@ -12,6 +12,19 @@ export type ChangelogEntry = {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '0.3.14',
+    date: '2026-08-02',
+    highlights: [
+      'Tour end point (My pin or booth)',
+      'Reorder and remove tour stops',
+    ],
+    notes: [
+      'Plan route can finish at My pin or a chosen booth (green E marker)',
+      'After planning, reorder stops with ↑/↓ or remove with ×; path updates in place',
+      'Manual order is kept until you Plan route again',
+    ],
+  },
   {
     version: '0.3.13',
     date: '2026-08-02',

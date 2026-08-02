@@ -12,10 +12,17 @@ export type TourStopInput = {
 export type TourPlanInput = {
   pin: NormPoint
   stops: TourStopInput[]
+  /** Optional fixed end of the tour (after the last booth stop). */
+  end?: NormPoint | null
   mapWidth: number
   mapHeight: number
   boothRects: Rect[]
   obstacles?: Rect[]
+  /**
+   * When set, keep this booth order (no nearest-neighbor / 2-opt).
+   * Used after the user reorders or removes stops.
+   */
+  orderedBoothIds?: number[]
 }
 
 export type PlannedTourStop = TourStopInput & {
@@ -113,11 +120,15 @@ function makeDistanceFn(
   }
 }
 
-/** Nearest-neighbor tour starting from `pin`, then a short 2-opt pass. */
+/**
+ * Nearest-neighbor tour starting from `pin`, then a short 2-opt pass.
+ * When `end` is set, the last edge into `end` is included in 2-opt scoring.
+ */
 function orderStops(
   pin: NormPoint,
   stops: Array<TourStopInput & { center: NormPoint }>,
   dist: (a: NormPoint, b: NormPoint) => number,
+  end: NormPoint | null,
 ): Array<TourStopInput & { center: NormPoint }> {
   if (stops.length <= 1) return [...stops]
 
@@ -140,9 +151,9 @@ function orderStops(
     current = next.center
   }
 
-  // 2-opt: reverse segments that shorten the pin→…→last tour.
+  // 2-opt: reverse segments that shorten pin→…→last(→end).
   const n = ordered.length
-  if (n < 3) return ordered
+  if (n < 2) return ordered
 
   const pointAt = (i: number): NormPoint =>
     i < 0 ? pin : ordered[i].center
@@ -155,15 +166,16 @@ function orderStops(
     passes += 1
     for (let i = 0; i < n - 1; i++) {
       for (let k = i + 1; k < n; k++) {
-        // Edges (i-1 → i) and (k → k+1) vs (i-1 → k) and (i → k+1)
+        // Edges (i-1 → i) and (k → k+1|end) vs (i-1 → k) and (i → k+1|end)
         const a = pointAt(i - 1)
         const b = ordered[i].center
         const c = ordered[k].center
-        const d = k + 1 < n ? ordered[k + 1].center : null
+        const dPoint =
+          k + 1 < n ? ordered[k + 1].center : end
         const before =
-          dist(a, b) + (d ? dist(c, d) : 0)
+          dist(a, b) + (dPoint ? dist(c, dPoint) : 0)
         const after =
-          dist(a, c) + (d ? dist(b, d) : 0)
+          dist(a, c) + (dPoint ? dist(b, dPoint) : 0)
         if (after + 1e-9 < before) {
           ordered.splice(i, k - i + 1, ...ordered.slice(i, k + 1).reverse())
           improved = true
@@ -175,18 +187,64 @@ function orderStops(
   return ordered
 }
 
+function buildPathForOrder(
+  pin: NormPoint,
+  ordered: Array<TourStopInput & { center: NormPoint }>,
+  end: NormPoint | null,
+  boothRects: Rect[],
+  obstacles: Rect[] | undefined,
+  mapWidth: number,
+  mapHeight: number,
+): { path: NormPoint[]; usedStraightFallback: boolean } {
+  const segments: NormPoint[][] = []
+  let usedStraightFallback = false
+  let prev = pin
+
+  for (const stop of ordered) {
+    const { path, straight } = segmentPath(
+      prev,
+      stop.center,
+      boothRects,
+      obstacles,
+      mapWidth,
+      mapHeight,
+    )
+    if (straight) usedStraightFallback = true
+    segments.push(path)
+    prev = stop.center
+  }
+
+  if (end) {
+    const { path, straight } = segmentPath(
+      prev,
+      end,
+      boothRects,
+      obstacles,
+      mapWidth,
+      mapHeight,
+    )
+    if (straight) usedStraightFallback = true
+    segments.push(path)
+  }
+
+  return { path: concatPaths(segments), usedStraightFallback }
+}
+
 /**
  * Plan a single-map aisle tour: nearest-neighbor from My pin, then 2-opt,
  * concatenating `findAislePath` segments (straight-line fallback if A* fails).
+ * Pass `orderedBoothIds` to keep a manual order (after remove/reorder).
  */
 export function planTour(input: TourPlanInput): TourPlanResult {
   const {
     pin,
     stops,
+    end = null,
     mapWidth,
     mapHeight,
     boothRects,
     obstacles,
+    orderedBoothIds,
   } = input
 
   const skippedBoothIds: number[] = []
@@ -208,7 +266,7 @@ export function planTour(input: TourPlanInput): TourPlanResult {
     usable.push({ ...stop, center: boothCenter(rect) })
   }
 
-  if (!usable.length) {
+  if (!usable.length && !end) {
     return {
       orderedStops: [],
       path: [],
@@ -217,26 +275,38 @@ export function planTour(input: TourPlanInput): TourPlanResult {
     }
   }
 
-  const dist = makeDistanceFn(boothRects, obstacles, mapWidth, mapHeight)
-  const ordered = orderStops(pin, usable, dist)
-
-  const segments: NormPoint[][] = []
-  let usedStraightFallback = false
-  let prev = pin
-
-  for (const stop of ordered) {
-    const { path, straight } = segmentPath(
-      prev,
-      stop.center,
-      boothRects,
-      obstacles,
-      mapWidth,
-      mapHeight,
-    )
-    if (straight) usedStraightFallback = true
-    segments.push(path)
-    prev = stop.center
+  let ordered: Array<TourStopInput & { center: NormPoint }>
+  if (orderedBoothIds) {
+    const byId = new Map(usable.map((s) => [s.boothId, s]))
+    ordered = []
+    for (const id of orderedBoothIds) {
+      const stop = byId.get(id)
+      if (stop) ordered.push(stop)
+      else skippedBoothIds.push(id)
+    }
+  } else {
+    const dist = makeDistanceFn(boothRects, obstacles, mapWidth, mapHeight)
+    ordered = orderStops(pin, usable, dist, end)
   }
+
+  if (!ordered.length && !end) {
+    return {
+      orderedStops: [],
+      path: [],
+      skippedBoothIds,
+      usedStraightFallback: false,
+    }
+  }
+
+  const { path, usedStraightFallback } = buildPathForOrder(
+    pin,
+    ordered,
+    end,
+    boothRects,
+    obstacles,
+    mapWidth,
+    mapHeight,
+  )
 
   const orderedStops: PlannedTourStop[] = ordered.map((s, i) => ({
     ...s,
@@ -245,7 +315,7 @@ export function planTour(input: TourPlanInput): TourPlanResult {
 
   return {
     orderedStops,
-    path: concatPaths(segments),
+    path,
     skippedBoothIds,
     usedStraightFallback,
   }

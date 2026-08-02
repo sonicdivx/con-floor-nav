@@ -1838,6 +1838,72 @@ label.btn.disabled,
   font-weight: 700;
 }
 
+.tour-stop-num.end {
+  background: #2f9e6a;
+}
+
+.tour-end-block {
+  margin: 0.85rem 0 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg-panel) 92%, transparent);
+}
+
+.tour-end-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.tour-end-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.tour-end-selected {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0;
+}
+
+.tour-stop-list {
+  margin-top: 0.75rem;
+}
+
+.tour-stop-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+
+.tour-stop-row .tour-stop-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.tour-stop-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+
+.tour-stop-actions .btn {
+  min-width: 2rem;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+
+.tour-stop-row.is-end .tour-stop-main {
+  border-color: color-mix(in srgb, #2f9e6a 40%, var(--border));
+}
+
 .tour-status-filters {
   display: flex;
   flex-wrap: wrap;
